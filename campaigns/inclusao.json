@@ -1,0 +1,20 @@
+{
+  "id": "inclusao",
+  "nome": "Inclusão e Respeito",
+  "objetivo": "Valorizar a diversidade e promover a inclusão de todos",
+  "descricao": "Crie uma mensagem que celebre as diferenças e o respeito a todos.",
+  "faixa_etaria": "6-16",
+  "estilos": ["ilustracao_colorida", "arte_diversidade", "desenho"],
+  "elementos": ["diversidade", "inclusão", "cores", "pessoas diferentes", "abraços", "igualdade"],
+  "cor_tema": "#9C27B0",
+  "icone": "rainbow",
+  "perguntas_guia": [
+    "O que torna cada pessoa especial e única?",
+    "Como podemos incluir quem se sente de fora?",
+    "Que mensagem de respeito você quer enviar?"
+  ],
+  "sd_style_keywords": [
+    "diverse children", "colorful", "inclusion", "different abilities",
+    "rainbow", "unity", "celebration of diversity"
+  ]
+}

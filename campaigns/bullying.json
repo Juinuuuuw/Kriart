@@ -1,0 +1,20 @@
+{
+  "id": "bullying",
+  "nome": "Combate ao Bullying",
+  "objetivo": "Promover respeito e empatia entre estudantes",
+  "descricao": "Crie uma mensagem de amizade, respeito e empatia para combater o bullying na escola.",
+  "faixa_etaria": "8-14",
+  "estilos": ["ilustracao_infantil", "desenho_animado", "aquarela"],
+  "elementos": ["amizade", "respeito", "empatia", "mãos dadas", "sorrisos", "diversidade"],
+  "cor_tema": "#4CAF50",
+  "icone": "handshake",
+  "perguntas_guia": [
+    "Qual mensagem de respeito você quer transmitir?",
+    "O que você faria para ajudar alguém sendo intimidado?",
+    "Como a amizade pode mudar a escola?"
+  ],
+  "sd_style_keywords": [
+    "children holding hands", "friendship", "smiling diverse kids",
+    "school environment", "colorful", "warm atmosphere"
+  ]
+}

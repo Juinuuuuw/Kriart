@@ -1,0 +1,20 @@
+{
+  "id": "meio_ambiente",
+  "nome": "Meio Ambiente",
+  "objetivo": "Promover a consciência ambiental e o cuidado com a natureza",
+  "descricao": "Mostre sua mensagem de amor pelo meio ambiente e pelo planeta.",
+  "faixa_etaria": "6-14",
+  "estilos": ["aquarela", "ilustracao_natureza", "arte_ecologica"],
+  "elementos": ["árvores", "animais", "planeta", "reciclagem", "água", "flores", "sol"],
+  "cor_tema": "#4CAF50",
+  "icone": "leaf",
+  "perguntas_guia": [
+    "O que você faz para cuidar do meio ambiente?",
+    "Qual animal ou planta você quer proteger?",
+    "Como você imagina a natureza no futuro?"
+  ],
+  "sd_style_keywords": [
+    "nature", "green environment", "children and trees", "eco-friendly",
+    "colorful wildlife", "planet earth", "recycling"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "id": "setembro_amarelo",
+  "nome": "Setembro Amarelo",
+  "objetivo": "Promover a saúde mental e a prevenção ao suicídio com diálogo e empatia",
+  "descricao": "Crie uma mensagem de esperança, acolhimento e valorização da vida.",
+  "faixa_etaria": "10-18",
+  "estilos": ["aquarela", "poster_esperanca", "ilustracao_acolhedora"],
+  "elementos": ["luz", "esperança", "abraço", "apoio", "vida", "conexão", "acolhimento"],
+  "cor_tema": "#F5C518",
+  "icone": "setembro_amarelo",
+  "perguntas_guia": [
+    "O que faz você se sentir acolhido e amado?",
+    "Como você demonstra que se importa com alguém?",
+    "Qual mensagem de esperança você quer enviar ao mundo?"
+  ],
+  "sd_style_keywords": [
+    "warm yellow light", "hopeful atmosphere", "gentle embrace",
+    "emotional support", "mental health awareness", "compassion",
+    "soft colors", "uplifting message"
+  ]
+}

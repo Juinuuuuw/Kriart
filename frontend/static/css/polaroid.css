@@ -1,0 +1,154 @@
+/* ============================================
+   Kriart — Polaroid CSS
+   Estilos específicos do Polaroid
+   ============================================ */
+
+.polaroid-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Polaroid físico com sombra e rotação */
+.polaroid {
+  background: #FFFFFF;
+  padding: 16px 16px 60px 16px;
+  border-radius: 4px;
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.12),
+    0 8px 24px rgba(0,0,0,0.18),
+    0 16px 48px rgba(0,0,0,0.1);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.3s ease;
+  cursor: pointer;
+  max-width: 300px;
+  width: 100%;
+}
+
+.polaroid:hover {
+  transform: rotate(0deg) scale(1.04);
+  box-shadow:
+    0 4px 8px rgba(0,0,0,0.15),
+    0 16px 40px rgba(0,0,0,0.25),
+    0 24px 60px rgba(0,0,0,0.15);
+}
+
+.polaroid.rotate-left { transform: rotate(-2deg); }
+.polaroid.rotate-right { transform: rotate(2deg); }
+.polaroid.rotate-slight { transform: rotate(-0.8deg); }
+
+.polaroid-photo {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  display: block;
+  border-radius: 2px;
+  background: #f0f4f8;
+}
+
+.polaroid-caption {
+  padding-top: 12px;
+  text-align: center;
+}
+
+.polaroid-caption .phrase {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #2c2c2c;
+  font-style: italic;
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
+
+.polaroid-caption .name {
+  font-family: 'Poppins', sans-serif;
+  font-size: 0.7rem;
+  color: #999;
+  font-weight: 400;
+}
+
+.polaroid-caption .campaign-tag {
+  display: inline-block;
+  margin-top: 6px;
+  background: #E3F2FD;
+  color: #1565C0;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Polaroid Stack (múltiplos sobrepostos) */
+.polaroid-stack {
+  position: relative;
+  width: 260px;
+  height: 320px;
+}
+
+.polaroid-stack .polaroid:nth-child(1) { position: absolute; transform: rotate(-4deg); z-index: 1; }
+.polaroid-stack .polaroid:nth-child(2) { position: absolute; transform: rotate(-1deg); z-index: 2; }
+.polaroid-stack .polaroid:nth-child(3) { position: absolute; transform: rotate(2deg); z-index: 3; }
+
+/* Animação de revelação */
+@keyframes polaroidReveal {
+  0% {
+    opacity: 0;
+    transform: translateY(-30px) rotate(-2deg) scale(0.9);
+    filter: brightness(4) saturate(0);
+  }
+  40% {
+    filter: brightness(2) saturate(0.3);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotate(-1.5deg) scale(1);
+    filter: brightness(1) saturate(1);
+  }
+}
+
+.polaroid.revealing {
+  animation: polaroidReveal 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Badge de QR Code */
+.qr-badge {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  background: white;
+  border-radius: 6px;
+  padding: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.qr-badge img {
+  width: 48px;
+  height: 48px;
+  display: block;
+}
+
+/* Footer do Polaroid */
+.polaroid-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.polaroid-footer .uern-badge {
+  font-size: 0.6rem;
+  color: #0050A0;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+}
+
+.polaroid-footer .go-rn {
+  font-size: 0.6rem;
+  color: #009650;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+}

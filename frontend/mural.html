@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mural Kriart — Contribuições</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/mural.css">
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="mural-header">
+    <div class="header-brand">
+      <svg class="brand-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="40" height="40" rx="10" fill="url(#brandGrad)"/>
+        <path d="M12 28 L20 10 L28 28" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M15 22 L25 22" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+        <defs>
+          <linearGradient id="brandGrad" x1="0" y1="0" x2="40" y2="40">
+            <stop offset="0%" stop-color="#FF6B35"/>
+            <stop offset="100%" stop-color="#1565C0"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div class="brand-text">
+        <span class="brand-name">Kriart</span>
+        <span class="brand-sub">Mural de Contribuições</span>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="header-stats">
+      <div class="stat-item">
+        <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        <div>
+          <span class="stat-value" id="stat-participants">0</span>
+          <span class="stat-label">Participantes</span>
+        </div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="7" height="7"/>
+          <rect x="14" y="3" width="7" height="7"/>
+          <rect x="14" y="14" width="7" height="7"/>
+          <rect x="3" y="14" width="7" height="7"/>
+        </svg>
+        <div>
+          <span class="stat-value" id="stat-messages">0</span>
+          <span class="stat-label">Mensagens criadas</span>
+        </div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>
+        <div>
+          <span class="stat-value">4</span>
+          <span class="stat-label">Campanhas</span>
+        </div>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat-item">
+        <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M12 8v4l3 3"/>
+        </svg>
+        <div>
+          <span class="stat-value">6</span>
+          <span class="stat-label">Estilos artísticos</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Clock -->
+    <div class="header-clock" id="clock">00:00</div>
+  </header>
+
+  <!-- ===== CAMPAIGN TABS ===== -->
+  <nav class="campaign-nav" id="campaign-nav">
+    <!-- Preenchido via JS -->
+  </nav>
+
+  <!-- ===== MURAL BOARDS ===== -->
+  <main class="mural-main" id="mural-main">
+    <!-- Gerado via JS: uma .board por campanha -->
+  </main>
+
+  <!-- ===== NOTIFICATION TOAST ===== -->
+  <div class="new-contribution-toast hidden" id="contribution-toast">
+    <div class="toast-header">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
+        <path d="M12 8v4"/>
+        <path d="M12 16h.01"/>
+      </svg>
+      <span>Nova contribuição</span>
+    </div>
+    <div class="toast-big">+1 mensagem para o mural!</div>
+    <div class="toast-sub" id="toast-sub-text">Alguém acabou de participar.</div>
+  </div>
+
+  <!-- ===== CONFETTI CONTAINER ===== -->
+  <div id="confetti-container" aria-hidden="true"></div>
+
+  <!-- ===== SVG DEFS (tachinha) ===== -->
+  <svg style="display:none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <symbol id="icon-pin" viewBox="0 0 24 24">
+        <circle cx="12" cy="8" r="5" fill="#c0392b"/>
+        <path d="M12 13 L12 22" stroke="#888" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="12" cy="8" r="2.5" fill="#e74c3c"/>
+        <circle cx="10.5" cy="6.5" r="1" fill="rgba(255,255,255,0.6)"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <script type="module" src="/static/js/mural.js"></script>
+</body>
+</html>

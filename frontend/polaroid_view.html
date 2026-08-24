@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kriart — Visualizar Polaroid</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/polaroid.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #0D1B2A 0%, #1565C0 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .view-container {
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+    }
+    .kriart-header {
+      margin-bottom: 30px;
+    }
+    .kriart-header h1 {
+      color: white;
+      font-size: 2rem;
+      font-weight: 800;
+    }
+    .kriart-header p {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.9rem;
+    }
+    .polaroid-card {
+      background: white;
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      margin-bottom: 24px;
+    }
+    .polaroid-img-container {
+      width: 100%;
+      aspect-ratio: 1;
+      background: #f0f4f8;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .polaroid-img-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .polaroid-phrase {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #1a1a2e;
+      margin-bottom: 8px;
+      font-style: italic;
+    }
+    .polaroid-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #eee;
+      text-align: left;
+    }
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.875rem;
+      color: #666;
+    }
+    .meta-item strong {
+      color: #333;
+    }
+    .meta-badge {
+      background: #E3F2FD;
+      color: #1565C0;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .view-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-view {
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .btn-download {
+      background: #FF6B35;
+      color: white;
+    }
+    .btn-home {
+      background: rgba(255,255,255,0.15);
+      color: white;
+      backdrop-filter: blur(10px);
+    }
+    .btn-view:hover { transform: translateY(-2px); }
+    .loading-state {
+      color: white;
+      font-size: 1.1rem;
+      padding: 40px;
+    }
+    .error-state {
+      background: rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 40px;
+      color: white;
+      text-align: center;
+    }
+    .error-state h3 { font-size: 1.5rem; margin-bottom: 12px; }
+    .footer-info {
+      color: rgba(255,255,255,0.5);
+      font-size: 0.75rem;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="view-container">
+    <div class="kriart-header">
+      <h1>🎨 Kriart</h1>
+      <p>UERN · LAR · GO!RN</p>
+    </div>
+
+    <div id="loading-state" class="loading-state">⏳ Carregando seu Polaroid...</div>
+
+    <div id="polaroid-content" class="hidden">
+      <div class="polaroid-card">
+        <div class="polaroid-img-container" style="display: flex; gap: 10px; overflow-x: auto; aspect-ratio: auto; background: none;">
+          <img id="view-polaroid-img" src="" alt="Polaroid Colorido" style="max-width: 100%; height: auto; object-fit: contain;">
+          <img id="view-polaroid-sketch-img" src="" alt="Polaroid Rascunho" style="max-width: 100%; height: auto; object-fit: contain; display: none;">
+        </div>
+        <p id="view-phrase" class="polaroid-phrase"></p>
+        <div class="polaroid-meta">
+          <div class="meta-item">
+            <span>👤</span>
+            <strong>Criado por:</strong>
+            <span id="view-name">Anônimo</span>
+          </div>
+          <div class="meta-item">
+            <span>🎯</span>
+            <strong>Campanha:</strong>
+            <span id="view-campaign" class="meta-badge"></span>
+          </div>
+          <div class="meta-item">
+            <span>📅</span>
+            <strong>Data:</strong>
+            <span id="view-date"></span>
+          </div>
+          <div class="meta-item">
+            <span>🆔</span>
+            <strong>ID:</strong>
+            <span id="view-id" style="font-family:monospace;font-size:0.8rem"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="view-actions">
+        <a id="btn-download-pol" class="btn-view btn-download" download>⬇️ Colorido</a>
+        <a id="btn-download-sketch" class="btn-view btn-download" download style="display: none;">⬇️ Rascunho</a>
+        <a href="/" class="btn-view btn-home">🏠 Criar o meu</a>
+      </div>
+    </div>
+
+    <div id="error-state" class="error-state hidden">
+      <h3>😕 Polaroid não encontrado</h3>
+      <p>Este QR Code pode ser inválido ou ter expirado.</p>
+      <a href="/" class="btn-view btn-home" style="margin-top:16px;display:inline-flex">Criar sua arte agora</a>
+    </div>
+
+    <p class="footer-info">Projeto Kriart • UERN / LAR • GO!RN 2025</p>
+  </div>
+
+  <script>
+    async function loadPolaroid() {
+      const pathParts = window.location.pathname.split('/');
+      const polaroidId = pathParts[pathParts.length - 1];
+
+      if (!polaroidId) {
+        showError();
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/polaroid/${polaroidId}`);
+        if (!res.ok) throw new Error('Not found');
+        const data = await res.json();
+
+        document.getElementById('view-polaroid-img').src = data.polaroid_url || '';
+        
+        if (data.polaroid_sketch_url) {
+            const sketchImg = document.getElementById('view-polaroid-sketch-img');
+            sketchImg.src = data.polaroid_sketch_url;
+            sketchImg.style.display = 'block';
+            
+            const dlSketchBtn = document.getElementById('btn-download-sketch');
+            dlSketchBtn.href = data.polaroid_sketch_url;
+            dlSketchBtn.download = `kriart_polaroid_${data.id}_sketch.png`;
+            dlSketchBtn.style.display = 'inline-flex';
+        }
+
+        document.getElementById('view-phrase').textContent = `"${data.phrase}"`;
+        document.getElementById('view-name').textContent = data.participant_name || 'Anônimo';
+        document.getElementById('view-campaign').textContent = data.campaign_id || '';
+        document.getElementById('view-id').textContent = data.id || '';
+
+        if (data.created_at) {
+          const date = new Date(data.created_at);
+          document.getElementById('view-date').textContent = date.toLocaleDateString('pt-BR');
+        }
+
+        const dlBtn = document.getElementById('btn-download-pol');
+        dlBtn.href = data.polaroid_url || '#';
+        dlBtn.download = `kriart_polaroid_${data.id}.png`;
+
+        document.getElementById('loading-state').classList.add('hidden');
+        document.getElementById('polaroid-content').classList.remove('hidden');
+
+      } catch (e) {
+        showError();
+      }
+    }
+
+    function showError() {
+      document.getElementById('loading-state').classList.add('hidden');
+      document.getElementById('error-state').classList.remove('hidden');
+    }
+
+    loadPolaroid();
+  </script>
+</body>
+</html>

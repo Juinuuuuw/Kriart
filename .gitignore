@@ -1,0 +1,45 @@
+﻿# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+
+# Environment
+.env
+
+# Database
+*.db
+*.sqlite3
+
+# Output (generated files)
+output/polaroids/*
+output/prints/*
+output/qrcodes/*
+!output/polaroids/.gitkeep
+!output/prints/.gitkeep
+!output/qrcodes/.gitkeep
+
+# Assets placeholders
+assets/polaroid_template/*.png
+assets/fonts/*.ttf
+assets/fonts/*.otf
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
