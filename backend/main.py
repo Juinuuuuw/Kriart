@@ -52,11 +52,13 @@ async def serve_index():
 async def serve_polaroid_view(polaroid_id: str):
     return FileResponse("frontend/polaroid_view.html")
 
+@app.get("/ar/{polaroid_id}", include_in_schema=False)
+async def serve_ar_view(polaroid_id: str):
+    return FileResponse("frontend/ar.html")
 
 @app.get("/mural", include_in_schema=False)
 async def serve_mural():
     return FileResponse("frontend/mural.html")
-
 
 @app.get("/health")
 async def health():

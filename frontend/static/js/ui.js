@@ -27,7 +27,10 @@ export function showStep(stepId) {
   const target = document.getElementById(stepId);
   if (target) {
     target.classList.add('active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Timeout garante que o display: block foi aplicado antes de dar o scroll
+    setTimeout(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    }, 10);
   }
 }
 

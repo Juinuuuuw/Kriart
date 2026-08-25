@@ -183,6 +183,7 @@
       <div class="view-actions">
         <a id="btn-download-pol" class="btn-view btn-download" download>⬇️ Colorido</a>
         <a id="btn-download-sketch" class="btn-view btn-download" download style="display: none;">⬇️ Rascunho</a>
+        <a id="btn-ar-view" class="btn-view" style="background: #3B82F6; color: white;" href="#">🌟 Ver em AR</a>
         <a href="/" class="btn-view btn-home">🏠 Criar o meu</a>
       </div>
     </div>
@@ -237,6 +238,12 @@
         const dlBtn = document.getElementById('btn-download-pol');
         dlBtn.href = data.polaroid_url || '#';
         dlBtn.download = `kriart_polaroid_${data.id}.png`;
+
+        if (data.ar_spritesheet_url) {
+            document.getElementById('btn-ar-view').href = `/ar/${data.id}`;
+        } else {
+            document.getElementById('btn-ar-view').style.display = 'none';
+        }
 
         document.getElementById('loading-state').classList.add('hidden');
         document.getElementById('polaroid-content').classList.remove('hidden');

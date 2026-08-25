@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+  <title>Kriart AR</title>
+  <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap" rel="stylesheet">
+  
+  <script>
+    // Animação do Sprite Sheet (mantida original)
+    AFRAME.registerComponent('spritesheet-anim', {
+      schema: {
+        frames: {type: 'number', default: 8},
+        duration: {type: 'number', default: 1500}
+      },
+      init: function () {
+        this.currentFrame = 0;
+        this.timeElapsed = 0;
+        this.frameTime = this.data.duration / this.data.frames;
+        
+        this.el.addEventListener('materialtextureloaded', () => {
+           const mesh = this.el.getObject3D('mesh');
+           if(mesh && mesh.material && mesh.material.map) {
+             mesh.material.map.repeat.set(1 / this.data.frames, 1);
+             mesh.material.map.offset.set(0, 0);
+           }
+        });
+      },
+      tick: function (time, timeDelta) {
+        this.timeElapsed += timeDelta;
+        if (this.timeElapsed >= this.frameTime) {
+          this.timeElapsed = 0;
+          this.currentFrame = (this.currentFrame + 1) % this.data.frames;
+          
+          const mesh = this.el.getObject3D('mesh');
+          if (mesh && mesh.material && mesh.material.map) {
+            mesh.material.map.offset.x = this.currentFrame / this.data.frames;
+          }
+        }
+      }
+    });
+
+    // Faz a entidade olhar sempre para a câmera (Efeito Billboard 3D)
+    AFRAME.registerComponent('face-camera', {
+      tick: function () {
+        const camera = this.el.sceneEl.camera;
+        if (camera) {
+          const camPos = new THREE.Vector3();
+          camera.getWorldPosition(camPos);
+          this.el.object3D.lookAt(camPos);
+        }
+      }
+    });
+
+    // Chão com brilho (Glow) radial
+    AFRAME.registerComponent('glow-floor', {
+      init: function () {
+        const canvas = document.createElement('canvas');
+        canvas.width = 512; canvas.height = 512;
+        const ctx = canvas.getContext('2d');
+        const grad = ctx.createRadialGradient(256, 256, 0, 256, 256, 256);
+        grad.addColorStop(0, 'rgba(59, 130, 246, 0.8)'); // Azul vibrante no centro
+        grad.addColorStop(1, 'rgba(59, 130, 246, 0)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0,0,512,512);
+        
+        const tex = new THREE.CanvasTexture(canvas);
+        this.el.addEventListener('loaded', () => {
+          const mesh = this.el.getObject3D('mesh');
+          if(mesh) {
+            mesh.material = new THREE.MeshBasicMaterial({
+                map: tex, 
+                transparent: true, 
+                depthWrite: false,
+                blending: THREE.AdditiveBlending
+            });
+          }
+        });
+      }
+    });
+
+    // Texto curvado escrito à mão com sombra
+    AFRAME.registerComponent('curved-text', {
+      schema: { text: {type: 'string', default: ''} },
+      init: function () {
+        this.canvas = document.createElement('canvas');
+        this.canvas.width = 1024;
+        this.canvas.height = 256;
+        this.ctx = this.canvas.getContext('2d');
+        this.texture = new THREE.CanvasTexture(this.canvas);
+        
+        this.el.addEventListener('loaded', () => {
+          const mesh = this.el.getObject3D('mesh');
+          if(mesh) {
+            mesh.material = new THREE.MeshBasicMaterial({
+              map: this.texture,
+              transparent: true,
+              side: THREE.DoubleSide
+            });
+          }
+        });
+      },
+      update: function () {
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.ctx.font = 'bold 90px "Caveat", cursive';
+        this.ctx.fillStyle = '#FFFFFF';
+        this.ctx.textAlign = 'center';
+        this.ctx.textBaseline = 'middle';
+        
+        // Sombra suave para legibilidade na AR
+        this.ctx.shadowColor = 'rgba(0,0,0,0.9)';
+        this.ctx.shadowBlur = 15;
+        this.ctx.shadowOffsetX = 3;
+        this.ctx.shadowOffsetY = 3;
+        
+        this.ctx.fillText(`"${this.data.text}"`, this.canvas.width/2, this.canvas.height/2);
+        this.texture.needsUpdate = true;
+      }
+    });
+
+    // Partículas temáticas flutuantes baseadas na campanha ou frase
+    AFRAME.registerComponent('theme-particles', {
+      schema: { theme: {type: 'string', default: ''} },
+      init: function () {
+        let emojis = ['✨', '🌟', '💫', '💡'];
+        const t = (this.data.theme || '').toLowerCase();
+        
+        if (t.includes('nature') || t.includes('meio ambiente') || t.includes('verde')) {
+            emojis = ['🍃', '🕊️', '🌸', '🦋'];
+        } else if (t.includes('escol') || t.includes('educação') || t.includes('livro')) {
+            emojis = ['📚', '✏️', '🎓', '🎨'];
+        } else if (t.includes('setembro') || t.includes('amarelo')) {
+            emojis = ['🎗️', '💛', '🌻', '✨'];
+        }
+        
+        // Gera 8 partículas flutuantes
+        for (let i = 0; i < 8; i++) {
+          const el = document.createElement('a-entity');
+          const emoji = emojis[Math.floor(Math.random() * emojis.length)];
+          
+          const canvas = document.createElement('canvas');
+          canvas.width = 128; canvas.height = 128;
+          const ctx = canvas.getContext('2d');
+          ctx.font = '80px Arial';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(emoji, 64, 64);
+          
+          el.setAttribute('geometry', 'primitive: plane; width: 1.5; height: 1.5');
+          el.setAttribute('material', `src: ${canvas.toDataURL()}; transparent: true; side: double;`);
+          
+          // Posicionadas aleatoriamente ao redor do container central
+          const px = (Math.random() - 0.5) * 8;
+          const py = Math.random() * 6; // altura aleatória
+          const pz = (Math.random() - 0.5) * 4;
+          
+          el.setAttribute('position', `${px} ${py} ${pz}`);
+          el.setAttribute('face-camera', '');
+          
+          // Efeito flutuando para cima e para baixo
+          const dur = 2000 + Math.random() * 2000;
+          el.setAttribute('animation', `property: position; to: ${px} ${py + 1.5} ${pz}; dir: alternate; loop: true; dur: ${dur}; easing: easeInOutSine`);
+          
+          this.el.appendChild(el);
+        }
+      }
+    });
+
+    // Ao carregar a página, busca as infos da API e seta na cena 3D
+    window.addEventListener('DOMContentLoaded', async () => {
+      const pathParts = window.location.pathname.split('/');
+      const polaroidId = pathParts[pathParts.length - 1];
+      
+      try {
+        const res = await fetch(`/api/polaroid/${polaroidId}`);
+        const data = await res.json();
+        
+        if (data.ar_spritesheet_url) {
+          const plane = document.getElementById('ar-plane');
+          // Definindo double side para que o personagem em pé seja visto de costas também
+          plane.setAttribute('material', `src: ${data.ar_spritesheet_url}; transparent: false; shader: flat; side: double;`);
+        }
+        
+        if (data.phrase) {
+            const textEl = document.getElementById('ar-text');
+            textEl.setAttribute('curved-text', `text: ${data.phrase}`);
+        }
+        
+        const particlesEl = document.getElementById('particles-container');
+        particlesEl.setAttribute('theme-particles', `theme: ${data.campaign_id} ${data.phrase}`);
+        
+      } catch (e) {
+        console.error("Erro ao carregar Polaroid AR:", e);
+      }
+    });
+  </script>
+  <style>
+    body { margin: 0; overflow: hidden; background-color: #000; }
+    .ar-overlay {
+      position: absolute;
+      bottom: 30px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      z-index: 1000;
+      pointer-events: none;
+      color: white;
+      font-family: sans-serif;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+    }
+    .back-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 1001;
+      background: white;
+      padding: 10px 20px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-family: sans-serif;
+      font-weight: bold;
+      color: #333;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      pointer-events: auto;
+    }
+  </style>
+</head>
+<body>
+  <a href="#" onclick="window.history.back()" class="back-btn">⬅ Voltar</a>
+  
+  <div class="ar-overlay">
+    <h2>Aponte para o marcador na Polaroid!</h2>
+  </div>
+
+  <a-scene 
+    embedded 
+    arjs="sourceType: webcam; debugUIEnabled: false; trackingMethod: best;"
+    renderer="antialias: true; alpha: true">
+    
+    <a-marker preset="hiro">
+      
+      <!-- Container Holograma - alinhado no centro do lugar da foto no Polaroid real. -->
+      <!-- O X: 4.16 e Z: -6.75 alinham com as distâncias do marcador Hiro até a imagem -->
+      <a-entity position="4.16 0 -6.75">
+          
+          <!-- 1. O Brilho no chão da base do Polaroid -->
+          <a-plane position="0 0.1 0" rotation="-90 0 0" width="10" height="10" glow-floor></a-plane>
+          
+          <!-- 2. O Personagem (agora em pé no eixo Y e seguindo a câmera) -->
+          <!-- Metade da altura (7) é 3.5, assim a base dele fica rente ao chão (Y=0) -->
+          <a-plane id="ar-plane" 
+                   position="0 3.5 0" 
+                   width="8" 
+                   height="7" 
+                   spritesheet-anim="frames: 8; duration: 2000"
+                   face-camera>
+          </a-plane>
+
+          <!-- 3. Frase Curvada Acima do Personagem -->
+          <!-- Entidade wrapper com face-camera garante que a curva sempre "abrace" o usuário -->
+          <a-entity face-camera position="0 8 0">
+              <a-cylinder id="ar-text"
+                          radius="5" 
+                          height="1.5"
+                          theta-start="-45"
+                          theta-length="90"
+                          side="double"
+                          open-ended="true"
+                          material="transparent: true; shader: flat;">
+              </a-cylinder>
+          </a-entity>
+          
+          <!-- 4. Sistema dinâmico de partículas/elementos saindo -->
+          <a-entity id="particles-container"></a-entity>
+
+      </a-entity>
+
+    </a-marker>
+    
+    <a-entity camera></a-entity>
+  </a-scene>
+</body>
+</html>

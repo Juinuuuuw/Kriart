@@ -70,6 +70,16 @@ class PolaroidService:
             suffix="_sketch"
         )
 
+        # Gera o Sprite Sheet para WebAR
+        from backend.services.animation_service import generate_ar_spritesheet
+        spritesheet_path = self.output_dir / f"ar_{polaroid_id}.jpg"
+        try:
+            generate_ar_spritesheet(str(orig_img_path), str(spritesheet_path))
+            ar_url = f"/output/polaroids/{spritesheet_path.name}"
+        except Exception as e:
+            logger.error(f"Erro ao gerar AR Sprite Sheet: {e}")
+            ar_url = None
+
         # Retorna o polaroid padrão como o colorido (para compatibilidade do banco), 
         # mas inclui o sketch no dict para o frontend exibir ambos.
         return {
@@ -85,6 +95,7 @@ class PolaroidService:
             "qrcode_url": qrcode_url,
             "polaroid_url": f"/output/polaroids/{polaroid_color.name}",
             "polaroid_sketch_url": f"/output/polaroids/{polaroid_sketch.name}",
+            "ar_spritesheet_url": ar_url,
             "printed": False,
         }
 
@@ -134,12 +145,13 @@ class PolaroidService:
             draw.text((self.width // 2, phrase_y + 35), f"— {participant_name}",
                       font=font_small, fill=(120, 120, 120), anchor="mm")
 
-        # Identidade UERN / LAR
+        # Identidade UERN / LAR (deslocado para a direita para dar espaço ao Hiro)
         footer_y = self.height - 60
-        draw.text((20, footer_y), "UERN / LAR", font=font_small, fill=(0, 80, 160))
-        draw.text((20, footer_y + 16), f"Campanha: {campaign_id}",
+        text_x = 90
+        draw.text((text_x, footer_y), "UERN / LAR", font=font_small, fill=(0, 80, 160))
+        draw.text((text_x, footer_y + 16), f"Campanha: {campaign_id}",
                   font=font_small, fill=(100, 100, 100))
-        draw.text((20, footer_y + 32), "GO!RN", font=font_small, fill=(0, 150, 80))
+        draw.text((text_x, footer_y + 32), "GO!RN", font=font_small, fill=(0, 150, 80))
 
         # QR Code
         try:
@@ -151,6 +163,18 @@ class PolaroidService:
             polaroid.paste(qr_img, (qr_x, qr_y))
         except Exception as e:
             logger.warning(f"Erro ao inserir QR Code: {e}")
+            
+        # AR.js Hiro Marker
+        try:
+            hiro_img = Image.open(Path("assets/hiro.png")).convert("RGBA")
+            hiro_size = 60
+            hiro_img = hiro_img.resize((hiro_size, hiro_size), Image.LANCZOS)
+            # Coloca no canto inferior esquerdo
+            hiro_x = 20
+            hiro_y = self.height - hiro_size - 15
+            polaroid.paste(hiro_img, (hiro_x, hiro_y))
+        except Exception as e:
+            logger.warning(f"Erro ao inserir Hiro marker: {e}")
 
         # ID no rodapé
         draw.text((self.width // 2, self.height - 12),
