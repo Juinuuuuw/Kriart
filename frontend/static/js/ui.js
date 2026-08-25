@@ -32,6 +32,16 @@ export function showStep(stepId) {
       window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     }, 10);
   }
+  
+  // Esconde a barra de progresso na tela inicial (Boas-vindas)
+  const progressBarContainer = document.getElementById('progress-bar-container');
+  if (progressBarContainer) {
+    if (stepId === 'step-welcome') {
+      progressBarContainer.style.display = 'none';
+    } else {
+      progressBarContainer.style.display = 'block';
+    }
+  }
 }
 
 /**

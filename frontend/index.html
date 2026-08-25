@@ -252,12 +252,12 @@
     }
     .hero-card-name svg{ width:11px; height:11px; }
 
-    .hc-1{ top:170px; left:2%;  transform:rotate(-7deg);  width:170px; }
-    .hc-2{ top:430px; left:-1%; transform:rotate(5deg);   width:210px; }
-    .hc-3{ top:720px; left:7%;  transform:rotate(-4deg);  width:230px; }
-    .hc-4{ top:150px; right:2%; transform:rotate(6deg);   width:190px; }
-    .hc-5{ top:460px; right:0;  transform:rotate(-6deg);  width:230px; }
-    .hc-6{ top:750px; right:9%; transform:rotate(5deg);   width:210px; }
+    .hc-1{ top:170px; left:calc(50% - 550px);  transform:rotate(-7deg);  width:170px; }
+    .hc-2{ top:430px; left:calc(50% - 620px); transform:rotate(5deg);   width:210px; }
+    .hc-3{ top:720px; left:calc(50% - 520px);  transform:rotate(-4deg);  width:230px; }
+    .hc-4{ top:150px; right:calc(50% - 540px); transform:rotate(6deg);   width:190px; }
+    .hc-5{ top:460px; right:calc(50% - 630px);  transform:rotate(-6deg);  width:230px; }
+    .hc-6{ top:750px; right:calc(50% - 530px); transform:rotate(5deg);   width:210px; }
 
     @media (max-width: 1180px){
       .hero-polaroids{ display:none; }
@@ -273,7 +273,7 @@
 <body>
 
   <!-- Barra de Progresso -->
-  <div id="progress-bar-container">
+  <div id="progress-bar-container" style="display: none;">
     <div id="progress-bar"></div>
     <div id="progress-steps">
       <span class="prog-step active" data-step="1">
