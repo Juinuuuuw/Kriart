@@ -74,8 +74,8 @@ class PolaroidService:
         from backend.services.animation_service import generate_ar_spritesheet
         spritesheet_path = self.output_dir / f"ar_{polaroid_id}.jpg"
         try:
-            generate_ar_spritesheet(str(orig_img_path), str(spritesheet_path))
-            ar_url = f"/output/polaroids/{spritesheet_path.name}"
+            spritesheet_path_out = generate_ar_spritesheet(str(orig_img_path), str(spritesheet_path))
+            ar_url = f"/output/polaroids/{Path(spritesheet_path_out).name}"
         except Exception as e:
             logger.error(f"Erro ao gerar AR Sprite Sheet: {e}")
             ar_url = None

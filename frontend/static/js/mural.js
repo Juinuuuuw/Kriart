@@ -1,5 +1,5 @@
 /**
- * mural.js — Lógica do Mural de Contribuições Kriart
+ * mural.js — Lógica do Mural de Contribuições Faísca
  *
  * Responsabilidades:
  *  - Carregar campanhas e montar tabs + boards

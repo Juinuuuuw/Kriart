@@ -1,12 +1,12 @@
-﻿# 🎨 Kriart — Framework de Campanhas Educativas com IA
+# ⚡ Faísca — Framework de Campanhas Educativas com IA
 
-> Projeto desenvolvido pela **UERN (Universidade do Estado do Rio Grande do Norte)** em parceria com o **LAR (Laboratório de Acessibilidade e Realidade)** para o evento **GO!RN**.
+> Projeto desenvolvido pela **UERN (Universidade do Estado do Rio Grande do Norte)** em parceria com o **LAR (Laboratório de Aprendizagem Robótica)**.
 
 ---
 
-## 📖 O que é o Kriart?
+## 💡 O que é o Faísca?
 
-O **Kriart** é um framework interativo para criação de campanhas educativas personalizadas com inteligência artificial. Visitantes (alunos, professores, familiares) interagem com um sistema de IA para:
+O **Faísca** é um framework interativo para criação de campanhas educativas personalizadas com inteligência artificial. Visitantes (alunos, professores, familiares) interagem com um sistema de IA para:
 
 1. **Escolher uma campanha** (Bullying, Drogas, Meio Ambiente, Inclusão, Saúde, Educação)
 2. **Criar uma mensagem personalizada** com ajuda do Phi-3 Mini via Ollama
@@ -42,7 +42,7 @@ O **Kriart** é um framework interativo para criação de campanhas educativas p
 ### 1. Clone o repositório
 ```bash
 git clone <url-do-repositorio>
-cd Kriart
+cd Faísca
 ```
 
 ### 2. Crie e ative o ambiente virtual
@@ -78,7 +78,7 @@ ollama pull llama3.2
 
 ---
 
-## 🚀 Como Rodar
+## ▶️ Como Rodar
 
 ```bash
 python run.py
@@ -91,7 +91,7 @@ Acesse: `http://localhost:8000`
 ## 📁 Estrutura de Pastas
 
 ```
-Kriart/
+Faisca/
 ├── backend/          # API FastAPI (Python)
 │   ├── models/       # Modelos de dados (Pydantic)
 │   ├── routers/      # Endpoints da API
@@ -109,7 +109,7 @@ Kriart/
 
 ---
 
-## 📋 Como Adicionar Novas Campanhas
+## ➕ Como Adicionar Novas Campanhas
 
 1. Crie um arquivo JSON em `campaigns/nova_campanha.json`
 2. Siga a estrutura dos arquivos existentes:
@@ -123,7 +123,7 @@ Kriart/
   "estilos": ["ilustracao", "aquarela"],
   "elementos": ["elemento1", "elemento2"],
   "cor_tema": "#FF5722",
-  "icone": "🌟",
+  "icone": "⭐",
   "perguntas_guia": ["Pergunta 1?", "Pergunta 2?"],
   "sd_style_keywords": ["keyword1", "keyword2"]
 }
@@ -132,32 +132,32 @@ Kriart/
 
 ---
 
-## 🤖 Como Funciona o Pipeline de IA
+## 🧠 Como Funciona o Pipeline de IA
 
 ```
-Usuário → [Validação de Texto] → Ollama/Phi-3 Mini
-         ↓                              ↓
+Usuário   [Validação de Texto]   Ollama/Phi-3 Mini
+                                         
     (input seguro)            (estruturação da mensagem)
-                                        ↓
+                                         
                           Ollama/LLaMA 3.2
-                                        ↓
+                                         
                           (geração de prompt visual em inglês)
-                                        ↓
+                                         
                           [Validação do Prompt]
-                                        ↓
+                                         
                           SD Forge + DreamShaper 8
-                                        ↓
+                                         
                           (geração da imagem)
-                                        ↓
+                                         
                           [Validação da Imagem]
-                                        ↓
+                                         
                           Composição do Polaroid (PIL)
-                                        ↓
-                          QR Code único → Polaroid final
+                                         
+                          QR Code único   Polaroid final
 ```
 
 ---
 
-## 📄 Licença
+## 📜 Licença
 
-Projeto UERN / LAR — GO!RN. Todos os direitos reservados.
+Projeto UERN / LAR. Todos os direitos reservados.

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kriart — Visualizar Polaroid</title>
+  <title>Faísca — Visualizar Polaroid</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/static/css/polaroid.css">
@@ -11,7 +11,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #0D1B2A 0%, #1565C0 100%);
+      background: linear-gradient(180deg, #f3f1fb 0%, #eceafc 100%);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -28,19 +28,19 @@
       margin-bottom: 30px;
     }
     .kriart-header h1 {
-      color: white;
+      color: #221f3d;
       font-size: 2rem;
       font-weight: 800;
     }
     .kriart-header p {
-      color: rgba(255,255,255,0.7);
+      color: #57547a;
       font-size: 0.9rem;
     }
     .polaroid-card {
       background: white;
       border-radius: 16px;
       padding: 30px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      box-shadow: 0 20px 60px rgba(44,37,96,0.15);
       margin-bottom: 24px;
     }
     .polaroid-img-container {
@@ -83,8 +83,8 @@
       color: #333;
     }
     .meta-badge {
-      background: #E3F2FD;
-      color: #1565C0;
+      background: #eceafc;
+      color: #7c6ef2;
       padding: 2px 10px;
       border-radius: 20px;
       font-size: 0.8rem;
@@ -111,30 +111,32 @@
       transition: all 0.2s;
     }
     .btn-download {
-      background: #FF6B35;
+      background: linear-gradient(115deg, #2c2560, #7c6ef2);
       color: white;
     }
     .btn-home {
-      background: rgba(255,255,255,0.15);
-      color: white;
+      background: rgba(44,37,96,0.08);
+      color: #221f3d;
       backdrop-filter: blur(10px);
+      border: 1px solid rgba(44,37,96,0.15);
     }
     .btn-view:hover { transform: translateY(-2px); }
     .loading-state {
-      color: white;
+      color: #221f3d;
       font-size: 1.1rem;
       padding: 40px;
     }
     .error-state {
-      background: rgba(255,255,255,0.1);
+      background: rgba(44,37,96,0.06);
       border-radius: 16px;
       padding: 40px;
-      color: white;
+      color: #221f3d;
       text-align: center;
+      border: 1px solid rgba(44,37,96,0.10);
     }
     .error-state h3 { font-size: 1.5rem; margin-bottom: 12px; }
     .footer-info {
-      color: rgba(255,255,255,0.5);
+      color: #57547a;
       font-size: 0.75rem;
       margin-top: 20px;
     }
@@ -143,8 +145,8 @@
 <body>
   <div class="view-container">
     <div class="kriart-header">
-      <h1>🎨 Kriart</h1>
-      <p>UERN · LAR · GO!RN</p>
+      <h1>🎨 Faísca</h1>
+      <p>UERN · LAR — Laboratório de Aprendizagem Robótica</p>
     </div>
 
     <div id="loading-state" class="loading-state">⏳ Carregando seu Polaroid...</div>
@@ -183,7 +185,7 @@
       <div class="view-actions">
         <a id="btn-download-pol" class="btn-view btn-download" download>⬇️ Colorido</a>
         <a id="btn-download-sketch" class="btn-view btn-download" download style="display: none;">⬇️ Rascunho</a>
-        <a id="btn-ar-view" class="btn-view" style="background: #3B82F6; color: white;" href="#">🌟 Ver em AR</a>
+        <a id="btn-ar-view" class="btn-view" style="background: linear-gradient(115deg, #7c6ef2, #9b8bfb); color: white;" href="#">🌟 Ver em AR</a>
         <a href="/" class="btn-view btn-home">🏠 Criar o meu</a>
       </div>
     </div>
@@ -194,7 +196,7 @@
       <a href="/" class="btn-view btn-home" style="margin-top:16px;display:inline-flex">Criar sua arte agora</a>
     </div>
 
-    <p class="footer-info">Projeto Kriart • UERN / LAR • GO!RN 2025</p>
+    <p class="footer-info">Projeto Faísca • UERN / LAR</p>
   </div>
 
   <script>
@@ -221,7 +223,7 @@
             
             const dlSketchBtn = document.getElementById('btn-download-sketch');
             dlSketchBtn.href = data.polaroid_sketch_url;
-            dlSketchBtn.download = `kriart_polaroid_${data.id}_sketch.png`;
+            dlSketchBtn.download = `faisca_polaroid_${data.id}_sketch.png`;
             dlSketchBtn.style.display = 'inline-flex';
         }
 
@@ -237,7 +239,7 @@
 
         const dlBtn = document.getElementById('btn-download-pol');
         dlBtn.href = data.polaroid_url || '#';
-        dlBtn.download = `kriart_polaroid_${data.id}.png`;
+        dlBtn.download = `faisca_polaroid_${data.id}.png`;
 
         if (data.ar_spritesheet_url) {
             document.getElementById('btn-ar-view').href = `/ar/${data.id}`;

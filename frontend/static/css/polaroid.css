@@ -1,5 +1,5 @@
 /* ============================================
-   Kriart — Polaroid CSS
+   Faísca — Polaroid CSS
    Estilos específicos do Polaroid
    ============================================ */
 
@@ -146,9 +146,9 @@
   font-family: 'Poppins', sans-serif;
 }
 
-.polaroid-footer .go-rn {
+.polaroid-footer .lar-badge {
   font-size: 0.6rem;
-  color: #009650;
+  color: #7c6ef2;
   font-weight: 700;
   font-family: 'Poppins', sans-serif;
 }

@@ -1,5 +1,5 @@
 /**
- * ui.js — Helpers de UI, animações e notificações do Kriart.
+ * ui.js — Helpers de UI, animações e notificações do Faísca.
  */
 
 /** SVG icons for toast notifications */

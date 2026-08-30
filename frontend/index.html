@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kriart — Crie sua Arte Educativa</title>
+  <title>Faísca — Crie sua Arte Educativa</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -268,6 +268,40 @@
       .hero-title{ font-size:38px; }
       .hero-cta{ width:100%; justify-content:center; padding:17px 24px; }
     }
+
+    /* Background decorative SVGs */
+    .hero-bg-art{
+      position:absolute;
+      inset:0;
+      z-index:0;
+      pointer-events:none;
+      overflow:hidden;
+    }
+    .bg-doodle{
+      position:absolute;
+      animation: doodleFloat 12s ease-in-out infinite alternate;
+    }
+    .bd-1{ width:140px; top:8%; left:6%; animation-delay:0s; }
+    .bd-2{ width:110px; top:55%; left:3%; animation-delay:-3s; }
+    .bd-3{ width:90px; top:80%; left:12%; animation-delay:-6s; }
+    .bd-4{ width:100px; top:12%; right:5%; animation-delay:-2s; }
+    .bd-5{ width:160px; top:48%; right:2%; animation-delay:-4s; }
+    .bd-6{ width:70px; top:78%; right:10%; animation-delay:-7s; }
+    .bd-7{ width:85px; top:35%; left:50%; transform:translateX(-50%); animation-delay:-5s; opacity:0.08; }
+    @keyframes doodleFloat{
+      0%{ transform:translateY(0) rotate(0deg); }
+      100%{ transform:translateY(-12px) rotate(3deg); }
+    }
+    .bd-7{ animation-name: doodleFloat; }
+
+    /* Dynamic hero polaroid cards with real images */
+    .hero-card-img img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      border-radius:8px;
+    }
   </style>
 </head>
 <body>
@@ -306,93 +340,38 @@
     <section id="step-welcome" class="step active">
       <div class="welcome-content">
 
-        <!-- Polaroids decorativos -->
-        <div class="hero-polaroids" aria-hidden="true">
-          <div class="hero-card hc-1">
-            <div class="hero-card-img">
-              <svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
-                <rect width="200" height="180" fill="#bfe0f2"/>
-                <circle cx="60" cy="55" r="12" fill="#ffd7a8"/><path d="M40 100c0-20 12-32 20-32s20 12 20 32" fill="#4d7ea8"/>
-                <circle cx="130" cy="60" r="12" fill="#8a5a3c"/><path d="M110 105c0-20 12-32 20-32s20 12 20 32" fill="#e07856"/>
-                <path d="M78 78l24-4" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
-              </svg>
-            </div>
-            <p class="hero-card-caption">Respeito gera<br>conexões!</p>
-            <span class="hero-card-name">— Ana Clara <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21.2l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></span>
-          </div>
+        <!-- Polaroids decorativos com imagens reais -->
+        <div class="hero-polaroids" aria-hidden="true" id="hero-polaroids-container">
+          <!-- Preenchido dinamicamente via JS com imagens reais do mural -->
+        </div>
 
-          <div class="hero-card hc-2">
-            <div class="hero-card-img">
-              <svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
-                <rect width="200" height="180" fill="#dff0e6"/>
-                <circle cx="100" cy="95" r="46" fill="#7bc98f"/>
-                <path d="M70 80c10-8 22-4 26 4" stroke="#4f9c65" stroke-width="4" fill="none" stroke-linecap="round"/>
-                <circle cx="82" cy="80" r="4" fill="#2f5c3a"/><circle cx="118" cy="86" r="4" fill="#2f5c3a"/>
-                <path d="M88 104q12 10 24 0" stroke="#2f5c3a" stroke-width="4" fill="none" stroke-linecap="round"/>
-              </svg>
-            </div>
-            <p class="hero-card-caption">Pequenas atitudes,<br>grandes mudanças.</p>
-            <span class="hero-card-name">— João Pedro <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21.2l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></span>
-          </div>
-
-          <div class="hero-card hc-3">
-            <div class="hero-card-img">
-              <svg viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg">
-                <rect width="200" height="170" fill="#cfeaf9"/>
-                <path d="M20 130a80 80 0 0 1 160 0" fill="none" stroke-width="12" stroke="#e8624f"/>
-                <path d="M28 130a72 72 0 0 1 144 0" fill="none" stroke-width="12" stroke="#f0a53f"/>
-                <path d="M36 130a64 64 0 0 1 128 0" fill="none" stroke-width="12" stroke="#f4d449"/>
-                <path d="M44 130a56 56 0 0 1 112 0" fill="none" stroke-width="12" stroke="#7bc98f"/>
-                <circle cx="70" cy="140" r="11" fill="#4d7ea8"/><circle cx="100" cy="145" r="11" fill="#8a5a3c"/><circle cx="130" cy="140" r="11" fill="#c96b8a"/>
-              </svg>
-            </div>
-            <p class="hero-card-caption">Juntos, somos<br>mais fortes!</p>
-            <span class="hero-card-name">— Turma 5ºA <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21.2l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></span>
-          </div>
-
-          <div class="hero-card hc-4">
-            <div class="hero-card-img">
-              <svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
-                <rect width="200" height="180" fill="#fbe3e6"/>
-                <circle cx="100" cy="60" r="24" fill="#f4c9a0"/>
-                <path d="M60 150c4-34 20-52 40-52s36 18 40 52" fill="#e5a3ae"/>
-                <path d="M92 92c4 8 12 8 16 0" stroke="#c96b8a" stroke-width="4" fill="none" stroke-linecap="round"/>
-              </svg>
-            </div>
-            <p class="hero-card-caption">Cuidar da mente<br>também é se cuidar.</p>
-            <span class="hero-card-name">— Maria Eduarda <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21.2l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></span>
-          </div>
-
-          <div class="hero-card hc-5">
-            <div class="hero-card-img">
-              <svg viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg">
-                <rect width="200" height="170" fill="#cfe4f7"/>
-                <rect x="0" y="118" width="200" height="52" fill="#8b8f9a"/>
-                <rect x="0" y="130" width="200" height="6" fill="#fff" opacity="0.7"/>
-                <rect x="150" y="30" width="14" height="40" rx="3" fill="#3a3a3a"/>
-                <circle cx="157" cy="40" r="4" fill="#e8624f"/><circle cx="157" cy="52" r="4" fill="#f4d449"/><circle cx="157" cy="64" r="4" fill="#7bc98f"/>
-                <circle cx="70" cy="86" r="10" fill="#f4c9a0"/><path d="M58 130c0-18 8-28 12-28s12 10 12 28" fill="#4d7ea8"/>
-              </svg>
-            </div>
-            <p class="hero-card-caption">No trânsito,<br>escolha a vida!</p>
-            <span class="hero-card-name">— Gabriel <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21.2l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></span>
-          </div>
-
-          <div class="hero-card hc-6">
-            <div class="hero-card-img">
-              <svg viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg">
-                <rect width="200" height="170" fill="#e2f0d9"/>
-                <circle cx="55" cy="80" r="10" fill="#f4c9a0"/><path d="M45 122c0-16 6-24 10-24s10 8 10 24" fill="#e07856"/>
-                <circle cx="100" cy="76" r="10" fill="#8a5a3c"/><path d="M90 120c0-16 6-24 10-24s10 8 10 24" fill="#7bc98f"/>
-                <circle cx="150" cy="82" r="10" fill="#f4c9a0"/>
-                <circle cx="150" cy="130" r="16" fill="none" stroke="#4d4d4d" stroke-width="4"/>
-                <circle cx="150" cy="130" r="4" fill="#4d4d4d"/>
-                <path d="M150 114v16h14" stroke="#4d4d4d" stroke-width="4" fill="none" stroke-linecap="round"/>
-              </svg>
-            </div>
-            <p class="hero-card-caption">Inclusão é respeito<br>em cada ação.</p>
-            <span class="hero-card-name">— Lucas <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21.2l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg></span>
-          </div>
+        <!-- SVGs decorativos de fundo -->
+        <div class="hero-bg-art" aria-hidden="true">
+          <svg class="bg-doodle bd-1" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="60" cy="60" r="50" stroke="var(--hero-violet-3)" stroke-width="2" stroke-dasharray="8 6" opacity="0.18"/>
+            <circle cx="60" cy="60" r="30" stroke="var(--hero-violet-2)" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.12"/>
+          </svg>
+          <svg class="bg-doodle bd-2" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 50 Q 30 10, 50 50 T 90 50" stroke="var(--hero-violet-3)" stroke-width="2" stroke-linecap="round" opacity="0.15"/>
+            <path d="M20 70 Q 40 30, 60 70 T 100 70" stroke="var(--hero-violet-2)" stroke-width="1.5" stroke-linecap="round" opacity="0.10"/>
+          </svg>
+          <svg class="bg-doodle bd-3" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="40,5 75,65 5,65" stroke="var(--hero-violet-3)" stroke-width="1.5" stroke-dasharray="6 4" fill="none" opacity="0.14"/>
+            <polygon points="40,20 65,55 15,55" stroke="var(--hero-violet-2)" stroke-width="1" fill="none" opacity="0.10"/>
+          </svg>
+          <svg class="bg-doodle bd-4" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="15" y="15" width="70" height="70" rx="12" stroke="var(--hero-violet-3)" stroke-width="1.5" stroke-dasharray="8 5" opacity="0.13"/>
+            <circle cx="50" cy="50" r="20" stroke="var(--hero-violet-2)" stroke-width="1" stroke-dasharray="3 3" opacity="0.10"/>
+          </svg>
+          <svg class="bg-doodle bd-5" viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 30 C 20 5, 40 55, 60 30 S 100 5, 115 30" stroke="var(--hero-violet-3)" stroke-width="2" stroke-linecap="round" opacity="0.16"/>
+          </svg>
+          <svg class="bg-doodle bd-6" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M30 5 L55 20 L55 45 L30 55 L5 45 L5 20 Z" stroke="var(--hero-violet-2)" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.12"/>
+          </svg>
+          <svg class="bg-doodle bd-7" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 10 L61 40 L93 40 L67 58 L78 90 L50 70 L22 90 L33 58 L7 40 L39 40 Z" stroke="var(--hero-violet-3)" stroke-width="1.5" fill="none" opacity="0.12"/>
+          </svg>
         </div>
 
         <!-- Barra superior -->
@@ -405,10 +384,7 @@
               <span>Laboratório de Aprendizagem Robótica</span>
             </div>
           </div>
-          <div class="hero-pill hero-pill-dark">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>
-            GO!RN 2026
-          </div>
+
         </div>
 
         <!-- Conteúdo central -->
@@ -441,7 +417,6 @@
             <button class="hero-scroll-btn" aria-label="Rolar para baixo" onclick="document.querySelector('#step-welcome').scrollBy({top:600,behavior:'smooth'})">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
-            <p class="hero-scroll-text">Veja algumas criações que já fazem parte do <strong>mural</strong> ↓</p>
           </div>
         </div>
       </div>
@@ -529,7 +504,7 @@
         <div class="style-cards" id="style-selector">
           <div class="style-card" data-value="colorful watercolor illustration">
             <svg class="style-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2a10 10 0 1 0 10 10c0-5.523-4.477-10-10-10z" fill="rgba(59,130,246,0.1)"/>
+              <path d="M12 2a10 10 0 1 0 10 10c0-5.523-4.477-10-10-10z" fill="rgba(124,110,242,0.1)"/>
               <path d="M7 13s.5-2 5-2 5 2 5 2"/>
               <path d="M9 9h.01M15 9h.01"/>
             </svg>

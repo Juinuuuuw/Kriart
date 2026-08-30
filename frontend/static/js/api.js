@@ -1,5 +1,5 @@
 /**
- * api.js — Camada de comunicação com o backend Kriart.
+ * api.js — Camada de comunicação com o backend Faísca.
  */
 const API_BASE = '';
 

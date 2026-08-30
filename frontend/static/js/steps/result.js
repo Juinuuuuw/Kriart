@@ -63,13 +63,13 @@ export async function showResult(state) {
   const dlBtn = document.getElementById('btn-download');
   if (dlBtn && polaroid.polaroid_url) {
     dlBtn.href = polaroid.polaroid_url;
-    dlBtn.download = `kriart_polaroid_${polaroid.id}.png`;
+    dlBtn.download = `faisca_polaroid_${polaroid.id}.png`;
   }
 
   const dlSketchBtn = document.getElementById('btn-download-sketch');
   if (dlSketchBtn && polaroid.polaroid_sketch_url) {
     dlSketchBtn.href = polaroid.polaroid_sketch_url;
-    dlSketchBtn.download = `kriart_polaroid_${polaroid.id}_sketch.png`;
+    dlSketchBtn.download = `faisca_polaroid_${polaroid.id}_sketch.png`;
   }
 
   // Toast de sucesso
