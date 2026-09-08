@@ -87,7 +87,7 @@
       }
     });
 
-    // Texto curvado escrito à mão com sombra
+    // Texto com sombra flutuante
     AFRAME.registerComponent('curved-text', {
       schema: { text: {type: 'string', default: ''} },
       init: function () {
@@ -104,23 +104,29 @@
               map: this.texture,
               transparent: true,
               side: THREE.DoubleSide,
-              alphaTest: 0.5
+              alphaTest: 0.1
             });
           }
         });
       },
       update: function () {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.font = 'bold 90px "Caveat", cursive';
+        
+        // Fundo semitransparente estilo "balão/banner" para destacar a frase
+        this.ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+        this.ctx.beginPath();
+        this.ctx.roundRect(50, 40, 924, 176, 40);
+        this.ctx.fill();
+
+        this.ctx.font = 'bold 80px "Caveat", cursive';
         this.ctx.fillStyle = '#FFFFFF';
         this.ctx.textAlign = 'center';
         this.ctx.textBaseline = 'middle';
         
-        // Sombra suave para legibilidade na AR
-        this.ctx.shadowColor = 'rgba(0,0,0,0.9)';
+        this.ctx.shadowColor = 'rgba(0,0,0,0.8)';
         this.ctx.shadowBlur = 15;
-        this.ctx.shadowOffsetX = 3;
-        this.ctx.shadowOffsetY = 3;
+        this.ctx.shadowOffsetX = 4;
+        this.ctx.shadowOffsetY = 4;
         
         this.ctx.fillText(`"${this.data.text}"`, this.canvas.width/2, this.canvas.height/2);
         this.texture.needsUpdate = true;
@@ -131,7 +137,7 @@
               map: this.texture,
               transparent: true,
               side: THREE.DoubleSide,
-              alphaTest: 0.5
+              alphaTest: 0.1
             });
             mesh.material.needsUpdate = true;
         }
@@ -142,35 +148,34 @@
     AFRAME.registerComponent('theme-particles', {
       schema: { theme: {type: 'string', default: ''} },
       init: function () {
-        // Dicionário de SVGs vetoriais (para evitar bugs de renderização de fonte do canvas)
-        const svgStar = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#FFD700"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>`;
-        const svgSparkle = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#FFA500"><path d="M11.5 2L13 8L19 9.5L13 11L11.5 17L10 11L4 9.5L10 8L11.5 2Z"/></svg>`;
-        const svgLeaf = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#4CAF50"><path d="M17,8C8,10 5.9,16.17 3.82,21.34L5.71,22L6.66,19.7C7.14,19.87 7.64,20 8,20C19,20 22,3 22,3C21,5 14,5.25 9,6.25C4,7.25 7,11.5 7,11.5C7,11.5 9,4 17,8Z"/></svg>`;
-        const svgBook = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#2196F3"><path d="M21,5C19.89,4.65 18.67,4.5 17.5,4.5C15.55,4.5 13.45,4.9 12,6C10.55,4.9 8.45,4.5 6.5,4.5C4.55,4.5 2.45,4.9 1,6V20.65C1,20.9 1.25,21.15 1.5,21.15C1.6,21.15 1.65,21.1 1.75,21.1C3.1,20.45 5.05,20 6.5,20C8.45,20 10.55,20.4 12,21.5C13.35,20.65 15.8,20 17.5,20C19.1,20 20.85,20.3 22.25,21.05C22.35,21.1 22.4,21.1 22.5,21.1C22.75,21.1 23,20.85 23,20.6V6C22.4,5.55 21.75,5.25 21,5M21,18.5C19.9,18.15 18.7,18 17.5,18C15.55,18 13.45,18.4 12,19.5V8C13.35,7.15 15.8,6.5 17.5,6.5C18.7,6.5 19.9,6.65 21,7V18.5Z"/></svg>`;
-        const svgRibbon = `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="#FFC107"><path d="M12,2A4.5,4.5 0 0,0 7.5,6.5C7.5,10.15 10.82,13.23 12,14.62C13.18,13.23 16.5,10.15 16.5,6.5A4.5,4.5 0 0,0 12,2M12,15.5L8.5,19.5L10,21L12,18.7L14,21L15.5,19.5L12,15.5Z"/></svg>`;
+        // Usando imagens PNG com transparência real! Adeus quadrados coloridos bugs do WebGL Android.
+        const pngStar = '/static/img/ar_icons/star.png';
+        const pngSparkle = '/static/img/ar_icons/sparkles.png';
+        const pngLeaf = '/static/img/ar_icons/leaf.png';
+        const pngBook = '/static/img/ar_icons/book.png';
+        const pngRibbon = '/static/img/ar_icons/ribbon.png';
 
-        let elements = [svgStar, svgSparkle];
+        let elements = [pngStar, pngSparkle];
         const t = (this.data.theme || '').toLowerCase();
         
         if (t.includes('nature') || t.includes('meio ambiente') || t.includes('verde')) {
-            elements = [svgLeaf, svgSparkle];
+            elements = [pngLeaf, pngSparkle];
         } else if (t.includes('escol') || t.includes('educação') || t.includes('livro')) {
-            elements = [svgBook, svgStar];
+            elements = [pngBook, pngStar];
         } else if (t.includes('setembro') || t.includes('amarelo') || t.includes('bullying')) {
-            elements = [svgRibbon, svgStar, svgSparkle];
+            elements = [pngRibbon, pngStar, pngSparkle];
         }
         
         // Gera 8 partículas flutuantes
         for (let i = 0; i < 8; i++) {
           const el = document.createElement('a-entity');
-          const rawSvg = elements[Math.floor(Math.random() * elements.length)];
-          const dataUri = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(rawSvg);
+          const imgSrc = elements[Math.floor(Math.random() * elements.length)];
           
           el.setAttribute('geometry', 'primitive: plane; width: 1.5; height: 1.5');
-          // alphaTest evita quadrados pretos/coloridos garantindo recorte a laser no SVG
-          el.setAttribute('material', `src: ${dataUri}; transparent: true; side: double; alphaTest: 0.5; color: #ffffff;`);
+          // Textura PNG real não sofre do bug do canvas.
+          el.setAttribute('material', `src: ${imgSrc}; transparent: true; side: double;`);
           
-          // Posicionadas aleatoriamente ao redor do container central, mas um pouco mais espalhadas para não "bagunçar"
+          // Posicionadas aleatoriamente ao redor do container central
           const px = (Math.random() - 0.5) * 12;
           const py = 1 + Math.random() * 7; 
           const pz = (Math.random() - 0.5) * 6;
@@ -276,19 +281,14 @@
                    face-camera>
           </a-plane>
 
-          <!-- 3. Frase Curvada Acima do Personagem -->
-          <!-- Entidade wrapper com face-camera garante que a curva sempre "abrace" o usuário -->
-          <a-entity face-camera position="0 8 0">
-              <a-cylinder id="ar-text"
-                          radius="5" 
-                          height="1.5"
-                          theta-start="-45"
-                          theta-length="90"
-                          side="double"
-                          open-ended="true"
-                          material="transparent: true; shader: flat;">
-              </a-cylinder>
-          </a-entity>
+          <!-- 3. Frase Acima do Personagem -->
+          <a-plane id="ar-text"
+                   position="0 8 0.5" 
+                   width="10" 
+                   height="2.5" 
+                   material="transparent: true; shader: flat;"
+                   face-camera>
+          </a-plane>
           
           <!-- 4. Sistema dinâmico de partículas/elementos saindo -->
           <a-entity id="particles-container"></a-entity>

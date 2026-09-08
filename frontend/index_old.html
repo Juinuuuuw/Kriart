@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faísca — Crie sua Arte Educativa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/main.css?v=2">
+  <style>
+    /* ===== Hero / Boas-vindas — Mural Vivo da UERN ===== */
+    :root{
+      --hero-bg-1:#f3f1fb;
+      --hero-bg-2:#eceafc;
+      --hero-ink:#221f3d;
+      --hero-ink-soft:#57547a;
+      --hero-violet-1:#2c2560;
+      --hero-violet-2:#7c6ef2;
+      --hero-violet-3:#9b8bfb;
+      --hero-card:#ffffff;
+      --hero-border:rgba(44,37,96,0.10);
+    }
+
+    #step-welcome.step{
+      position:relative;
+      max-width:none;
+      width:100%;
+      min-height:100vh;
+      padding:0;
+      margin:0;
+      background:
+        radial-gradient(60% 50% at 18% 12%, rgba(155,139,251,0.16), transparent 60%),
+        radial-gradient(50% 45% at 85% 20%, rgba(124,110,242,0.14), transparent 60%),
+        linear-gradient(180deg, var(--hero-bg-1), var(--hero-bg-2));
+      overflow:hidden;
+      display:block;
+    }
+    #step-welcome .welcome-content{
+      all:unset;
+      display:block;
+      position:relative;
+      z-index:2;
+      max-width:1440px;
+      margin:0 auto;
+      padding:40px 32px 80px;
+      font-family:'Poppins', sans-serif;
+      color:var(--hero-ink);
+      box-sizing:border-box;
+    }
+
+    /* top bar */
+    .hero-topbar{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      margin-bottom:56px;
+    }
+    .hero-brand{
+      display:flex;
+      align-items:center;
+      gap:14px;
+    }
+    .hero-brand-mark{
+      font-family:'Poppins',sans-serif;
+      font-weight:800;
+      font-size:22px;
+      letter-spacing:0.5px;
+      color:var(--hero-ink);
+    }
+    .hero-brand-div{
+      width:1px;
+      height:28px;
+      background:var(--hero-border);
+    }
+    .hero-brand-lar{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .hero-brand-lar strong{
+      font-size:20px;
+      font-weight:800;
+      color:var(--hero-ink);
+    }
+    .hero-brand-lar span{
+      font-size:10.5px;
+      line-height:1.25;
+      color:var(--hero-ink-soft);
+      font-weight:500;
+      max-width:80px;
+    }
+    .hero-pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 18px;
+      border-radius:999px;
+      background:rgba(255,255,255,0.7);
+      border:1px solid var(--hero-border);
+      box-shadow:0 4px 16px rgba(44,37,96,0.06);
+      font-size:13px;
+      font-weight:600;
+      color:var(--hero-violet-2);
+      white-space:nowrap;
+      backdrop-filter:blur(6px);
+    }
+    .hero-pill svg{ width:14px; height:14px; flex-shrink:0; }
+    .hero-pill.hero-pill-dark{ color:var(--hero-ink); }
+
+    /* center */
+    .hero-center{
+      position:relative;
+      max-width:680px;
+      margin:0 auto;
+      text-align:center;
+      padding-top:8px;
+    }
+    .hero-eyebrow{ margin-bottom:26px; }
+    .hero-title{
+      font-family:'Fraunces', serif;
+      font-weight:600;
+      font-size:clamp(40px, 6vw, 76px);
+      line-height:1.04;
+      letter-spacing:-0.5px;
+      margin:0 0 26px;
+      color:var(--hero-ink);
+    }
+    .hero-title .accent{
+      font-style:italic;
+      background:linear-gradient(100deg, var(--hero-violet-2), var(--hero-violet-3));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+    .hero-sub{
+      font-size:17px;
+      line-height:1.6;
+      color:var(--hero-ink-soft);
+      margin:0 0 34px;
+      font-weight:400;
+    }
+    .hero-sub strong{
+      color:var(--hero-violet-2);
+      font-weight:700;
+    }
+
+    .hero-cta{
+      appearance:none;
+      border:none;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:12px;
+      font-family:'Poppins',sans-serif;
+      font-size:17px;
+      font-weight:600;
+      color:#fff;
+      padding:19px 40px;
+      border-radius:999px;
+      background:linear-gradient(115deg, var(--hero-violet-1) 0%, var(--hero-violet-2) 55%, var(--hero-violet-3) 100%);
+      box-shadow:0 16px 32px -10px rgba(72,55,196,0.55);
+      transition:transform .2s ease, box-shadow .2s ease;
+    }
+    .hero-cta:hover{
+      transform:translateY(-2px);
+      box-shadow:0 20px 36px -8px rgba(72,55,196,0.65);
+    }
+    .hero-cta svg{ width:18px; height:18px; }
+
+    .hero-note{
+      margin:22px 0 0;
+      font-size:13.5px;
+      color:var(--hero-violet-2);
+      font-weight:500;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:7px;
+    }
+    .hero-note svg{ width:14px; height:14px; }
+
+    .hero-scroll{
+      margin-top:56px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:18px;
+    }
+    .hero-scroll-btn{
+      width:38px; height:38px;
+      border-radius:50%;
+      border:1px solid var(--hero-border);
+      background:rgba(255,255,255,0.6);
+      display:flex; align-items:center; justify-content:center;
+      color:var(--hero-ink-soft);
+      cursor:pointer;
+      animation:hero-bounce 2.2s ease-in-out infinite;
+    }
+    .hero-scroll-text{
+      font-size:14px;
+      color:var(--hero-ink-soft);
+      font-weight:500;
+    }
+    .hero-scroll-text strong{ color:var(--hero-violet-2); font-weight:700; }
+    @keyframes hero-bounce{
+      0%,100%{ transform:translateY(0); }
+      50%{ transform:translateY(6px); }
+    }
+
+    /* floating polaroids */
+    .hero-polaroids{
+      position:absolute;
+      inset:0;
+      z-index:1;
+      pointer-events:none;
+    }
+    .hero-card{
+      position:absolute;
+      width:190px;
+      background:var(--hero-card);
+      border-radius:14px;
+      padding:10px 10px 16px;
+      box-shadow:0 24px 40px -14px rgba(34,31,61,0.25);
+      pointer-events:auto;
+      transition:transform .35s ease;
+    }
+    .hero-card:hover{ transform:scale(1.04) rotate(0deg) !important; }
+    .hero-card-img{
+      width:100%;
+      aspect-ratio:1/0.92;
+      border-radius:8px;
+      overflow:hidden;
+      margin-bottom:12px;
+    }
+    .hero-card-img svg{ width:100%; height:100%; display:block; }
+    .hero-card-caption{
+      font-family:'Fraunces', serif;
+      font-size:14px;
+      font-weight:500;
+      line-height:1.28;
+      color:var(--hero-ink);
+      margin:0 0 8px;
+    }
+    .hero-card-name{
+      font-size:11.5px;
+      color:var(--hero-ink-soft);
+      display:flex;
+      align-items:center;
+      gap:4px;
+    }
+    .hero-card-name svg{ width:11px; height:11px; }
+
+    .hc-1{ top:170px; left:calc(50% - 550px);  transform:rotate(-7deg);  width:170px; }
+    .hc-2{ top:430px; left:calc(50% - 620px); transform:rotate(5deg);   width:210px; }
+    .hc-3{ top:720px; left:calc(50% - 520px);  transform:rotate(-4deg);  width:230px; }
+    .hc-4{ top:150px; right:calc(50% - 540px); transform:rotate(6deg);   width:190px; }
+    .hc-5{ top:460px; right:calc(50% - 630px);  transform:rotate(-6deg);  width:230px; }
+    .hc-6{ top:750px; right:calc(50% - 530px); transform:rotate(5deg);   width:210px; }
+
+    @media (max-width: 1180px){
+      .hero-polaroids{ display:none; }
+    }
+    @media (max-width: 640px){
+      #step-welcome .welcome-content{ padding:28px 20px 56px; }
+      .hero-topbar{ flex-direction:column; align-items:center; gap:16px; text-align:center; margin-bottom:36px; }
+      .hero-title{ font-size:38px; }
+      .hero-cta{ width:100%; justify-content:center; padding:17px 24px; }
+    }
+
+    /* Background decorative SVGs */
+    .hero-bg-art{
+      position:absolute;
+      inset:0;
+      z-index:0;
+      pointer-events:none;
+      overflow:hidden;
+    }
+    .bg-doodle{
+      position:absolute;
+      animation: doodleFloat 12s ease-in-out infinite alternate;
+    }
+    .bd-1{ width:140px; top:8%; left:6%; animation-delay:0s; }
+    .bd-2{ width:110px; top:55%; left:3%; animation-delay:-3s; }
+    .bd-3{ width:90px; top:80%; left:12%; animation-delay:-6s; }
+    .bd-4{ width:100px; top:12%; right:5%; animation-delay:-2s; }
+    .bd-5{ width:160px; top:48%; right:2%; animation-delay:-4s; }
+    .bd-6{ width:70px; top:78%; right:10%; animation-delay:-7s; }
+    .bd-7{ width:85px; top:35%; left:50%; transform:translateX(-50%); animation-delay:-5s; opacity:0.08; }
+    @keyframes doodleFloat{
+      0%{ transform:translateY(0) rotate(0deg); }
+      100%{ transform:translateY(-12px) rotate(3deg); }
+    }
+    .bd-7{ animation-name: doodleFloat; }
+
+    /* Dynamic hero polaroid cards with real images */
+    .hero-card-img img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      border-radius:8px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Barra de Progresso -->
+  <div id="progress-bar-container" style="display: none;">
+    <div id="progress-bar"></div>
+    <div id="progress-steps">
+      <span class="prog-step active" data-step="1">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3z"/><path d="M12 8v8M8 12h8"/></svg>
+        Campanha
+      </span>
+      <span class="prog-step" data-step="2">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Mensagem
+      </span>
+      <span class="prog-step" data-step="3">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+        Visual
+      </span>
+      <span class="prog-step" data-step="4">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        Gerando
+      </span>
+      <span class="prog-step" data-step="5">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        Resultado
+      </span>
+    </div>
+  </div>
+
+  <!-- Container Principal -->
+  <main id="app">
+
+    <!-- STEP 0: Boas-vindas -->
+    <section id="step-welcome" class="step active">
+      <div class="welcome-content">
+
+        <!-- Polaroids decorativos com imagens reais -->
+        <div class="hero-polaroids" aria-hidden="true" id="hero-polaroids-container">
+          <!-- Preenchido dinamicamente via JS com imagens reais do mural -->
+        </div>
+
+        <!-- SVGs decorativos de fundo -->
+        <div class="hero-bg-art" aria-hidden="true">
+          <svg class="bg-doodle bd-1" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="60" cy="60" r="50" stroke="var(--hero-violet-3)" stroke-width="2" stroke-dasharray="8 6" opacity="0.18"/>
+            <circle cx="60" cy="60" r="30" stroke="var(--hero-violet-2)" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.12"/>
+          </svg>
+          <svg class="bg-doodle bd-2" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 50 Q 30 10, 50 50 T 90 50" stroke="var(--hero-violet-3)" stroke-width="2" stroke-linecap="round" opacity="0.15"/>
+            <path d="M20 70 Q 40 30, 60 70 T 100 70" stroke="var(--hero-violet-2)" stroke-width="1.5" stroke-linecap="round" opacity="0.10"/>
+          </svg>
+          <svg class="bg-doodle bd-3" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="40,5 75,65 5,65" stroke="var(--hero-violet-3)" stroke-width="1.5" stroke-dasharray="6 4" fill="none" opacity="0.14"/>
+            <polygon points="40,20 65,55 15,55" stroke="var(--hero-violet-2)" stroke-width="1" fill="none" opacity="0.10"/>
+          </svg>
+          <svg class="bg-doodle bd-4" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="15" y="15" width="70" height="70" rx="12" stroke="var(--hero-violet-3)" stroke-width="1.5" stroke-dasharray="8 5" opacity="0.13"/>
+            <circle cx="50" cy="50" r="20" stroke="var(--hero-violet-2)" stroke-width="1" stroke-dasharray="3 3" opacity="0.10"/>
+          </svg>
+          <svg class="bg-doodle bd-5" viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 30 C 20 5, 40 55, 60 30 S 100 5, 115 30" stroke="var(--hero-violet-3)" stroke-width="2" stroke-linecap="round" opacity="0.16"/>
+          </svg>
+          <svg class="bg-doodle bd-6" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M30 5 L55 20 L55 45 L30 55 L5 45 L5 20 Z" stroke="var(--hero-violet-2)" stroke-width="1.5" stroke-dasharray="5 4" opacity="0.12"/>
+          </svg>
+          <svg class="bg-doodle bd-7" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 10 L61 40 L93 40 L67 58 L78 90 L50 70 L22 90 L33 58 L7 40 L39 40 Z" stroke="var(--hero-violet-3)" stroke-width="1.5" fill="none" opacity="0.12"/>
+          </svg>
+        </div>
+
+        <!-- Barra superior -->
+        <div class="hero-topbar">
+          <div class="hero-brand">
+            <span class="hero-brand-mark">UERN</span>
+            <span class="hero-brand-div"></span>
+            <div class="hero-brand-lar">
+              <strong>LAR</strong>
+              <span>Laboratório de Aprendizagem Robótica</span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Conteúdo central -->
+        <div class="hero-center">
+          <div class="hero-eyebrow">
+            <span class="hero-pill">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>
+              PROJETO FAÍSCA
+            </span>
+          </div>
+
+          <h1 class="hero-title">Ideias que<br>ganham <span class="accent">vida</span></h1>
+
+          <p class="hero-sub">
+            Crie sua mensagem com o poder da Inteligência Artificial,
+            receba seu Polaroid exclusivo e faça parte do <strong>Mural Vivo da UERN.</strong>
+          </p>
+
+          <button class="hero-cta" id="btn-start">
+            Iniciar criação
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+
+          <p class="hero-note">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>
+            É rápido, divertido e sua ideia pode inspirar muitas pessoas!
+          </p>
+
+          <div class="hero-scroll">
+            <button class="hero-scroll-btn" aria-label="Rolar para baixo" onclick="document.querySelector('#step-welcome').scrollBy({top:600,behavior:'smooth'})">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    
+    <!-- Roboldo Companion -->
+    <div id="roboldo-companion" class="roboldo-companion hidden">
+      <div class="roboldo-avatar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:36px;height:36px;color:var(--accent-secondary);"><rect x="3" y="11" width="18" height="10" rx="2"/><circle cx="12" cy="5" r="2"/><path d="M12 7v4"/><line x1="8" y1="16" x2="8" y2="16"/><line x1="16" y1="16" x2="16" y2="16"/></svg>
+      </div>
+      <div class="roboldo-bubble" id="roboldo-text">Hmm... essa ideia é boa!</div>
+    </div>
+
+    <!-- STEP 1: CAUSA -->
+    <section id="step-cause" class="step">
+      <div class="step-header">
+        <div class="step-sup" style="color:var(--accent-secondary);font-weight:bold;margin-bottom:8px;font-size:0.9rem;">
+          <svg width="16" height="16" style="vertical-align:middle;margin-right:4px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          VAMOS CRIAR
+        </div>
+        <h2>O que queremos mudar?</h2>
+        <p>Escolha uma causa para a sua campanha</p>
+      </div>
+      <div id="cause-cards" class="interactive-cards">
+        <div class="cause-card" data-val="Drogas">
+          <div class="cause-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg></div>
+          <div class="cause-title">Drogas</div>
+          <div class="cause-desc">Vamos falar sobre escolhas que protegem o nosso futuro.</div>
+        </div>
+        <div class="cause-card" data-val="Bullying">
+          <div class="cause-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.42 4.58a5.4 5.4 0 0 0-7.65 0l-.77.78-.77-.78a5.4 5.4 0 0 0-7.65 0C1.46 6.7 1.33 10.28 4 13l8 8 8-8c2.67-2.72 2.54-6.3.42-8.42z"/></svg></div>
+          <div class="cause-title">Bullying</div>
+          <div class="cause-desc">Toda pessoa merece se sentir segura para ser quem é.</div>
+        </div>
+        <div class="cause-card" data-val="Meio ambiente">
+          <div class="cause-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22V12"/><path d="M5 12a7 7 0 0 0 7-7 7 7 0 0 0 7 7H5z"/></svg></div>
+          <div class="cause-title">Meio Ambiente</div>
+          <div class="cause-desc">Nosso planeta, nossa casa. O que podemos fazer hoje?</div>
+        </div>
+        <div class="cause-card" data-val="Respeito">
+          <div class="cause-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 17a10 10 0 0 0-20 0"/><path d="M6 17a6 6 0 0 1 12 0"/><path d="M10 17a2 2 0 0 1 4 0"/></svg></div>
+          <div class="cause-title">Respeito</div>
+          <div class="cause-desc">Celebrar as diferenças e espalhar empatia.</div>
+        </div>
+      </div>
+      <div class="step-actions">
+        <button class="btn btn-secondary" id="btn-back-welcome">Voltar</button>
+      </div>
+    </section>
+
+    <!-- STEP 2: IDEIA -->
+    <section id="step-idea" class="step">
+      <div class="step-header">
+        <h2>O que você quer contar?</h2>
+        <p>Escolha uma ideia ou invente a sua</p>
+      </div>
+      <div class="idea-examples" id="idea-examples">
+        <button class="idea-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px;vertical-align:text-bottom;"><circle cx="12" cy="8" r="5"/><path d="M3 21v-2a7 7 0 0 1 7-7h4a7 7 0 0 1 7 7v2"/></svg> Uma criança que está sendo excluída</button>
+        <button class="idea-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px;vertical-align:text-bottom;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Dois amigos ajudando alguém</button>
+        <button class="idea-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px;vertical-align:text-bottom;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Uma escola onde todos são respeitados</button>
+        <button class="idea-btn"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:8px;vertical-align:text-bottom;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Uma criança aprendendo a acreditar em si</button>
+      </div>
+      <div class="idea-custom">
+        <label>Ou imagine do seu jeito...</label>
+        <textarea id="input-idea" placeholder="Digite sua ideia..." rows="3"></textarea>
+        
+        <div id="ai-suggestion-box" class="ai-suggestion-box hidden">
+          <p class="ai-suggestion-title">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px;vertical-align:middle;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Já consigo imaginar algo...
+          </p>
+          <p id="ai-suggestion-text"></p>
+          <div class="ai-suggestion-actions">
+            <button class="btn btn-primary btn-sm" id="btn-accept-idea">Sim!</button>
+            <button class="btn btn-secondary btn-sm" id="btn-reject-idea">Quero mudar</button>
+          </div>
+        </div>
+      </div>
+      <div class="form-group" style="margin-top:20px;">
+        <label>Frase curta para o cartaz (opcional):</label>
+        <input type="text" id="input-phrase" placeholder="Ex: Unidos somos mais fortes!" maxlength="60">
+      </div>
+      <div class="step-actions">
+        <button class="btn btn-secondary" id="btn-back-cause">Voltar</button>
+        <button class="btn btn-primary" id="btn-next-idea" disabled>Continuar</button>
+      </div>
+    </section>
+
+    <!-- STEP 3: AUDIENCE -->
+    <section id="step-audience" class="step">
+      <div class="step-header">
+        <h2>Quem queremos tocar?</h2>
+        <p>Para quem é essa mensagem?</p>
+      </div>
+      <div class="pill-selector" id="audience-selector">
+        <button class="pill-btn" data-val="Crianças">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:text-bottom;margin-right:6px;"><circle cx="12" cy="8" r="5"/><path d="M3 21v-2a7 7 0 0 1 7-7h4a7 7 0 0 1 7 7v2"/></svg>
+          Crianças
+        </button>
+        <button class="pill-btn" data-val="Adolescentes">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:text-bottom;margin-right:6px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Adolescentes
+        </button>
+        <button class="pill-btn" data-val="Famílias">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:text-bottom;margin-right:6px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Famílias
+        </button>
+        <button class="pill-btn" data-val="Todo mundo">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:text-bottom;margin-right:6px;"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          Todo mundo
+        </button>
+      </div>
+      <div class="step-actions">
+        <button class="btn btn-secondary" id="btn-back-idea">Voltar</button>
+      </div>
+    </section>
+
+    <!-- STEP 4: STYLE -->
+    <section id="step-style" class="step">
+      <div class="step-header">
+        <h2>Como essa história deveria parecer?</h2>
+        <p>Qual desses mundos você quer criar?</p>
+      </div>
+      <div class="visual-thumbnails" id="style-thumbnails">
+        <div class="style-thumb" data-val="3d render cute characters, vibrant colors, soft lighting">
+          <svg class="style-icon" style="width:48px;height:48px;margin-bottom:15px;fill:none;stroke:currentColor;stroke-width:1.5" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          <div class="thumb-label">3D fofinho</div>
+        </div>
+        <div class="style-thumb" data-val="colorful cartoon animation style, 2d flat, bold outlines">
+          <svg class="style-icon" style="width:48px;height:48px;margin-bottom:15px;fill:none;stroke:currentColor;stroke-width:1.5" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          <div class="thumb-label">Desenho animado</div>
+        </div>
+        <div class="style-thumb" data-val="childrens book illustration, watercolor, whimsical">
+          <svg class="style-icon" style="width:48px;height:48px;margin-bottom:15px;fill:none;stroke:currentColor;stroke-width:1.5" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          <div class="thumb-label">Livro infantil</div>
+        </div>
+        <div class="style-thumb" data-val="paper cutout art style, layered papercraft, colorful">
+          <svg class="style-icon" style="width:48px;height:48px;margin-bottom:15px;fill:none;stroke:currentColor;stroke-width:1.5" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg>
+          <div class="thumb-label">Recorte de papel</div>
+        </div>
+      </div>
+      <div class="step-actions">
+        <button class="btn btn-secondary" id="btn-back-audience">Voltar</button>
+      </div>
+    </section>
+
+    <!-- STEP 5: EMOTION -->
+    <section id="step-emotion" class="step">
+      <div class="step-header">
+        <h2>Qual sentimento?</h2>
+        <p>Como você quer que as pessoas se sintam ao ver sua criação?</p>
+      </div>
+      <div class="pill-selector" id="emotion-selector">
+        <button class="pill-btn" data-val="hopeful and inspiring">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:text-bottom;margin-right:6px;"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+          Esperançosos
+        </button>
+        <button class="pill-btn" data-val="motivating and powerful">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:text-bottom;margin-right:6px;"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/></svg>
+          Inspirados
+        </button>
+        <button class="pill-btn" data-val="warm and loving">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:text-bottom;margin-right:6px;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          Acolhidos
+        </button>
+        <button class="pill-btn" data-val="calm and peaceful">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:text-bottom;margin-right:6px;"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+          Reflexivos
+        </button>
+        <button class="pill-btn" data-val="energetic and dynamic">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:text-bottom;margin-right:6px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          Motivados
+        </button>
+        <button class="pill-btn" data-val="impactful and dramatic">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:text-bottom;margin-right:6px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Causar Impacto!
+        </button>
+      </div>
+      <div class="form-group" style="margin-top:30px;">
+        <label>Seu nome (opcional):</label>
+        <input type="text" id="input-name" placeholder="Ex: João Silva, Turma 5ºA..." maxlength="60">
+      </div>
+      <div class="step-actions">
+        <button class="btn btn-secondary" id="btn-back-style">Voltar</button>
+      </div>
+    </section>
+
+    <!-- STEP 6: GENERATING -->
+    <section id="step-generating" class="step">
+      <div class="generating-content">
+        <h2 id="generating-title">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:8px;color:var(--accent-primary);"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Sua ideia está ganhando vida...
+        </h2>
+        <div class="generating-sequence" id="gen-sequence">
+          <div class="gen-seq-item" id="seq-1">
+            <span class="seq-num">01</span>
+            <span class="seq-text">Entendendo sua mensagem</span>
+          </div>
+          <div class="gen-seq-item" id="seq-2">
+            <span class="seq-num">02</span>
+            <span class="seq-text">Criando a cena</span>
+            <div class="seq-sub" id="seq-recap-idea"></div>
+          </div>
+          <div class="gen-seq-item" id="seq-3">
+            <span class="seq-num">03</span>
+            <span class="seq-text">Definindo o clima</span>
+            <div class="seq-sub" id="seq-recap-style"></div>
+          </div>
+          <div class="gen-seq-item" id="seq-4">
+            <span class="seq-num">04</span>
+            <span class="seq-text">Preparando seu cartaz</span>
+          </div>
+        </div>
+        <div id="gen-error" class="gen-error hidden">
+          <p id="gen-error-msg">Ocorreu um erro.</p>
+          <button class="btn btn-primary" id="btn-retry">Tentar Novamente</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 7: RESULTADO -->
+    <section id="step-result" class="step">
+      <div class="step-header">
+        <h2>
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:8px;color:var(--accent-secondary);"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Sua Criação está Pronta!
+        </h2>
+      </div>
+      <div class="result-content">
+        <div class="polaroid-preview">
+          <div class="polaroid-card">
+            <span class="polaroid-label">Colorido</span>
+            <img id="polaroid-image" src="" alt="Seu Polaroid Colorido" class="polaroid-final-img">
+          </div>
+        </div>
+      </div>
+      <div class="step-actions result-actions" style="justify-content:center; gap:20px;">
+        <button class="btn btn-primary" id="btn-new-creation">Criar Nova Campanha</button>
+      </div>
+    </section>
+
+  </main>
+  
+  <div id="toast-container"></div>
+  <script type="module" src="/static/js/main_new.js"></script>
+</body>
+</html>

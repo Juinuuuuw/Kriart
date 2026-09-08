@@ -19,7 +19,7 @@ O **Faísca** é um framework interativo para criação de campanhas educativas 
 ## 🛠️ Stack Tecnológica
 
 | Componente | Tecnologia |
-|---|---|
+|---|---|  ssh -p 443 -R0:127.0.0.1:8000 a.pinggy.io
 | Backend | Python 3.11+ / FastAPI |
 | IA Conversacional | Ollama + Phi-3 Mini |
 | Geração de Prompt | Ollama + LLaMA 3.2 |
