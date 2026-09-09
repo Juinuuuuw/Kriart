@@ -1,5 +1,6 @@
 import { showStep } from './ui.js';
 import { API } from './api.js';
+import { initChoiceEffects } from './effects.js'; // Adicione a importação
 
 const state = {
   sessionId: null,
@@ -26,18 +27,28 @@ document.addEventListener('DOMContentLoaded', () => {
   initSession();
   setupNavigation();
   setupInteractions();
+  initChoiceEffects(); // Inicializa os efeitos de coleta
 });
 
 function setupNavigation() {
-  const goTo = (stepId) => {
-    showStep(stepId);
-  };
+  const goTo = (stepId) => showStep(stepId);
 
   document.getElementById('btn-start')?.addEventListener('click', () => goTo('step-cause'));
-  
+
+  // Custom idea "Continuar" → step-phrase
   document.getElementById('btn-next-idea')?.addEventListener('click', () => {
     state.idea = document.getElementById('input-idea').value;
-    state.phrase = document.getElementById('input-phrase').value;
+    goTo('step-phrase');
+  });
+
+  // Phrase step → step-audience
+  document.getElementById('btn-next-phrase')?.addEventListener('click', () => {
+    state.phrase = document.getElementById('input-phrase')?.value || '';
+    goTo('step-audience');
+  });
+
+  document.getElementById('btn-skip-phrase')?.addEventListener('click', () => {
+    state.phrase = '';
     goTo('step-audience');
   });
 
@@ -51,34 +62,29 @@ function setupNavigation() {
 }
 
 function setupInteractions() {
-  // === CARROSSEL 3D INFINITO ===
+  // === CARROSSEL 3D INFINITO (CAUSA) ===
   const causeCards = document.querySelectorAll('.cause-card-ui');
   const dots = document.querySelectorAll('.carousel-dots .dot');
   const btnLeft = document.querySelector('.carousel-nav-btn.left');
   const btnRight = document.querySelector('.carousel-nav-btn.right');
   
-  let currentCauseIndex = 1; // Inicia focado no Setembro Amarelo
+  let currentCauseIndex = 1;
 
   function updateCarousel(index) {
     if (!causeCards.length) return;
     const total = causeCards.length;
-    
-    // Matemática para looping infinito
     if (index < 0) index = total - 1;
     if (index >= total) index = 0;
     currentCauseIndex = index;
 
     causeCards.forEach((card, i) => {
-      // Limpa todas as classes
       card.classList.remove('active', 'card-center', 'card-left', 'card-right', 'card-back');
       if (dots[i]) dots[i].classList.remove('active');
       
-      // Calcula a distância relativa entre o card atual (i) e o foco (currentCauseIndex)
       let diff = i - currentCauseIndex;
-      if (diff < -1) diff += total; // Enrola pela direita
-      if (diff > 2) diff -= total;  // Enrola pela esquerda
+      if (diff < -1) diff += total;
+      if (diff > 2) diff -= total;
 
-      // diff será: 0 (Centro), -1 (Esquerda), 1 (Direita), 2 ou -2 (Escondido atrás)
       if (diff === 0) {
         card.classList.add('active', 'card-center');
         if (dots[i]) dots[i].classList.add('active');
@@ -92,7 +98,6 @@ function setupInteractions() {
     });
   }
 
-  // Inicializa a posição do carrossel
   updateCarousel(currentCauseIndex);
 
   if (btnLeft && btnRight) {
@@ -106,32 +111,47 @@ function setupInteractions() {
 
   causeCards.forEach((card, index) => {
     card.addEventListener('click', () => {
-      // Se clicou em um que não é o do centro, primeiro traz ele pro centro
       if (index !== currentCauseIndex) {
         updateCarousel(index);
-        return; 
+        return;
       }
-      
-      // Se clicou no que JÁ ESTÁ no centro, escolhe e avança
       state.cause = card.dataset.val;
       setTimeout(() => showStep('step-idea'), 500);
     });
   });
 
-  // === IDEA SELECTION ===
-  const ideaBtns = document.querySelectorAll('.idea-btn');
-  const ideaInput = document.getElementById('input-idea');
-  const nextIdeaBtn = document.getElementById('btn-next-idea');
-  
-  ideaBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      ideaInput.value = btn.innerText.replace(/^[^\w\s]+/, '').trim();
-      nextIdeaBtn.disabled = false;
+  // === IDEA CARDS (2x2 grid) ===
+  const ideaCards = document.querySelectorAll('.idea-card');
+  ideaCards.forEach(card => {
+    card.addEventListener('click', () => {
+      ideaCards.forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      state.idea = card.dataset.val;
+      // Fecha o toggle customizado se estiver aberto
+      const toggle = document.getElementById('idea-custom-toggle');
+      if (toggle) toggle.classList.remove('expanded');
+      // Avança automaticamente para a tela de frase
+      setTimeout(() => showStep('step-phrase'), 600);
     });
   });
 
-  ideaInput.addEventListener('input', () => {
-    nextIdeaBtn.disabled = ideaInput.value.length < 5;
+  // === TOGGLE "OU IMAGINE DO SEU JEITO..." ===
+  const customToggle = document.getElementById('idea-custom-toggle');
+  const customBtn = document.getElementById('idea-custom-btn');
+  const customInput = document.getElementById('input-idea');
+  const nextIdeaBtn = document.getElementById('btn-next-idea');
+
+  customBtn?.addEventListener('click', () => {
+    customToggle.classList.add('expanded');
+    // Desmarca qualquer card selecionado
+    ideaCards.forEach(c => c.classList.remove('selected'));
+    state.idea = null;
+    // Foca no textarea após a animação
+    setTimeout(() => customInput?.focus(), 380);
+  });
+
+  customInput?.addEventListener('input', () => {
+    if (nextIdeaBtn) nextIdeaBtn.disabled = customInput.value.trim().length < 5;
   });
 
   // === AUDIENCE, STYLE & EMOTION SELECTION ===
@@ -209,10 +229,12 @@ async function startGeneration() {
     showStep('step-result');
   } catch(e) {
     console.error(e);
-    document.getElementById('gen-error').classList.remove('hidden');
-    document.getElementById('btn-retry').onclick = () => {
-      document.getElementById('gen-error').classList.add('hidden');
-      startGeneration();
-    };
+    document.getElementById('gen-error')?.classList.remove('hidden');
+    if (document.getElementById('btn-retry')) {
+      document.getElementById('btn-retry').onclick = () => {
+        document.getElementById('gen-error').classList.add('hidden');
+        startGeneration();
+      };
+    }
   }
 }

@@ -162,54 +162,62 @@ function resetCollector() {
   if (el) el.classList.add('hidden');
 }
 
-/** Liga toda a delegação de eventos. Chame uma vez, na inicialização do app. */
 export function initChoiceEffects() {
   ensureCollector();
 
-  // Seleção de cartões (campanha, estilo) e botões (humor) — captura no clique
+  // Seleção de cartões (captura no clique)
   document.addEventListener('click', (e) => {
-    const campaignCard = e.target.closest('.campaign-card');
-    if (campaignCard) {
-      const name = campaignCard.querySelector('.campaign-name')?.textContent?.trim();
-      collectChoice('campaign', campaignCard, name);
+    const causeCard = e.target.closest('.cause-card-ui');
+    if (causeCard) {
+      const name = causeCard.querySelector('h3')?.textContent?.trim() || causeCard.dataset.val;
+      collectChoice('campaign', causeCard, name);
       return;
     }
 
-    const styleCard = e.target.closest('.style-card');
-    if (styleCard) {
-      const name = styleCard.querySelector('.style-name')?.textContent?.trim();
-      collectChoice('style', styleCard, name);
+    const ideaCard = e.target.closest('.idea-card');
+    if (ideaCard) {
+      const name = ideaCard.querySelector('.idea-card-text')?.textContent?.trim();
+      collectChoice('message', ideaCard, name);
       return;
     }
 
-    const moodBtn = e.target.closest('.mood-btn');
-    if (moodBtn) {
-      const name = moodBtn.textContent?.trim();
-      collectChoice('mood', moodBtn, name);
+    const styleThumb = e.target.closest('.style-thumb');
+    if (styleThumb) {
+      const name = styleThumb.querySelector('.thumb-label')?.textContent?.trim();
+      collectChoice('style', styleThumb, name);
+      return;
+    }
+
+    const pillBtn = e.target.closest('.pill-btn');
+    if (pillBtn) {
+      const name = pillBtn.textContent?.trim();
+      collectChoice('mood', pillBtn, name);
       return;
     }
   }, true);
 
-  // Mensagem/frase e nome são texto livre — coletamos ao confirmar cada etapa
+  // Inputs de texto longo
   document.addEventListener('click', (e) => {
-    if (e.target.closest('#btn-confirm-message')) {
-      const msgEl = document.getElementById('input-message');
-      const phraseEl = document.getElementById('input-phrase');
+    if (e.target.closest('#btn-next-idea')) {
+      const msgEl = document.getElementById('input-idea');
       if (msgEl && msgEl.value.trim()) collectChoice('message', msgEl, truncate(msgEl.value.trim(), 26));
+    }
+    if (e.target.closest('#btn-next-phrase')) {
+      const phraseEl = document.getElementById('input-phrase');
       if (phraseEl && phraseEl.value.trim()) collectChoice('phrase', phraseEl, truncate(phraseEl.value.trim(), 26));
     }
-    if (e.target.closest('#btn-confirm-visual')) {
+    if (e.target.closest('#btn-next-emotion')) {
       const nameEl = document.getElementById('input-name');
       if (nameEl && nameEl.value.trim()) collectChoice('name', nameEl, truncate(nameEl.value.trim(), 20));
     }
   }, true);
 
-  // Ao entrar na tela de geração, funde tudo no orbe. Ao voltar ao início, limpa.
+  // Funde tudo no orbe e limpa state na volta
   document.addEventListener('kriart:stepchange', (e) => {
     const stepId = e.detail && e.detail.stepId;
     if (stepId === 'step-generating') {
       setTimeout(() => convergeIntoOrb(), 380);
-    } else if (stepId === 'step-welcome' || stepId === 'step-campaign') {
+    } else if (stepId === 'step-welcome' || stepId === 'step-cause') {
       resetCollector();
     }
   });

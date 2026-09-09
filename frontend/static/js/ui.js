@@ -17,45 +17,43 @@ const GEN_STATUS = {
   done: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`,
 };
 
-/**
- * Mostra um step e esconde os outros.
- * @param {string} stepId - ID do elemento do step (ex: 'step-welcome')
- */
 export function showStep(stepId) {
   const target = document.getElementById(stepId);
   const current = document.querySelector('.step.active');
 
-  // Anima a saída do step atual em vez de sumir instantaneamente
   if (current && current !== target) {
     current.classList.remove('active');
     current.classList.add('step-leaving');
-    setTimeout(() => current.classList.remove('step-leaving'), 300);
+    // Tempo cravado com a animação CSS (400ms)
+    setTimeout(() => {
+      current.classList.remove('step-leaving');
+    }, 400); 
   }
 
-  // Garante que nenhum outro step (além do atual, que já está saindo) fique visível
+  // Limpa outras telas perdidas, exceto a que está saindo e a que está entrando
   document.querySelectorAll('.step').forEach(s => {
-    if (s !== current) s.classList.remove('active');
+    if (s !== current && s !== target) {
+      s.classList.remove('active', 'step-leaving');
+    }
   });
 
   if (target) {
     target.classList.add('active');
-    // Timeout garante que o display: block foi aplicado antes de dar o scroll
+    // Força um reflow sutil para garantir a animação limpa
+    target.style.animation = 'none';
+    target.offsetHeight; 
+    target.style.animation = null;
+    
     setTimeout(() => {
-      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }, 10);
   }
   
-  // Esconde a barra de progresso na tela inicial (Boas-vindas)
   const progressBarContainer = document.getElementById('progress-bar-container');
   if (progressBarContainer) {
-    if (stepId === 'step-welcome') {
-      progressBarContainer.style.display = 'none';
-    } else {
-      progressBarContainer.style.display = 'block';
-    }
+    progressBarContainer.style.display = (stepId === 'step-welcome') ? 'none' : 'block';
   }
 
-  // Avisa outros módulos (ex: efeitos de coleta de escolhas) da troca de tela
   document.dispatchEvent(new CustomEvent('kriart:stepchange', { detail: { stepId } }));
 }
 
