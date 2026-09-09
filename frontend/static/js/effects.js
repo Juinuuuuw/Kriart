@@ -74,10 +74,10 @@ function flyGhost(fromEl, toEl, icon = '✨') {
   let anim;
   try {
     anim = ghost.animate([
-        { transform: 'translate(0px, 0px) scale(1)', opacity: 1 },
-        { transform: `translate(${dx * 0.5}px, ${dy * 0.5 - 50}px) scale(0.85)`, opacity: 1, offset: 0.55 },
-        { transform: `translate(${dx}px, ${dy}px) scale(0.25)`, opacity: 0 },
-      ], { duration: 650, easing: 'cubic-bezier(0.4,0,0.2,1)' });
+        { transform: 'translate(0px, 0px) scale(1)', opacity: 1, offset: 0 },
+        { transform: `translate(${dx * 0.3}px, ${dy * 0.3}px) scale(1.4)`, opacity: 0.9, offset: 0.3 },
+        { transform: `translate(${dx}px, ${dy}px) scale(0)`, opacity: 0, offset: 1 },
+      ], { duration: 500, easing: 'cubic-bezier(0.5, 0, 0.2, 1)' });
   } catch (e) {
     ghost.remove();
     return Promise.resolve();
@@ -116,11 +116,11 @@ function truncate(str, n) {
   return str.length > n ? `${str.slice(0, n - 1)}…` : str;
 }
 
-/** Anima uma escolha saindo de `sourceEl` e chegando no coletor, como "alimentando o sistema". */
+/** Salva a escolha silenciosamente sem bolinhas voando na tela. */
 export async function collectChoice(category, sourceEl, text) {
   const collector = ensureCollector();
   collector.classList.remove('hidden');
-  await flyGhost(sourceEl, collector, (CHIP_META[category] || {}).icon || '✨');
+  // Removemos o flyGhost daqui, para não ter bolinha roxa descendo
   upsertChip(category, text);
 }
 

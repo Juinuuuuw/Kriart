@@ -35,19 +35,19 @@ body { font-family: var(--font-family); background-color: var(--bg-color); color
 /* App Container */
 #app { width: 100vw; position: relative; overflow-x: hidden; }
 
-/* --- Novas Animações Coesas de Transição --- */
-@keyframes slideInCohesive {
-  0% { opacity: 0; transform: translateY(30px) scale(0.97); }
-  100% { opacity: 1; transform: translateY(0) scale(1); }
+/* --- Transições Fluidas e Modernas (Sem Gravidade) --- */
+@keyframes stepFadeIn {
+  0% { opacity: 0; transform: scale(0.98); filter: blur(4px); }
+  100% { opacity: 1; transform: scale(1); filter: blur(0); }
 }
-@keyframes slideOutCohesive {
-  0% { opacity: 1; transform: translateY(0) scale(1); }
-  100% { opacity: 0; transform: translateY(-30px) scale(1.02); }
+@keyframes stepFadeOut {
+  0% { opacity: 1; transform: scale(1); filter: blur(0); }
+  100% { opacity: 0; transform: scale(1.02); filter: blur(4px); }
 }
 
 .step {
   display: none !important;
-  animation: slideInCohesive 0.45s cubic-bezier(0.25, 0.8, 0.25, 1) forwards;
+  animation: stepFadeIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
 /* O segredo para não desajustar a tela: position absolute na saída */
@@ -55,7 +55,7 @@ body { font-family: var(--font-family); background-color: var(--bg-color); color
   display: flex !important;
   position: absolute;
   top: 0; left: 0; width: 100vw;
-  animation: slideOutCohesive 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: stepFadeOut 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   pointer-events: none; 
   z-index: 0;
 }
