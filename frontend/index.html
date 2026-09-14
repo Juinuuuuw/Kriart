@@ -279,15 +279,9 @@
           <div class="idea-divider"><span>ou</span></div>
 
           <!-- Botão "Ou imagine" que vira textarea -->
-          <div class="idea-custom-toggle" id="idea-custom-toggle">
-            <button class="idea-custom-btn" id="idea-custom-btn">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-              Ou imagine do seu jeito...
-            </button>
-            <div class="idea-custom-area" id="idea-custom-area">
-              <textarea id="input-idea" placeholder="Descreva a sua ideia com as suas próprias palavras..."></textarea>
-              <button class="idea-custom-continue" id="btn-next-idea" disabled>Continuar <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
-            </div>
+          <div class="idea-custom-area" id="idea-custom-area" style="max-height: none; opacity: 1;">
+            <textarea id="input-idea" placeholder="Descreva a sua ideia com as suas próprias palavras..."></textarea>
+            <button class="idea-custom-continue" id="btn-next-idea" disabled>Continuar <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
           </div>
 
         </div>
@@ -385,22 +379,34 @@
         </div>
       </header>
 
-      <div class="step-header">
+      <div class="cause-header-text">
         <h2>Como essa história deveria <span class="highlight-causa">parecer?<svg class="underline-svg" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0,5 Q50,10 100,5" stroke="#7c6ef2" stroke-width="4" fill="none" stroke-linecap="round"/></svg></span></h2>
         <p>Qual desses mundos você quer criar?</p>
       </div>
-      <div class="visual-thumbnails" id="style-thumbnails">
-        <div class="style-thumb" data-val="3d render cute characters, vibrant colors, soft lighting">
-          <div class="thumb-label">3D fofinho</div>
+
+      <!-- Layout com Mascote -->
+      <div class="idea-layout-area">
+        <!-- Mascote -->
+        <div class="cause-mascot idea-mascot">
+          <div class="mascot-bubble">Escolha o seu<br>estilo visual! 💜</div>
+          <img src="/static/img/robot/RobotFrontHappy.png" alt="Robô Feliz" class="mascot-img">
         </div>
-        <div class="style-thumb" data-val="colorful cartoon animation style, 2d flat, bold outlines">
-          <div class="thumb-label">Desenho animado</div>
-        </div>
-        <div class="style-thumb" data-val="childrens book illustration, watercolor, whimsical">
-          <div class="thumb-label">Livro infantil</div>
-        </div>
-        <div class="style-thumb" data-val="paper cutout art style, layered papercraft, colorful">
-          <div class="thumb-label">Recorte de papel</div>
+
+        <div class="idea-grid-wrapper">
+          <div class="visual-thumbnails" id="style-thumbnails">
+            <div class="style-thumb" data-val="3d render cute characters, vibrant colors, soft lighting">
+              <div class="thumb-label">3D fofinho</div>
+            </div>
+            <div class="style-thumb" data-val="colorful cartoon animation style, 2d flat, bold outlines">
+              <div class="thumb-label">Desenho animado</div>
+            </div>
+            <div class="style-thumb" data-val="childrens book illustration, watercolor, whimsical">
+              <div class="thumb-label">Livro infantil</div>
+            </div>
+            <div class="style-thumb" data-val="paper cutout art style, layered papercraft, colorful">
+              <div class="thumb-label">Recorte de papel</div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

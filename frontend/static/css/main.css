@@ -103,9 +103,8 @@ body { font-family: var(--font-family); background-color: var(--bg-color); color
 #step-audience.active, #step-style.active, #step-emotion.active,
 #step-audience.step-leaving, #step-style.step-leaving, #step-emotion.step-leaving {
   display: flex !important; flex-direction: column;
-  justify-content: flex-start; align-items: center;
-  padding-top: 250px !important;
-  padding-bottom: 60px !important;
+  justify-content: center; align-items: center;
+  padding-bottom: 8vh;
 }
 
 .step-header { text-align: center; margin-bottom: 32px; position: relative; z-index: 2; }
@@ -182,8 +181,8 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: var(--ac
 /* Thumbnails — design roxo consistente */
 .visual-thumbnails {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 16px; max-width: 640px; width: 100%;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px; width: 100%;
   position: relative; z-index: 2;
 }
 .style-thumb {
@@ -322,7 +321,7 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: var(--ac
 .cause-header-text { text-align: center; margin-top: 20px; margin-bottom: 5px; position: relative; z-index: 2; }
 .cause-header-text h2 {
   font-family: 'Fraunces', serif; font-weight: 600; font-size: 44px; color: #1a1a2e;
-  line-height: 1.15; margin-bottom: 8px;
+  line-height: 1.15; margin-bottom: 20px;
 }
 .highlight-causa { position: relative; color: #7c6ef2; display: inline-block; }
 .underline-svg { position: absolute; bottom: -6px; left: 0; width: 100%; height: 10px; }
@@ -473,15 +472,14 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: var(--ac
 
 #step-idea.active, #step-idea.step-leaving {
   display: flex !important; flex-direction: column;
-  justify-content: flex-start; align-items: center;
-  padding-top: 250px !important; /* !important necessário por causa da regra base */
-  padding-bottom: 60px !important;
+  justify-content: center; align-items: center;
+  padding-bottom: 8vh;
 }
 
 /* Prevenção de quebra do layout na tela IDEA (Evita push up vertical) */
 .idea-layout-area {
   display: flex; 
-  align-items: flex-start; /* Melhor que center para evitar cortes */
+  align-items: center;
   justify-content: center;
   position: relative; 
   width: 100%; 
@@ -606,7 +604,7 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: var(--ac
   background: #ffffff;
   border: 2px solid rgba(124,110,242,0.15);
   border-radius: 18px;
-  padding: 16px 18px;
+  padding: 24px 20px;
   cursor: pointer;
   text-align: left;
   font-family: 'Poppins', sans-serif;
@@ -627,7 +625,7 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: var(--ac
   font-size: 26px; flex-shrink: 0; line-height: 1;
 }
 .idea-card-text {
-  font-size: 13px; font-weight: 500; color: #221f3d; line-height: 1.35;
+  font-size: 14.5px; font-weight: 500; color: #221f3d; line-height: 1.4;
 }
 
 /* --- Divisor "ou" --- */
@@ -729,9 +727,8 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: var(--ac
 
 #step-phrase.active, #step-phrase.step-leaving {
   display: flex !important; flex-direction: column;
-  justify-content: flex-start; align-items: center;
-  padding-top: 250px !important; 
-  padding-bottom: 60px !important;
+  justify-content: center; align-items: center;
+  padding-bottom: 8vh;
 }
 
 /* Painel da frase */
