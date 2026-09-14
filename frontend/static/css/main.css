@@ -50,11 +50,10 @@ body { font-family: var(--font-family); background-color: var(--bg-color); color
   animation: stepFadeIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
 }
 
-/* O segredo para não desajustar a tela: position absolute na saída */
 .step.step-leaving {
   display: flex !important;
   position: absolute;
-  top: 0; left: 0; width: 100vw;
+  top: 0; left: 0; width: 100%;
   animation: stepFadeOut 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   pointer-events: none; 
   z-index: 0;
@@ -491,8 +490,8 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: var(--ac
 /* Mascote posicionado à esquerda como na tela de causa */
 .idea-mascot {
   position: absolute;
-  left: max(10px, calc(50vw - 600px));
-  top: 50%; transform: translateY(-50%);
+  left: max(10px, calc(50vw - 650px));
+  top: 30%; transform: translateY(-50%);
 }
 .idea-mascot .mascot-img {
   width: 290px;
