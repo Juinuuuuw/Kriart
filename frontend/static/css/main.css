@@ -491,8 +491,11 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: var(--ac
 /* Mascote posicionado à esquerda como na tela de causa */
 .idea-mascot {
   position: absolute;
-  left: max(10px, calc(50vw - 580px));
+  left: max(10px, calc(50vw - 600px));
   top: 50%; transform: translateY(-50%);
+}
+.idea-mascot .mascot-img {
+  width: 290px;
 }
 
 /* Painel central com as opções */
