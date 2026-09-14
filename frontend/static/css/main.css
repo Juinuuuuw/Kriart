@@ -789,3 +789,33 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: var(--ac
 @media (max-width: 640px) {
   .phrase-panel { padding: 0 16px; }
 }
+
+.polaroid-final-img {
+  max-width: 380px;
+  width: 100%;
+  background: white;
+  padding: 15px 15px 60px 15px;
+  box-shadow: var(--shadow-lg);
+  border-radius: 4px;
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+}
+
+.polaroid-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.polaroid-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: var(--card-bg);
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border-color);
+}

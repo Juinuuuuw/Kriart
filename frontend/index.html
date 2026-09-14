@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/css/main.css?v=20">
+  <link rel="stylesheet" href="/static/css/main.css?v=21">
   <style>
     /* ===== Hero / Boas-vindas — Mural Vivo da UERN ===== */
     :root{
@@ -272,22 +272,7 @@
 
           <!-- 2x2 Grid de cards de ideia -->
           <div class="idea-cards-grid" id="idea-cards-grid">
-            <button class="idea-card" data-val="Uma criança que está sendo excluída">
-              <span class="idea-card-emoji">👶</span>
-              <span class="idea-card-text">Uma criança que está sendo excluída</span>
-            </button>
-            <button class="idea-card" data-val="Dois amigos ajudando alguém">
-              <span class="idea-card-emoji">🤝</span>
-              <span class="idea-card-text">Dois amigos ajudando alguém</span>
-            </button>
-            <button class="idea-card" data-val="Uma escola onde todos são respeitados">
-              <span class="idea-card-emoji">🏫</span>
-              <span class="idea-card-text">Uma escola onde todos são respeitados</span>
-            </button>
-            <button class="idea-card" data-val="Uma criança aprendendo a acreditar em si">
-              <span class="idea-card-emoji">⭐</span>
-              <span class="idea-card-text">Uma criança aprendendo a acreditar em si</span>
-            </button>
+            <!-- Cards gerados dinamicamente pelo JS -->
           </div>
 
           <!-- Separador -->
@@ -371,44 +356,7 @@
       </div>
     </section>
 
-    <!-- STEP 3: AUDIENCE -->
-    <section id="step-audience" class="step">
 
-      <!-- Fundo Luminoso e Ondas -->
-      <div class="cause-bg-glow"></div>
-      <div class="cause-waves-wrapper">
-        <div class="waves-track">
-          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-            <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#eaddff" fill-opacity="0.5"/>
-            <path d="M0,96L80,85.3C160,75,320,53,480,53C640,53,800,75,960,85.3C1120,96,1280,96,1360,96L1440,96L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#d1c9ff"/>
-          </svg>
-          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-            <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#eaddff" fill-opacity="0.5"/>
-            <path d="M0,96L80,85.3C160,75,320,53,480,53C640,53,800,75,960,85.3C1120,96,1280,96,1360,96L1440,96L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#d1c9ff"/>
-          </svg>
-        </div>
-      </div>
-
-      <!-- Header -->
-      <header class="cause-topbar">
-        <div class="cause-logo">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7c6ef2" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <strong>faísca</strong>
-          <span>Ideias que transformam.</span>
-        </div>
-      </header>
-
-      <div class="step-header">
-        <h2>Quem queremos <span class="highlight-causa">tocar?<svg class="underline-svg" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0,5 Q50,10 100,5" stroke="#7c6ef2" stroke-width="4" fill="none" stroke-linecap="round"/></svg></span></h2>
-        <p>Para quem é essa mensagem?</p>
-      </div>
-      <div class="pill-selector" id="audience-selector">
-        <button class="pill-btn" data-val="Crianças">Crianças</button>
-        <button class="pill-btn" data-val="Adolescentes">Adolescentes</button>
-        <button class="pill-btn" data-val="Famílias">Famílias</button>
-        <button class="pill-btn" data-val="Todo mundo">Todo mundo</button>
-      </div>
-    </section>
 
     <!-- STEP 4: STYLE -->
     <section id="step-style" class="step">
@@ -457,8 +405,8 @@
       </div>
     </section>
 
-    <!-- STEP 5: EMOTION -->
-    <section id="step-emotion" class="step">
+    <!-- STEP 5: NOME (Final) -->
+    <section id="step-name" class="step">
 
       <!-- Fundo Luminoso e Ondas -->
       <div class="cause-bg-glow"></div>
@@ -485,23 +433,15 @@
       </header>
 
       <div class="step-header">
-        <h2>Qual <span class="highlight-causa">sentimento?<svg class="underline-svg" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0,5 Q50,10 100,5" stroke="#7c6ef2" stroke-width="4" fill="none" stroke-linecap="round"/></svg></span></h2>
-        <p>Como você quer que as pessoas se sintam ao ver sua criação?</p>
+        <h2>Qual o seu <span class="highlight-causa">nome?<svg class="underline-svg" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0,5 Q50,10 100,5" stroke="#7c6ef2" stroke-width="4" fill="none" stroke-linecap="round"/></svg></span></h2>
+        <p>Para quem daremos os créditos dessa arte incrível?</p>
       </div>
-      <div class="pill-selector" id="emotion-selector">
-        <button class="pill-btn" data-val="hopeful and inspiring">Esperançosos</button>
-        <button class="pill-btn" data-val="motivating and powerful">Inspirados</button>
-        <button class="pill-btn" data-val="warm and loving">Acolhidos</button>
-        <button class="pill-btn" data-val="calm and peaceful">Reflexivos</button>
-        <button class="pill-btn" data-val="energetic and dynamic">Motivados</button>
-        <button class="pill-btn" data-val="impactful and dramatic">Causar Impacto!</button>
-      </div>
-      <div class="emotion-name-group">
-        <label class="emotion-name-label">Seu nome (opcional):</label>
+      
+      <div class="emotion-name-group" style="max-width: 400px; margin: 0 auto;">
         <input type="text" id="input-name" class="emotion-name-input" placeholder="Ex: João Silva, Turma 5ºA..." maxlength="60">
       </div>
-      <div class="step-actions" style="position:relative;z-index:2;margin-top:24px;">
-        <button class="btn btn-generate" id="btn-next-emotion">Gerar Cartaz
+      <div class="step-actions" style="position:relative;z-index:2;margin-top:24px; text-align: center;">
+        <button class="btn btn-generate" id="btn-next-name">Ver Resultado
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </button>
       </div>
@@ -529,10 +469,14 @@
     <section id="step-result" class="step">
       <div class="step-header"><h2>Sua Criação está Pronta!</h2></div>
       <div class="result-content">
-        <div class="polaroid-preview">
+        <div class="polaroid-preview" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
           <div class="polaroid-card">
             <span class="polaroid-label">Colorido</span>
             <img id="polaroid-image" src="" alt="Seu Polaroid Colorido" class="polaroid-final-img">
+          </div>
+          <div class="polaroid-card">
+            <span class="polaroid-label">Rascunho</span>
+            <img id="polaroid-sketch-image" src="" alt="Seu Polaroid Rascunho" class="polaroid-final-img">
           </div>
         </div>
       </div>
@@ -542,6 +486,6 @@
     </section>
 
   </main>
-  <script type="module" src="/static/js/main_new.js"></script>
+  <script type="module" src="/static/js/main_new.js?v=22"></script>
 </body>
 </html>

@@ -17,17 +17,15 @@ class PromptService:
         user_context = f"""
 Campanha: {session.campaign_id}
 Mensagem: {session.user_message or ''}
-Frase: {session.user_phrase or ''}
 Estilo visual: {session.visual_style or 'illustration'}
 Elementos: {session.visual_elements or ''}
-Tom/Mood: {session.mood or 'cheerful'}
 """
-        system_prompt = """You are a creative AI assistant that generates Stable Diffusion prompts for educational campaigns.
-Create a detailed, child-friendly, and literal image prompt in English.
-Focus entirely on VISUAL descriptions (subject, setting, lighting, action). Do NOT include abstract concepts, words, or text.
-The image must be appropriate for children, educational, and safe.
-Do NOT include any violence, weapons, adult content, or inappropriate elements.
-Respond with ONLY the prompt text, no explanations or quotes."""
+        system_prompt = """You are an AI that translates Portuguese ideas into simple English comma-separated tags for Stable Diffusion.
+Keep your prompts simple and correct. 
+Use booru-style tags (e.g., 1girl, 2girls, multiple girls, boy, group of people). Accurately reflect the number of subjects based on the text.
+DO NOT use tags like 'Realistic', '8k', 'masterpiece', or 'best quality' (these will be added automatically).
+Do NOT include abstract concepts, words, or text. The image must be safe for children.
+Respond with ONLY the comma-separated tags, no explanations."""
 
         payload = {
             "model": self.model,
@@ -35,16 +33,25 @@ Respond with ONLY the prompt text, no explanations or quotes."""
                 {"role": "system", "content": system_prompt},
                 {
                     "role": "user", 
-                    "content": "Generate a Stable Diffusion prompt for this educational campaign context:\nCampanha: reading_week\nMensagem: Leia um livro por dia\nFrase: \nEstilo visual: watercolor\nElementos: livros, árvore, crianças lendo\nTom/Mood: calm and magical"
+                    "content": "Generate tags for:\nCampanha: Bullying\nMensagem: Uma criança que está sendo excluída\nEstilo visual: anime style"
                 },
                 {
                     "role": "assistant", 
-                    "content": "A beautiful watercolor painting of happy children reading books under a large magical glowing tree, flying books, calm atmosphere, fantasy elements"
+                    "content": "anime style, 1girl, sad, sitting alone, other children playing in background, school playground, day"
                 },
-                {"role": "user", "content": f"Generate a Stable Diffusion prompt for this educational campaign context:\n{user_context}"},
+                {
+                    "role": "user", 
+                    "content": "Generate tags for:\nCampanha: Violência contra a Mulher\nMensagem: Um grupo de mulheres de mãos dadas, mostrando união e força\nEstilo visual: 3d render"
+                },
+                {
+                    "role": "assistant", 
+                    "content": "3d render, multiple girls, group of women, holding hands, standing together, smiling, nature background, bright lighting"
+                },
+                {"role": "user", "content": f"Generate tags for:\n{user_context}"},
             ],
             "stream": False,
-            "options": {"temperature": 0.7, "num_predict": 200},
+            "keep_alive": 0,
+            "options": {"temperature": 0.5, "num_predict": 100, "num_gpu": -1},
         }
 
         try:
@@ -57,23 +64,14 @@ Respond with ONLY the prompt text, no explanations or quotes."""
                 data = response.json()
                 raw_prompt = data["message"]["content"].strip()
                 
-                quality_suffix = (
-                    ", educational illustration, child-friendly, vibrant colors, "
-                    "high quality, detailed, safe for children, inspiring, positive message"
-                )
-                    
-                return raw_prompt + quality_suffix
+                # Checkpoint required prefix
+                return f"(best quality, masterpiece), {raw_prompt}"
         except Exception as e:
             logger.warning(f"Erro ao gerar prompt com LLM, usando fallback: {e}")
             return self._fallback_prompt(session)
 
     def _fallback_prompt(self, session: SessionState) -> str:
         """Prompt de fallback caso o LLM não esteja disponível."""
-        style = session.visual_style or "colorful illustration"
-        mood = session.mood or "cheerful and inspiring"
+        style = session.visual_style or "anime style"
         elements = session.visual_elements or "children, nature, friendship"
-        return (
-            f"{style}, {mood}, {elements}, educational campaign art, "
-            "child-friendly, vibrant colors, high quality, positive message, "
-            "school poster style, detailed background, safe for children"
-        )
+        return f"(best quality, masterpiece), {style}, {elements}, safe for children, day"

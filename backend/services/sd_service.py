@@ -16,7 +16,7 @@ class StableDiffusionService:
 
     async def generate(self, prompt: str) -> str:
         """Gera uma imagem e salva localmente. Retorna o caminho relativo."""
-        neg_prompt = settings.SD_NEGATIVE_PROMPT + ", BadDream"
+        neg_prompt = settings.SD_NEGATIVE_PROMPT
 
         payload = {
             "prompt": prompt,
@@ -28,6 +28,11 @@ class StableDiffusionService:
             "sampler_name": settings.SD_SAMPLER,
             "batch_size": 1,
             "n_iter": 1,
+            "enable_hr": False,
+            "hr_upscaler": "R-ESRGAN 4x+ Anime6B",
+            "hr_scale": 1.2,
+            "hr_second_pass_steps": 10,
+            "denoising_strength": 0.35,
             "alwayson_scripts": {
                 "ADetailer": {
                     "args": [

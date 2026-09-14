@@ -1,4 +1,4 @@
-﻿"""Ponto de entrada do Kriart."""
+"""Ponto de entrada do Kriart."""
 import uvicorn
 from backend.config import settings
 
@@ -8,5 +8,6 @@ if __name__ == "__main__":
         host=settings.APP_HOST,
         port=settings.APP_PORT,
         reload=settings.DEBUG,
+        reload_dirs=["backend"] if settings.DEBUG else None,
         log_level="info",
     )

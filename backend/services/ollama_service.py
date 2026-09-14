@@ -28,7 +28,8 @@ class OllamaService:
             "model": self.model,
             "messages": messages,
             "stream": False,
-            "options": {"temperature": 0.7, "num_predict": 300},
+            "keep_alive": 0,
+            "options": {"temperature": 0.7, "num_predict": 300, "num_gpu": -1},
         }
 
         try:

@@ -231,7 +231,10 @@ async function startGeneration() {
     await nextSeq(3, 1000);
     const polData = await API.createPolaroid(state.sessionId, state.participantName || 'Anônimo');
     
-    document.getElementById('polaroid-image').src = polData.polaroid_color_url;
+    document.getElementById('polaroid-image').src = polData.polaroid_url;
+    if (document.getElementById('polaroid-sketch-image')) {
+      document.getElementById('polaroid-sketch-image').src = polData.polaroid_sketch_url;
+    }
     
     showStep('step-result');
     updateRoboldo(roboldoTexts.done);

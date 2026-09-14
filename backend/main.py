@@ -10,10 +10,19 @@ from fastapi.responses import FileResponse
 from backend.routers import session, campaigns, generation, polaroid, print_router, mural
 from backend.db.database import init_db
 
+from contextlib import asynccontextmanager
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    init_db()
+    logging.info("Banco de dados inicializado.")
+    yield
+
 app = FastAPI(
     title="Faísca",
     description="Backend para o totem educativo com IA",
-    version="1.0.0"
+    version="1.0.0",
+    lifespan=lifespan
 )
 
 # Configura CORS
@@ -24,12 +33,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# Inicializa Banco de Dados no startup
-@app.on_event("startup")
-async def on_startup():
-    init_db()
-    logging.info("Banco de dados inicializado.")
 
 # Rotas de API
 app.include_router(session.router, prefix="/api/session", tags=["Session"])
@@ -68,3 +71,7 @@ async def serve_mural():
 @app.get("/health")
 async def health():
     return {"status": "ok", "project": "Faísca"}
+
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    return FileResponse(str(BASE_DIR / "frontend" / "static" / "img" / "robot" / "RobotFrontHappy.png"))
