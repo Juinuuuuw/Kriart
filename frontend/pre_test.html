@@ -560,7 +560,12 @@
 
     <!-- Done screen -->
     <div id="screen-done" class="survey-card" style="text-align:center; display:none; margin: 0 auto 60px;">
-      <div class="done-icon">🎉</div>
+      <div class="done-icon" style="color: var(--hero-violet-2); margin-bottom: 24px;">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+      </div>
       <h2 style="font-family:'Fraunces',serif; font-size:36px; color:var(--hero-ink); margin-bottom:12px;">Tudo certo!</h2>
       <p style="font-size:16px; color:var(--hero-ink-soft); margin-bottom:8px;">Seu código de participante é:</p>
       <div class="code-display" id="short-code-display">Q1</div>
@@ -570,7 +575,11 @@
 
     <!-- Non-participant done screen -->
     <div id="screen-done-nopart" class="survey-card" style="text-align:center; display:none; margin: 0 auto 60px;">
-      <div style="font-size:64px; margin-bottom:20px;">💜</div>
+      <div style="margin-bottom: 24px; color: var(--hero-violet-2);">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+        </svg>
+      </div>
       <h2 style="font-family:'Fraunces',serif; font-size:32px; color:var(--hero-ink); margin-bottom:12px;">Obrigado!</h2>
       <p style="font-size:16px; color:var(--hero-ink-soft);">Você pode usar o Totem normalmente e aproveitar a experiência!</p>
       <p style="font-size:13px; color:var(--hero-ink-soft); margin-top:24px; opacity:0.6;">Esta tela voltará ao início em <span id="countdown2">5</span> segundos...</p>
