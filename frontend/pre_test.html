@@ -3,313 +3,618 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Faísca — Crie sua Arte Educativa</title>
+  <title>Faísca — Pré-Teste</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/static/css/main.css?v=26">
   <style>
-    /* ===== Hero / Boas-vindas — Mural Vivo da UERN ===== */
-    :root{
-      --hero-bg-1:#f3f1fb;
-      --hero-bg-2:#eceafc;
-      --hero-ink:#221f3d;
-      --hero-ink-soft:#57547a;
-      --hero-violet-1:#2c2560;
-      --hero-violet-2:#7c6ef2;
-      --hero-violet-3:#9b8bfb;
-      --hero-card:#ffffff;
-      --hero-border:rgba(44,37,96,0.10);
+    :root {
+      --hero-bg-1: #f3f1fb;
+      --hero-bg-2: #eceafc;
+      --hero-ink: #221f3d;
+      --hero-ink-soft: #57547a;
+      --hero-violet-1: #2c2560;
+      --hero-violet-2: #7c6ef2;
+      --hero-violet-3: #9b8bfb;
+      --hero-card: #ffffff;
+      --hero-border: rgba(44, 37, 96, 0.10);
     }
 
-    #step-welcome.step{
-      position:relative;
-      max-width:none;
-      width:100%;
-      min-height:100vh;
-      padding:0;
-      margin:0;
-      background:
-        radial-gradient(60% 50% at 18% 12%, rgba(155,139,251,0.16), transparent 60%),
-        radial-gradient(50% 45% at 85% 20%, rgba(124,110,242,0.14), transparent 60%),
-        linear-gradient(180deg, var(--hero-bg-1), var(--hero-bg-2));
-      overflow:hidden;
-      display:none; 
-    }
-    #step-welcome.active {
-      display:block !important;
-    }
-    #step-welcome .welcome-content{
-      all:unset;
-      display:block;
-      position:relative;
-      z-index:2;
-      max-width:1440px;
-      margin:0 auto;
-      padding:40px 32px 80px;
-      font-family:'Poppins', sans-serif;
-      color:var(--hero-ink);
-      box-sizing:border-box;
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(60% 50% at 18% 12%, rgba(155,139,251,0.16), transparent 60%),
+                  radial-gradient(50% 45% at 85% 20%, rgba(124,110,242,0.14), transparent 60%),
+                  linear-gradient(180deg, var(--hero-bg-1), var(--hero-bg-2));
+      min-height: 100vh;
+      color: var(--hero-ink);
+      overflow-x: hidden;
     }
 
-    .hero-topbar{ display:flex; align-items:center; justify-content:center; margin-bottom:90px; }
-    .hero-brand{ display:flex; align-items:center; gap:14px; }
-    .hero-brand-mark{ font-family:'Poppins',sans-serif; font-weight:800; font-size:22px; letter-spacing:0.5px; color:var(--hero-ink); }
-    .hero-brand-div{ width:1px; height:28px; background:var(--hero-border); }
-    .hero-brand-lar{ position: relative; display:flex; align-items:center; }
-    .hero-brand-lar strong{ font-size:20px; font-weight:800; color:var(--hero-ink); }
-    .hero-brand-lar span{ position: absolute; left: 100%; margin-left: 10px; font-size:10.5px; line-height:1.25; color:var(--hero-ink-soft); font-weight:500; width: 110px; text-align: left; }
-    
-    .hero-center{ position:relative; max-width:680px; margin:0 auto; text-align:center; padding-top:8px; }
-    .hero-eyebrow{ margin-bottom:26px; }
-    .hero-pill{ display:inline-flex; align-items:center; gap:8px; padding:10px 18px; border-radius:999px; background:rgba(255,255,255,0.7); border:1px solid var(--hero-border); box-shadow:0 4px 16px rgba(44,37,96,0.06); font-size:13px; font-weight:600; color:var(--hero-violet-2); }
-    .hero-pill svg{ width:14px; height:14px; flex-shrink:0; }
-    
-    .hero-title{ font-family:'Fraunces', serif; font-weight:600; font-size:clamp(40px, 6vw, 76px); line-height:1.04; letter-spacing:-0.5px; margin:0 0 44px; color:var(--hero-ink); }
-    .hero-title .accent{ font-style:italic; background:linear-gradient(100deg, var(--hero-violet-2), var(--hero-violet-3)); -webkit-background-clip:text; background-clip:text; color:transparent; }
-    .hero-sub{ font-size:17px; line-height:1.6; color:var(--hero-ink-soft); margin:0 0 72px; font-weight:400; }
-    .hero-sub strong{ color:var(--hero-violet-2); font-weight:700; }
+    /* Decorative side waves */
+    .wave-left, .wave-right {
+      position: fixed;
+      top: 0;
+      height: 100vh;
+      width: 120px;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.45;
+    }
+    .wave-left { left: 0; }
+    .wave-right { right: 0; transform: scaleX(-1); }
+    .wave-left svg, .wave-right svg { width: 100%; height: 100%; }
 
-    .hero-cta{ appearance:none; border:none; cursor:pointer; display:inline-flex; align-items:center; gap:12px; font-family:'Poppins',sans-serif; font-size:17px; font-weight:600; color:#fff; padding:19px 40px; border-radius:999px; background:linear-gradient(115deg, var(--hero-violet-1) 0%, var(--hero-violet-2) 55%, var(--hero-violet-3) 100%); box-shadow:0 16px 32px -10px rgba(72,55,196,0.55); transition:transform .2s ease, box-shadow .2s ease; }
-    .hero-cta:hover{ transform:translateY(-2px); box-shadow:0 20px 36px -8px rgba(72,55,196,0.65); }
-    .hero-cta svg{ width:18px; height:18px; }
-
-    @media (max-width: 640px){
-      #step-welcome .welcome-content{ padding:28px 20px 56px; }
-      .hero-topbar{ flex-direction:column; align-items:center; gap:16px; text-align:center; margin-bottom:36px; }
-      .hero-title{ font-size:38px; }
-      .hero-cta{ width:100%; justify-content:center; padding:17px 24px; }
+    @keyframes waveDrift {
+      0%, 100% { d: path("M 0 0 Q 60 200 30 400 Q 0 600 50 800 Q 90 1000 20 1200 L 0 1200 Z"); }
+      50% { d: path("M 0 0 Q 80 200 20 400 Q -20 600 70 800 Q 110 1000 10 1200 L 0 1200 Z"); }
     }
 
-    /* Modal de Alerta Customizado */
-    .custom-modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9999; display: flex; align-items: center; justify-content: center; }
-    .custom-modal.hidden { display: none; }
-    .custom-modal-backdrop { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(34, 31, 61, 0.4); backdrop-filter: blur(4px); }
-    .custom-modal-content { position: relative; background: #ffffff; border-radius: 24px; padding: 40px 32px; max-width: 420px; width: 90%; text-align: center; box-shadow: 0 24px 48px rgba(44, 37, 96, 0.15); animation: modalPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
-    .custom-modal-icon { margin: 0 auto 20px; width: 64px; height: 64px; background: #fff0f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ff4d4f; }
-    .custom-modal-title { font-family: 'Fraunces', serif; font-size: 26px; color: var(--hero-ink); margin-bottom: 12px; font-weight: 600; letter-spacing: -0.3px; }
-    .custom-modal-text { font-family: 'Poppins', sans-serif; font-size: 15px; color: var(--hero-ink-soft); line-height: 1.6; margin-bottom: 32px; font-weight: 400; }
-    .btn-modal-close { appearance: none; border: none; background: linear-gradient(115deg, var(--hero-violet-1) 0%, var(--hero-violet-2) 55%, var(--hero-violet-3) 100%); color: #fff; font-family: 'Poppins', sans-serif; font-size: 16px; font-weight: 600; padding: 16px 32px; border-radius: 999px; cursor: pointer; width: 100%; transition: transform 0.2s ease, box-shadow 0.2s ease; box-shadow: 0 12px 24px -8px rgba(124, 110, 242, 0.4); }
-    .btn-modal-close:hover { transform: translateY(-2px); box-shadow: 0 16px 32px -8px rgba(124, 110, 242, 0.6); }
-    @keyframes modalPop { 0% { transform: scale(0.95); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+    /* Main layout */
+    .page-wrapper {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .page-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 40px 0;
+      margin-bottom: 40px;
+    }
+
+    .hero-brand { display: flex; align-items: center; gap: 14px; }
+    .hero-brand-mark { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 22px; letter-spacing: 0.5px; color: var(--hero-ink); }
+    .hero-brand-div { width: 1px; height: 28px; background: var(--hero-border); }
+    .hero-brand-lar { position: relative; display: flex; align-items: center; }
+    .hero-brand-lar strong { font-size: 20px; font-weight: 800; color: var(--hero-ink); }
+    .hero-brand-lar span { position: absolute; left: 100%; margin-left: 10px; font-size: 10.5px; line-height: 1.25; color: var(--hero-ink-soft); font-weight: 500; width: 110px; text-align: left; }
+
+    .page-badge {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 28px;
+    }
+    .hero-pill {
+      display: inline-flex; align-items: center; gap: 8px; padding: 10px 18px;
+      border-radius: 999px; background: rgba(255,255,255,0.7); border: 1px solid var(--hero-border);
+      box-shadow: 0 4px 16px rgba(44,37,96,0.06); font-size: 13px; font-weight: 600; color: var(--hero-violet-2);
+    }
+
+    /* Survey card */
+    .survey-card {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--hero-border);
+      border-radius: 28px;
+      box-shadow: 0 24px 64px rgba(44, 37, 96, 0.10);
+      padding: 48px 52px;
+      max-width: 760px;
+      width: 100%;
+      margin: 0 auto 60px;
+    }
+
+    .survey-card h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(28px, 4vw, 42px);
+      font-weight: 600;
+      color: var(--hero-ink);
+      letter-spacing: -0.4px;
+      margin-bottom: 12px;
+    }
+
+    .survey-card .subtitle {
+      font-size: 16px;
+      color: var(--hero-ink-soft);
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    .survey-section-title {
+      font-family: 'Fraunces', serif;
+      font-size: 22px;
+      color: var(--hero-ink);
+      margin-bottom: 6px;
+      margin-top: 36px;
+    }
+
+    .survey-section-desc {
+      font-size: 13px;
+      color: var(--hero-ink-soft);
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    /* Termo */
+    .termo-box {
+      background: rgba(124,110,242,0.06);
+      border: 1px solid rgba(124,110,242,0.18);
+      border-radius: 16px;
+      padding: 24px 28px;
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--hero-ink);
+      margin-bottom: 28px;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+
+    /* Questions hidden by default */
+    #survey-questions {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    /* Form elements */
+    .question-block {
+      margin-bottom: 24px;
+    }
+
+    .question-block > label,
+    .question-label {
+      display: block;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--hero-ink);
+      margin-bottom: 10px;
+    }
+
+    .survey-select {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--hero-border);
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      background: rgba(255,255,255,0.8);
+      color: var(--hero-ink);
+      appearance: none;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .survey-select:focus { border-color: var(--hero-violet-2); }
+
+    .radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .radio-group.vertical { flex-direction: column; gap: 8px; }
+
+    .radio-group label, .checkbox-group label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      color: var(--hero-ink);
+      cursor: pointer;
+      font-weight: 400;
+      padding: 8px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--hero-border);
+      background: rgba(255,255,255,0.6);
+      transition: all 0.15s ease;
+    }
+
+    .radio-group label:hover, .checkbox-group label:hover {
+      border-color: var(--hero-violet-2);
+      background: rgba(124,110,242,0.07);
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    /* Likert scale */
+    .likert-card {
+      background: rgba(255,255,255,0.6);
+      border: 1px solid var(--hero-border);
+      border-radius: 16px;
+      padding: 20px 24px;
+      margin-bottom: 16px;
+    }
+
+    .likert-question {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--hero-ink);
+      margin-bottom: 16px;
+    }
+
+    .likert-scale {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .likert-scale label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--hero-ink-soft);
+      cursor: pointer;
+      flex: 1;
+      padding: 10px 4px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      transition: all 0.15s ease;
+    }
+
+    .likert-scale label:hover {
+      background: rgba(124,110,242,0.08);
+      border-color: var(--hero-violet-2);
+      color: var(--hero-violet-2);
+    }
+
+    .likert-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--hero-ink-soft);
+      margin-bottom: 10px;
+    }
+
+    input[type="radio"]:checked + span,
+    .likert-scale input[type="radio"]:checked ~ span { color: var(--hero-violet-2); }
+
+    /* CTA Button */
+    .hero-cta {
+      appearance: none; border: none; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 12px;
+      font-family: 'Poppins', sans-serif; font-size: 17px; font-weight: 600; color: #fff;
+      padding: 19px 40px; border-radius: 999px;
+      background: linear-gradient(115deg, var(--hero-violet-1) 0%, var(--hero-violet-2) 55%, var(--hero-violet-3) 100%);
+      box-shadow: 0 16px 32px -10px rgba(72,55,196,0.55);
+      transition: transform .2s ease, box-shadow .2s ease;
+      margin-top: 20px;
+    }
+    .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 20px 36px -8px rgba(72,55,196,0.65); }
+
+    .btn-submit-wrap {
+      display: none;
+      text-align: center;
+      padding: 0;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+    .btn-submit-wrap.visible { display: block; }
+
+    /* Done screen */
+    #screen-done {
+      display: none;
+      text-align: center;
+      padding: 60px 20px;
+    }
+    #screen-done .done-icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+    }
+    #screen-done h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 36px;
+      color: var(--hero-ink);
+      margin-bottom: 12px;
+    }
+    #screen-done p {
+      font-size: 16px;
+      color: var(--hero-ink-soft);
+      margin-bottom: 24px;
+    }
+    .code-display {
+      font-size: 72px;
+      font-weight: 800;
+      font-family: 'Fraunces', serif;
+      background: linear-gradient(115deg, var(--hero-violet-1), var(--hero-violet-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: 4px;
+      margin: 16px 0 24px;
+      line-height: 1;
+    }
+    .code-hint {
+      background: rgba(124,110,242,0.1);
+      border: 1px solid rgba(124,110,242,0.2);
+      border-radius: 16px;
+      padding: 16px 24px;
+      font-size: 15px;
+      color: var(--hero-violet-1);
+      font-weight: 500;
+      display: inline-block;
+    }
+
+    @media (max-width: 640px) {
+      .survey-card { padding: 28px 20px; border-radius: 20px; margin: 0 16px 40px; }
+      .wave-left, .wave-right { width: 60px; opacity: 0.25; }
+    }
   </style>
 </head>
 <body>
-  <main id="app">
-    <!-- STEP PRE-TEST -->
-    <section id="step-pre-test" class="step">
-      <div class="welcome-content" style="max-width: 800px; padding: 40px 20px; text-align: left; overflow-y: auto; height: 100vh;">
-        <h2 style="font-family: 'Fraunces', serif; color: var(--hero-ink); text-align: center; margin-bottom: 20px;">Termo de Consentimento Livre e Esclarecido</h2>
-        
-        <div style="font-size: 14px; line-height: 1.6; color: var(--hero-ink-soft); margin-bottom: 30px; background: rgba(255,255,255,0.5); padding: 20px; border-radius: 12px; border: 1px solid var(--hero-border);">
-          <p>Você está sendo convidado(a) a participar de uma pesquisa que investiga como as pessoas interagem com uma inteligência artificial para criar banners em tempo real. O objetivo é compreender como os participantes percebem e avaliam esse processo de criação e o resultado gerado pela inteligência artificial.</p>
-          <br>
-          <p>Durante a atividade, você irá interagir com uma inteligência artificial, fornecendo instruções sobre o banner que deseja criar. A partir dessas instruções, a inteligência artificial irá gerar um banner em tempo real.</p>
-          <br>
-          <p>Após a atividade, você responderá a algumas perguntas sobre sua experiência de interação com a inteligência artificial e sobre o banner gerado. As perguntas abordarão aspectos como a facilidade para organizar e descrever suas ideias, a compreensão das instruções pela inteligência artificial, a correspondência entre o resultado gerado e o que você esperava e a necessidade de realizar correções ou alterações durante o processo. Também serão coletadas informações sobre sua avaliação do banner e seu nível de engajamento durante a atividade.</p>
-          <br>
-          <p>A atividade dura cerca de 10 minutos. O estudo apresenta risco mínimo, podendo causar apenas leve cansaço ou desconforto decorrente do uso da tela e da interação com a aplicação.</p>
-          <br>
-          <p>Não há benefícios diretos esperados para você, mas os resultados poderão contribuir para o desenvolvimento e aprimoramento de ferramentas de inteligência artificial voltadas à criação de conteúdos visuais de forma interativa e em tempo real.</p>
-          <br>
-          <p>Suas respostas serão anônimas e confidenciais. A participação é voluntária, e você pode desistir a qualquer momento, sem necessidade de justificativa e sem qualquer prejuízo.</p>
-          <br>
-          <p><strong>Pesquisador responsável:</strong><br>Professor Doutor Raul Benites Paradeda<br>raulparadeda@uern.br</p>
+
+  <!-- Side waves -->
+  <div class="wave-left" aria-hidden="true">
+    <svg viewBox="0 0 120 1200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill="url(#waveGradL)" opacity="0.7">
+        <animate attributeName="d" dur="8s" repeatCount="indefinite"
+          values="M0,0 Q80,150 30,350 Q-20,550 60,750 Q110,950 20,1200 L0,1200 Z;
+                  M0,0 Q40,150 80,350 Q120,550 40,750 Q0,950 70,1200 L0,1200 Z;
+                  M0,0 Q80,150 30,350 Q-20,550 60,750 Q110,950 20,1200 L0,1200 Z"/>
+      </path>
+      <defs>
+        <linearGradient id="waveGradL" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#9b8bfb"/>
+          <stop offset="100%" stop-color="#7c6ef2"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+
+  <div class="wave-right" aria-hidden="true">
+    <svg viewBox="0 0 120 1200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill="url(#waveGradR)" opacity="0.7">
+        <animate attributeName="d" dur="10s" repeatCount="indefinite"
+          values="M0,0 Q80,150 30,350 Q-20,550 60,750 Q110,950 20,1200 L0,1200 Z;
+                  M0,0 Q40,150 80,350 Q120,550 40,750 Q0,950 70,1200 L0,1200 Z;
+                  M0,0 Q80,150 30,350 Q-20,550 60,750 Q110,950 20,1200 L0,1200 Z"/>
+      </path>
+      <defs>
+        <linearGradient id="waveGradR" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#7c6ef2"/>
+          <stop offset="100%" stop-color="#9b8bfb"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+
+  <div class="page-wrapper">
+
+    <!-- Top brand -->
+    <div class="page-topbar">
+      <div class="hero-brand">
+        <span class="hero-brand-mark">UERN</span>
+        <span class="hero-brand-div"></span>
+        <div class="hero-brand-lar">
+          <strong>LAR</strong>
+          <span>Laboratório de<br>Aprendizagem Robótica</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="page-badge">
+      <span class="hero-pill">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>
+        PRÉ-TESTE · PROJETO FAÍSCA
+      </span>
+    </div>
+
+    <!-- Form screen -->
+    <div id="screen-form">
+      <div class="survey-card">
+        <h1>Questionário Inicial</h1>
+        <p class="subtitle">Antes de começar, gostaríamos de conhecê-lo(a) melhor. Suas respostas são confidenciais e usadas apenas para fins de pesquisa.</p>
+
+        <!-- TERMO -->
+        <div class="question-block">
+          <label class="question-label">Você concorda em participar deste estudo?</label>
+          <div class="termo-box">
+            <strong>Termo de Consentimento Livre e Esclarecido</strong><br><br>
+            Você está sendo convidado(a) a participar de uma pesquisa sobre o uso de Inteligência Artificial em atividades educativas. Sua participação é voluntária e você pode desistir a qualquer momento, sem qualquer prejuízo. Não há respostas certas ou erradas — queremos apenas conhecer sua experiência. Os dados coletados são anônimos e serão usados exclusivamente para fins acadêmicos.
+          </div>
+          <div class="radio-group">
+            <label><input type="radio" name="termo_aceito" value="sim"> <span>Sim, concordo em participar</span></label>
+            <label><input type="radio" name="termo_aceito" value="nao"> <span>Não, prefiro não participar</span></label>
+          </div>
         </div>
 
-        <div class="survey-form" id="survey-form">
+        <div id="survey-questions">
+          <h3 class="survey-section-title">Perfil do Participante</h3>
+          <p class="survey-section-desc">Preencha os campos abaixo com suas informações.</p>
+
           <div class="question-block">
-            <label>Você aceita participar desta pesquisa?</label>
-            <div class="radio-group vertical" id="termo-radios">
-              <label><input type="radio" name="termo_aceito" value="sim"> Sim, concordo.</label>
-              <label><input type="radio" name="termo_aceito" value="nao"> Não, não concordo.</label>
+            <label class="question-label">Faixa etária</label>
+            <select class="survey-select" name="idade">
+              <option value="">Selecione...</option>
+              <option value="0-13">0 – 13 anos</option>
+              <option value="14-29">14 – 29 anos</option>
+              <option value="30-45">30 – 45 anos</option>
+              <option value="46-61">46 – 61 anos</option>
+              <option value="62-80">62 – 80 anos</option>
+              <option value="81+">81 anos ou mais</option>
+            </select>
+          </div>
+
+          <div class="question-block">
+            <label class="question-label">Escolaridade</label>
+            <select class="survey-select" name="escolaridade">
+              <option value="">Selecione...</option>
+              <option value="Fundamental incompleto">Fundamental incompleto</option>
+              <option value="Fundamental completo">Fundamental completo</option>
+              <option value="Médio incompleto">Médio incompleto</option>
+              <option value="Médio completo">Médio completo</option>
+              <option value="Superior incompleto">Superior incompleto</option>
+              <option value="Superior completo">Superior completo</option>
+              <option value="Pós-graduação">Pós-graduação</option>
+            </select>
+          </div>
+
+          <div class="question-block">
+            <label class="question-label">Gênero</label>
+            <select class="survey-select" name="genero">
+              <option value="">Selecione...</option>
+              <option value="Feminino">Feminino</option>
+              <option value="Masculino">Masculino</option>
+              <option value="Não-binário">Não-binário</option>
+              <option value="Prefiro não informar">Prefiro não informar</option>
+            </select>
+          </div>
+
+          <h3 class="survey-section-title">Experiência com IA</h3>
+          <p class="survey-section-desc">Conte-nos sobre seu contato com ferramentas de Inteligência Artificial.</p>
+
+          <div class="question-block">
+            <label class="question-label">Você já utilizou alguma ferramenta de IA?</label>
+            <div class="radio-group">
+              <label><input type="radio" name="uso_ia" value="Sim"> <span>Sim</span></label>
+              <label><input type="radio" name="uso_ia" value="Não"> <span>Não</span></label>
             </div>
           </div>
 
-          <div id="survey-questions" style="display: none; opacity: 0; transition: opacity 0.5s;">
-            <div class="question-block">
-              <label>1. Qual é a sua idade?</label>
-              <select name="idade" class="survey-select">
-                <option value="" disabled selected>Selecione...</option>
-                <option value="0-13">0 a 13 anos</option>
-                <option value="14-29">14 a 29 anos</option>
-                <option value="30-45">30 a 45 anos</option>
-                <option value="46-61">46 a 61 anos</option>
-                <option value="62-80">62 a 80 anos</option>
-                <option value="81+">81 anos ou mais</option>
-              </select>
-            </div>
-
-            <div class="question-block">
-              <label>2. Qual é o seu nível de escolaridade?</label>
-              <select name="escolaridade" class="survey-select">
-                <option value="" disabled selected>Selecione...</option>
-                <option value="Ensino fundamental incompleto">Ensino fundamental incompleto</option>
-                <option value="Ensino fundamental completo">Ensino fundamental completo</option>
-                <option value="Ensino médio incompleto">Ensino médio incompleto</option>
-                <option value="Ensino médio completo">Ensino médio completo</option>
-                <option value="Ensino superior incompleto">Ensino superior incompleto</option>
-                <option value="Ensino superior completo">Ensino superior completo</option>
-                <option value="Pós-graduação">Pós-graduação</option>
-                <option value="Prefiro não Informar">Prefiro não Informar</option>
-                <option value="Outro">Outro</option>
-              </select>
-            </div>
-
-            <div class="question-block">
-              <label>3. Qual é o seu gênero?</label>
-              <select name="genero" class="survey-select">
-                <option value="" disabled selected>Selecione...</option>
-                <option value="Feminino">Feminino</option>
-                <option value="Masculino">Masculino</option>
-                <option value="Pessoa não binária">Pessoa não binária</option>
-                <option value="Prefiro não Informar">Prefiro não Informar</option>
-                <option value="Outro">Outro</option>
-              </select>
-            </div>
-
-            <div class="question-block">
-              <label>4. Você já usou alguma ferramenta de inteligência artificial generativa, como ChatGPT, Gemini ou Copilot?</label>
-              <div class="radio-group vertical">
-                <label><input type="radio" name="uso_ia" value="Nunca utilizei"> Nunca utilizei.</label>
-                <label><input type="radio" name="uso_ia" value="Poucas vezes"> Já utilizei poucas vezes, em situações pontuais.</label>
-                <label><input type="radio" name="uso_ia" value="Às vezes"> Utilizo às vezes, quando tenho alguma necessidade específica.</label>
-                <label><input type="radio" name="uso_ia" value="Frequentemente"> Utilizo frequentemente, em diferentes situações.</label>
-                <label><input type="radio" name="uso_ia" value="Quase todos os dias"> Utilizo quase todos os dias, em diversas atividades.</label>
-              </div>
-            </div>
-
-            <div class="question-block">
-              <label>5. Para quais finalidades você já utilizou uma IA generativa? (Múltipla escolha)</label>
-              <div class="checkbox-group vertical">
-                <label><input type="checkbox" name="finalidades_ia" value="Estudos ou atividades acadêmicas"> Estudos ou atividades acadêmicas</label>
-                <label><input type="checkbox" name="finalidades_ia" value="Tirar dúvidas ou obter informações"> Tirar dúvidas ou obter informações</label>
-                <label><input type="checkbox" name="finalidades_ia" value="Criar ou revisar textos"> Criar ou revisar textos</label>
-                <label><input type="checkbox" name="finalidades_ia" value="Criar ou editar imagens"> Criar ou editar imagens</label>
-                <label><input type="checkbox" name="finalidades_ia" value="Nunca utilizei"> Nunca utilizei uma IA generativa</label>
-                <label><input type="checkbox" name="finalidades_ia" value="Outro"> Outro</label>
-              </div>
-            </div>
-
-            <h3 style="font-family: 'Fraunces', serif; margin-top: 40px; margin-bottom: 10px;">Percepção sobre Inteligência Artificial Generativa</h3>
-            <p style="font-size: 13px; color: var(--hero-ink-soft); margin-bottom: 20px;">Indique o quanto você concorda ou discorda de cada afirmação.</p>
-            <div style="font-size: 11px; margin-bottom: 10px; color: #777;">1 = Discordo totalmente | 5 = Concordo totalmente</div>
-
-            <div class="question-block likert">
-              <label>6. A inteligência artificial é capaz de criar imagens de acordo com o que uma pessoa solicita.</label>
-              <div class="likert-scale">
-                <label><input type="radio" name="q6" value="1"> 1</label>
-                <label><input type="radio" name="q6" value="2"> 2</label>
-                <label><input type="radio" name="q6" value="3"> 3</label>
-                <label><input type="radio" name="q6" value="4"> 4</label>
-                <label><input type="radio" name="q6" value="5"> 5</label>
-              </div>
-            </div>
-
-            <div class="question-block likert">
-              <label>7. As imagens criadas por inteligência artificial podem representar aquilo que uma pessoa imaginou.</label>
-              <div class="likert-scale">
-                <label><input type="radio" name="q7" value="1"> 1</label>
-                <label><input type="radio" name="q7" value="2"> 2</label>
-                <label><input type="radio" name="q7" value="3"> 3</label>
-                <label><input type="radio" name="q7" value="4"> 4</label>
-                <label><input type="radio" name="q7" value="5"> 5</label>
-              </div>
-            </div>
-
-            <div class="question-block likert">
-              <label>8. Considero interessante utilizar inteligência artificial para criar imagens.</label>
-              <div class="likert-scale">
-                <label><input type="radio" name="q8" value="1"> 1</label>
-                <label><input type="radio" name="q8" value="2"> 2</label>
-                <label><input type="radio" name="q8" value="3"> 3</label>
-                <label><input type="radio" name="q8" value="4"> 4</label>
-                <label><input type="radio" name="q8" value="5"> 5</label>
-              </div>
-            </div>
-
-            <div class="question-block likert">
-              <label>9. Eu me sentiria confortável em utilizar uma imagem criada por inteligência artificial.</label>
-              <div class="likert-scale">
-                <label><input type="radio" name="q9" value="1"> 1</label>
-                <label><input type="radio" name="q9" value="2"> 2</label>
-                <label><input type="radio" name="q9" value="3"> 3</label>
-                <label><input type="radio" name="q9" value="4"> 4</label>
-                <label><input type="radio" name="q9" value="5"> 5</label>
-              </div>
-            </div>
-
-            <div class="question-block likert">
-              <label>10. Imagens criadas por inteligência artificial podem ser utilizadas para comunicar ideias ou mensagens.</label>
-              <div class="likert-scale">
-                <label><input type="radio" name="q10" value="1"> 1</label>
-                <label><input type="radio" name="q10" value="2"> 2</label>
-                <label><input type="radio" name="q10" value="3"> 3</label>
-                <label><input type="radio" name="q10" value="4"> 4</label>
-                <label><input type="radio" name="q10" value="5"> 5</label>
-              </div>
+          <div class="question-block">
+            <label class="question-label">Para quais finalidades você usa ou usaria IA? (pode marcar mais de uma)</label>
+            <div class="checkbox-group">
+              <label><input type="checkbox" name="finalidades_ia" value="Estudo"> <span>Estudo</span></label>
+              <label><input type="checkbox" name="finalidades_ia" value="Trabalho"> <span>Trabalho</span></label>
+              <label><input type="checkbox" name="finalidades_ia" value="Lazer"> <span>Lazer</span></label>
+              <label><input type="checkbox" name="finalidades_ia" value="Criatividade"> <span>Criatividade</span></label>
+              <label><input type="checkbox" name="finalidades_ia" value="Nunca usei"> <span>Nunca usei</span></label>
             </div>
           </div>
-          
-          <div style="text-align: center; margin-top: 40px; margin-bottom: 60px;">
-            <button class="hero-cta" id="btn-submit-pre-test" style="display: none; opacity: 0; transition: opacity 0.5s;">Iniciar Criação</button>
+
+          <h3 class="survey-section-title">Percepção sobre IA Generativa</h3>
+          <p class="survey-section-desc">Indique o quanto você concorda com cada afirmação. (1 = Discordo totalmente | 5 = Concordo totalmente)</p>
+
+          <div class="likert-card">
+            <p class="likert-question">6. A IA generativa pode ser uma ferramenta útil no aprendizado.</p>
+            <div class="likert-labels"><span>Discordo totalmente</span><span>Concordo totalmente</span></div>
+            <div class="likert-scale">
+              <label><input type="radio" name="q6" value="1"><span>1</span></label>
+              <label><input type="radio" name="q6" value="2"><span>2</span></label>
+              <label><input type="radio" name="q6" value="3"><span>3</span></label>
+              <label><input type="radio" name="q6" value="4"><span>4</span></label>
+              <label><input type="radio" name="q6" value="5"><span>5</span></label>
+            </div>
+          </div>
+
+          <div class="likert-card">
+            <p class="likert-question">7. Tenho curiosidade em usar ferramentas de IA generativa.</p>
+            <div class="likert-labels"><span>Discordo totalmente</span><span>Concordo totalmente</span></div>
+            <div class="likert-scale">
+              <label><input type="radio" name="q7" value="1"><span>1</span></label>
+              <label><input type="radio" name="q7" value="2"><span>2</span></label>
+              <label><input type="radio" name="q7" value="3"><span>3</span></label>
+              <label><input type="radio" name="q7" value="4"><span>4</span></label>
+              <label><input type="radio" name="q7" value="5"><span>5</span></label>
+            </div>
+          </div>
+
+          <div class="likert-card">
+            <p class="likert-question">8. A IA generativa pode auxiliar na criação de conteúdo educativo.</p>
+            <div class="likert-labels"><span>Discordo totalmente</span><span>Concordo totalmente</span></div>
+            <div class="likert-scale">
+              <label><input type="radio" name="q8" value="1"><span>1</span></label>
+              <label><input type="radio" name="q8" value="2"><span>2</span></label>
+              <label><input type="radio" name="q8" value="3"><span>3</span></label>
+              <label><input type="radio" name="q8" value="4"><span>4</span></label>
+              <label><input type="radio" name="q8" value="5"><span>5</span></label>
+            </div>
+          </div>
+
+          <div class="likert-card">
+            <p class="likert-question">9. Me sinto confortável utilizando tecnologias baseadas em IA.</p>
+            <div class="likert-labels"><span>Discordo totalmente</span><span>Concordo totalmente</span></div>
+            <div class="likert-scale">
+              <label><input type="radio" name="q9" value="1"><span>1</span></label>
+              <label><input type="radio" name="q9" value="2"><span>2</span></label>
+              <label><input type="radio" name="q9" value="3"><span>3</span></label>
+              <label><input type="radio" name="q9" value="4"><span>4</span></label>
+              <label><input type="radio" name="q9" value="5"><span>5</span></label>
+            </div>
+          </div>
+
+          <div class="likert-card">
+            <p class="likert-question">10. A IA generativa representa um avanço positivo para a educação.</p>
+            <div class="likert-labels"><span>Discordo totalmente</span><span>Concordo totalmente</span></div>
+            <div class="likert-scale">
+              <label><input type="radio" name="q10" value="1"><span>1</span></label>
+              <label><input type="radio" name="q10" value="2"><span>2</span></label>
+              <label><input type="radio" name="q10" value="3"><span>3</span></label>
+              <label><input type="radio" name="q10" value="4"><span>4</span></label>
+              <label><input type="radio" name="q10" value="5"><span>5</span></label>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
 
-    <section id="step-done" class="step" style="display:none;">
-      <div class="welcome-content" style="max-width: 600px; padding: 40px; text-align: center;">
-        <h2 style="font-family: 'Fraunces', serif; color: var(--hero-ink); margin-bottom: 20px;">Obrigado! 💜</h2>
-        <p style="font-size: 18px; color: var(--hero-ink-soft); margin-bottom: 30px;">Seu código é:</p>
-        <div id="short-code-display" style="font-size: 48px; font-weight: 800; color: var(--hero-violet-2); letter-spacing: 2px; margin-bottom: 30px;">Q1</div>
-        <p style="font-size: 14px; color: var(--hero-ink-soft);">Aguarde sua vez no totem e selecione este código!</p>
+        <div class="btn-submit-wrap" id="btn-submit-wrap">
+          <button class="hero-cta" id="btn-submit-pre-test">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            Confirmar e Continuar
+          </button>
+        </div>
       </div>
-    </section>
-  </main>
-  
+    </div>
+
+    <!-- Done screen -->
+    <div id="screen-done" class="survey-card" style="text-align:center; display:none; margin: 0 auto 60px;">
+      <div class="done-icon">🎉</div>
+      <h2 style="font-family:'Fraunces',serif; font-size:36px; color:var(--hero-ink); margin-bottom:12px;">Tudo certo!</h2>
+      <p style="font-size:16px; color:var(--hero-ink-soft); margin-bottom:8px;">Seu código de participante é:</p>
+      <div class="code-display" id="short-code-display">Q1</div>
+      <div class="code-hint">Vá até o Totem e selecione o código <strong id="code-hint-val">Q1</strong> para começar! 🚀</div>
+      <p style="font-size:13px; color:var(--hero-ink-soft); margin-top:24px; opacity:0.6;">Esta tela voltará ao início em <span id="countdown">5</span> segundos...</p>
+    </div>
+
+    <!-- Non-participant done screen -->
+    <div id="screen-done-nopart" class="survey-card" style="text-align:center; display:none; margin: 0 auto 60px;">
+      <div style="font-size:64px; margin-bottom:20px;">💜</div>
+      <h2 style="font-family:'Fraunces',serif; font-size:32px; color:var(--hero-ink); margin-bottom:12px;">Obrigado!</h2>
+      <p style="font-size:16px; color:var(--hero-ink-soft);">Você pode usar o Totem normalmente e aproveitar a experiência!</p>
+      <p style="font-size:13px; color:var(--hero-ink-soft); margin-top:24px; opacity:0.6;">Esta tela voltará ao início em <span id="countdown2">5</span> segundos...</p>
+    </div>
+
+  </div>
+
   <script>
-    document.getElementById('step-pre-test').classList.add('active');
-
     const termoRadios = document.querySelectorAll('input[name="termo_aceito"]');
     const surveyQuestions = document.getElementById('survey-questions');
-    const btnSubmitPreTest = document.getElementById('btn-submit-pre-test');
+    const btnSubmitWrap = document.getElementById('btn-submit-wrap');
 
     termoRadios.forEach(radio => {
       radio.addEventListener('change', (e) => {
-        btnSubmitPreTest.style.display = 'inline-flex';
-        setTimeout(() => btnSubmitPreTest.style.opacity = '1', 50);
-        
+        btnSubmitWrap.classList.add('visible');
+        setTimeout(() => btnSubmitWrap.style.opacity = '1', 50);
+
         if (e.target.value === 'sim') {
           surveyQuestions.style.display = 'block';
           setTimeout(() => surveyQuestions.style.opacity = '1', 50);
         } else {
           surveyQuestions.style.opacity = '0';
-          setTimeout(() => surveyQuestions.style.display = 'none', 500);
+          setTimeout(() => surveyQuestions.style.display = 'none', 400);
         }
       });
     });
 
-    btnSubmitPreTest?.addEventListener('click', async () => {
+    document.getElementById('btn-submit-pre-test')?.addEventListener('click', async () => {
       const termo = document.querySelector('input[name="termo_aceito"]:checked')?.value;
       if (!termo) return;
-      
+
       const formData = {
         session_id: Date.now().toString(),
         termo_aceito: termo
       };
-      
+
       if (termo === 'sim') {
         formData.idade = document.querySelector('select[name="idade"]').value;
         formData.escolaridade = document.querySelector('select[name="escolaridade"]').value;
         formData.genero = document.querySelector('select[name="genero"]').value;
         formData.uso_ia = document.querySelector('input[name="uso_ia"]:checked')?.value;
-        
         const finalidades = [];
         document.querySelectorAll('input[name="finalidades_ia"]:checked').forEach(cb => finalidades.push(cb.value));
         formData.finalidades_ia = finalidades;
-        
         formData.q6 = document.querySelector('input[name="q6"]:checked')?.value;
         formData.q7 = document.querySelector('input[name="q7"]:checked')?.value;
         formData.q8 = document.querySelector('input[name="q8"]:checked')?.value;
@@ -324,20 +629,26 @@
           body: JSON.stringify(formData)
         });
         const data = await res.json();
-        
-        document.getElementById('step-pre-test').classList.remove('active');
-        document.getElementById('step-done').classList.add('active');
-        document.getElementById('step-done').style.display = 'block';
-        
-        if (data.short_code) {
+
+        document.getElementById('screen-form').style.display = 'none';
+
+        if (termo === 'sim' && data.short_code) {
           document.getElementById('short-code-display').textContent = data.short_code;
+          document.getElementById('code-hint-val').textContent = data.short_code;
+          document.getElementById('screen-done').style.display = 'block';
+          let t = 5;
+          const ti = setInterval(() => {
+            document.getElementById('countdown').textContent = --t;
+            if (t <= 0) { clearInterval(ti); window.location.reload(); }
+          }, 1000);
         } else {
-          document.getElementById('short-code-display').textContent = 'Concluído';
+          document.getElementById('screen-done-nopart').style.display = 'block';
+          let t = 5;
+          const ti = setInterval(() => {
+            document.getElementById('countdown2').textContent = --t;
+            if (t <= 0) { clearInterval(ti); window.location.reload(); }
+          }, 1000);
         }
-        
-        setTimeout(() => {
-          window.location.reload();
-        }, 5000);
       } catch (e) {
         console.error('Error saving pre-test:', e);
       }

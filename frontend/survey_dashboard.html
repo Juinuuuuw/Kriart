@@ -1,51 +1,262 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-    <title>Survey Admin</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel de Pesquisa — Faísca</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/main.css?v=26">
+  <style>
+    :root {
+      --hero-bg-1: #f3f1fb;
+      --hero-bg-2: #eceafc;
+      --hero-ink: #221f3d;
+      --hero-ink-soft: #57547a;
+      --hero-violet-1: #2c2560;
+      --hero-violet-2: #7c6ef2;
+      --hero-violet-3: #9b8bfb;
+      --hero-border: rgba(44, 37, 96, 0.10);
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(60% 50% at 18% 12%, rgba(155,139,251,0.16), transparent 60%),
+                  radial-gradient(50% 45% at 85% 20%, rgba(124,110,242,0.14), transparent 60%),
+                  linear-gradient(180deg, var(--hero-bg-1), var(--hero-bg-2));
+      min-height: 100vh;
+      color: var(--hero-ink);
+    }
+
+    .dashboard-wrap {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 60px 32px;
+    }
+
+    .top-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 40px;
+    }
+
+    .top-header h1 {
+      font-family: 'Fraunces', serif;
+      font-size: 36px;
+      color: var(--hero-ink);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+
+    .stat-card {
+      background: rgba(255,255,255,0.75);
+      border: 1px solid var(--hero-border);
+      border-radius: 20px;
+      padding: 24px;
+      text-align: center;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 12px 32px rgba(44,37,96,0.06);
+    }
+
+    .stat-value {
+      font-family: 'Fraunces', serif;
+      font-size: 48px;
+      font-weight: 600;
+      color: var(--hero-violet-2);
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: var(--hero-ink-soft);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .lists-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+
+    .list-card {
+      background: rgba(255,255,255,0.75);
+      border: 1px solid var(--hero-border);
+      border-radius: 24px;
+      padding: 32px;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 12px 32px rgba(44,37,96,0.06);
+    }
+
+    .list-card h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 24px;
+      color: var(--hero-ink);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .list-card h2 span {
+      background: var(--hero-violet-2);
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 99px;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .user-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px;
+      background: rgba(255,255,255,0.6);
+      border: 1px solid var(--hero-border);
+      border-radius: 12px;
+      margin-bottom: 12px;
+    }
+
+    .user-code {
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--hero-ink);
+    }
+
+    .btn-abandon {
+      appearance: none;
+      border: none;
+      background: transparent;
+      color: #ff4d4f;
+      font-family: 'Poppins', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: all 0.2s;
+    }
+    .btn-abandon:hover {
+      background: #fff0f0;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 32px 0;
+      color: var(--hero-ink-soft);
+      font-size: 14px;
+    }
+
+    @media (max-width: 768px) {
+      .lists-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-    <h1>Survey Admin</h1>
-    <div id="stats"></div>
-    <h2>Aguardando Jogar</h2>
-    <ul id="waiting-play"></ul>
-    <h2>Aguardando Pós-Teste</h2>
-    <ul id="waiting-post"></ul>
+  
+  <div class="dashboard-wrap">
+    <div class="top-header">
+      <h1>Painel de Pesquisa</h1>
+      <div style="font-size:14px; color:var(--hero-ink-soft); font-weight:500;">Mural Vivo da UERN</div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="stat-wait-play">0</div>
+        <div class="stat-label">Aguardando Jogar</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-wait-post">0</div>
+        <div class="stat-label">Aguardando Pós</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-adept" style="color: #2ecca1;">0</div>
+        <div class="stat-label">Adeptos ao Estudo</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-abandon" style="color: #ff4d4f;">0</div>
+        <div class="stat-label">Desistências</div>
+      </div>
+    </div>
+
+    <div class="lists-grid">
+      <!-- Fila 1 -->
+      <div class="list-card">
+        <h2>Aguardando Jogar <span id="count-wait-play">0</span></h2>
+        <div id="list-wait-play"></div>
+      </div>
+
+      <!-- Fila 2 -->
+      <div class="list-card">
+        <h2>Aguardando Pós-teste <span id="count-wait-post">0</span></h2>
+        <div id="list-wait-post"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function load() {
+      try {
+        const res = await fetch('/api/survey/dashboard');
+        const data = await res.json();
+        
+        document.getElementById('stat-wait-play').textContent = data.stats['Aguardando jogar'] || 0;
+        document.getElementById('stat-wait-post').textContent = data.stats['Aguardando pós-teste'] || 0;
+        document.getElementById('stat-adept').textContent = data.stats['Adepta ao estudo'] || 0;
+        document.getElementById('stat-abandon').textContent = data.stats['Desistiu'] || 0;
+        
+        document.getElementById('count-wait-play').textContent = data.waiting_play.length;
+        document.getElementById('count-wait-post').textContent = data.waiting_post_test.length;
+
+        const wPlay = document.getElementById('list-wait-play');
+        wPlay.innerHTML = data.waiting_play.length ? '' : '<div class="empty-state">Nenhum participante nesta fila.</div>';
+        data.waiting_play.forEach(u => {
+            wPlay.innerHTML += `
+              <div class="user-item">
+                <span class="user-code">${u.short_code}</span>
+                <button class="btn-abandon" onclick="abandon('${u.session_id}')">Marcar Desistência</button>
+              </div>`;
+        });
+        
+        const wPost = document.getElementById('list-wait-post');
+        wPost.innerHTML = data.waiting_post_test.length ? '' : '<div class="empty-state">Nenhum participante nesta fila.</div>';
+        data.waiting_post_test.forEach(u => {
+            wPost.innerHTML += `
+              <div class="user-item">
+                <span class="user-code">${u.short_code}</span>
+                <button class="btn-abandon" onclick="abandon('${u.session_id}')">Marcar Desistência</button>
+              </div>`;
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    }
     
-    <script>
-        async function load() {
-            const res = await fetch('/api/survey/dashboard');
-            const data = await res.json();
-            
-            document.getElementById('stats').innerHTML = `
-                <p>Aguardando jogar: ${data.stats['Aguardando jogar'] || 0}</p>
-                <p>Aguardando pós-teste: ${data.stats['Aguardando pós-teste'] || 0}</p>
-                <p>Desistiu: ${data.stats['Desistiu'] || 0}</p>
-                <p>Adepta ao estudo: ${data.stats['Adepta ao estudo'] || 0}</p>
-            `;
-            
-            const wPlay = document.getElementById('waiting-play');
-            wPlay.innerHTML = '';
-            data.waiting_play.forEach(u => {
-                wPlay.innerHTML += `<li>${u.short_code} - <button onclick="abandon('${u.session_id}')">Marcar Desistiu</button></li>`;
-            });
-            
-            const wPost = document.getElementById('waiting-post');
-            wPost.innerHTML = '';
-            data.waiting_post_test.forEach(u => {
-                wPost.innerHTML += `<li>${u.short_code} - <button onclick="abandon('${u.session_id}')">Marcar Desistiu</button></li>`;
-            });
-        }
-        
-        async function abandon(sessionId) {
-            await fetch('/api/survey/abandon', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({session_id: sessionId})
-            });
-            load();
-        }
-        
-        load();
-    </script>
+    async function abandon(sessionId) {
+      if(!confirm("Tem certeza que deseja marcar este participante como desistente?")) return;
+      await fetch('/api/survey/abandon', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({session_id: sessionId})
+      });
+      load();
+    }
+    
+    load();
+    setInterval(load, 5000); // Atualiza automaticamente a cada 5s
+  </script>
 </body>
 </html>
