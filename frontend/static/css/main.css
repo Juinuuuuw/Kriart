@@ -87,7 +87,6 @@ body { font-family: var(--font-family); background-color: var(--bg-color); color
   100% { transform: scale(1); }
 }
 
-#step-generating { max-width: 720px; margin-left: auto; margin-right: auto; }
 #step-result { max-width: 960px; margin-left: auto; margin-right: auto; }
 
 /* ========================================================
@@ -134,7 +133,107 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: var(--ac
 .btn-secondary { background: var(--bg-color); color: var(--text-main); border: 1px solid var(--border-color); }
 .btn-secondary:hover { background: #F3F4F6; border-color: #D1D5DB; }
 
-/* Generating Sequence */
+/* ========================================================
+   ===== TELA DE GERAÇÃO — ROBÔ PINTANDO ==================
+   ======================================================== */
+#step-generating {
+  position: relative;
+  max-width: none !important;
+  width: 100%;
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
+  background:
+    radial-gradient(60% 50% at 18% 12%, rgba(155,139,251,0.13), transparent 60%),
+    radial-gradient(50% 45% at 85% 20%, rgba(124,110,242,0.11), transparent 60%),
+    linear-gradient(180deg, #f3f1fb, #eceafc);
+  overflow: hidden;
+}
+
+/* Conteúdo central do robô */
+.generating-robot-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 100px 24px 120px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+
+/* Título */
+.gen-robot-title {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  font-size: clamp(26px, 4vw, 44px);
+  color: #1a1a2e;
+  margin: 0 0 8px;
+  line-height: 1.15;
+}
+
+/* Wrapper do robô — tamanho fixo para não saltar entre frames */
+.gen-robot-wrap {
+  width: min(480px, 90vw);
+  height: min(380px, 72vw);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 12px auto 8px;
+}
+
+.gen-robot-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  /* Evita blur ao trocar frames */
+  image-rendering: auto;
+}
+
+/* Mensagem secundária */
+.gen-robot-sub {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  color: #57547a;
+  font-weight: 400;
+  margin: 0;
+  min-height: 24px;
+  transition: opacity 0.4s ease;
+}
+
+.gen-error {
+  margin-top: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1.5px solid rgba(220, 38, 38, 0.25);
+  border-radius: 16px;
+  padding: 16px 24px;
+  max-width: 440px;
+  box-shadow: 0 8px 24px rgba(220, 38, 38, 0.08);
+}
+.gen-error p {
+  font-size: 14px;
+  color: #b91c1c;
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+.gen-error .btn {
+  padding: 9px 22px;
+  font-size: 14px;
+  border-radius: 999px;
+  background: #ffffff;
+  border: 1.5px solid #7c6ef2;
+  color: #7c6ef2;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.gen-error .btn:hover {
+  background: #7c6ef2;
+  color: #ffffff;
+}
+
+/* Legado — mantidos para não quebrar referências JS antigas */
 .generating-content { text-align: center; padding: 60px 20px; max-width: 600px; margin: 0 auto; }
 #generating-title { font-size: 1.8rem; margin-bottom: 10px; }
 .generating-sequence { margin-top: 40px; display: flex; flex-direction: column; gap: 20px; text-align: left; max-width: 400px; margin-left: auto; margin-right: auto; }
@@ -790,22 +889,200 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: var(--ac
 }
 
 .polaroid-final-img {
-  max-width: 380px;
+  max-width: 320px;
   width: 100%;
   background: white;
-  padding: 15px 15px 60px 15px;
+  padding: 15px 15px 50px 15px;
   box-shadow: var(--shadow-lg);
   border-radius: 4px;
-  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
 }
 
+/* === APPLE STYLE PRESENTATION (STEP RESULT) === */
+#step-result {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: #fbf9ff; /* Ensures waves sit nicely */
+  width: 100%;
+  max-width: none !important;
+  padding: 0;
+  margin: 0;
+}
+
+.apple-style-presentation {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  padding: 100px 20px 140px;
+  width: 100%;
+}
+
+.apple-header {
+  text-align: center;
+  margin-bottom: 50px;
+  max-width: 700px;
+}
+
+.apple-title {
+  font-size: clamp(32px, 5vw, 48px);
+  background: linear-gradient(135deg, #2c2560, #7c6ef2);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 15px;
+  opacity: 0;
+  transform: translateY(30px) scale(0.95);
+  transition: all 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.apple-subtitle {
+  font-size: clamp(16px, 2.5vw, 20px);
+  color: #57547a;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.polaroid-stack {
+  position: relative;
+  width: 350px;
+  height: 420px;
+  margin: 0 auto;
+  perspective: 1000px;
+}
+
+.polaroid-anim-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-style: preserve-3d;
+}
+
+.polaroid-label.apple-label {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  background: white;
+  color: #7c6ef2;
+  border-color: #7c6ef2;
+}
+
+/* STATE: init */
+#step-result.state-init .apple-title,
+#step-result.state-init .apple-subtitle {
+  opacity: 0;
+}
+#step-result.state-init .card-color,
+#step-result.state-init .card-sketch {
+  opacity: 0;
+  transform: scale(0.85) translateY(40px);
+  z-index: 2;
+}
+
+/* STATE: reveal (Color shows up slowly and elegantly) */
+#step-result.state-reveal .apple-title {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+#step-result.state-reveal .apple-subtitle {
+  opacity: 0; /* Still hidden */
+}
+#step-result.state-reveal .card-color {
+  opacity: 1;
+  transform: scale(1) translateY(0) rotate(-2deg);
+  box-shadow: 0 20px 45px rgba(0,0,0,0.2);
+  z-index: 3;
+}
+#step-result.state-reveal .card-sketch {
+  opacity: 0; /* Pre-loaded behind, wait to reveal */
+  transform: scale(0.9) translateY(0) rotate(-2deg);
+  z-index: 1;
+}
+
+/* STATE: split (Color left smaller, sketch right larger) */
+#step-result.state-split .apple-title {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+#step-result.state-split .apple-subtitle {
+  opacity: 1;
+  transform: translateY(0);
+}
+#step-result.state-split .card-color {
+  opacity: 1;
+  transform: translateX(-150px) scale(0.85) rotate(-6deg);
+  z-index: 3;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+#step-result.state-split .card-sketch {
+  opacity: 1;
+  transform: translateX(130px) scale(1.05) rotate(4deg);
+  z-index: 1;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+}
+
+@media (max-width: 600px) {
+  #step-result.state-split .card-color {
+    transform: scale(0.85) translate(0px, -90px) rotate(-4deg);
+  }
+  #step-result.state-split .card-sketch {
+    transform: scale(0.95) translate(0px, 120px) rotate(4deg);
+  }
+  .polaroid-stack {
+    height: 480px;
+  }
+}
+
+/* Actions Wrapper */
+.result-actions-wrapper {
+  position: relative;
+  z-index: 20;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+#step-result.state-done .result-actions-wrapper {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.btn-result-purple {
+  background: linear-gradient(115deg, #2c2560 0%, #7c6ef2 55%, #9b8bfb 100%) !important;
+  color: white !important;
+  font-weight: 600 !important;
+  padding: 14px 36px !important;
+  border-radius: 999px !important;
+  box-shadow: 0 12px 28px -8px rgba(72,55,196,0.45) !important;
+  transition: transform 0.2s, box-shadow 0.2s !important;
+}
+.btn-result-purple:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 16px 32px -8px rgba(72,55,196,0.55) !important;
+}
+
+/* Legado classes para caso haja referencias */
 .polaroid-card {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 12px;
 }
-
 .polaroid-label {
   font-size: 0.8rem;
   font-weight: 600;

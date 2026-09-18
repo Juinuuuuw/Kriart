@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/css/main.css?v=21">
+  <link rel="stylesheet" href="/static/css/main.css?v=26">
   <style>
     /* ===== Hero / Boas-vindas — Mural Vivo da UERN ===== */
     :root{
@@ -455,43 +455,115 @@
 
     <!-- STEP 6: GENERATING -->
     <section id="step-generating" class="step">
-      <div class="generating-content">
-        <!-- O container alvo das animações de efeitos.js -->
-        <div class="ai-orb-container">
-           <div class="ai-orb"></div>
-        </div>
-        
-        <h2 id="generating-title">Sua ideia está ganhando vida...</h2>
-        <div class="generating-sequence" id="gen-sequence">
-          <div class="gen-seq-item" id="seq-1"><span class="seq-num">01</span><span class="seq-text">Entendendo sua mensagem</span></div>
-          <div class="gen-seq-item" id="seq-2"><span class="seq-num">02</span><span class="seq-text">Criando a cena</span></div>
-          <div class="gen-seq-item" id="seq-3"><span class="seq-num">03</span><span class="seq-text">Definindo o clima</span></div>
-          <div class="gen-seq-item" id="seq-4"><span class="seq-num">04</span><span class="seq-text">Preparando seu cartaz</span></div>
+
+      <!-- Fundo Luminoso -->
+      <div class="cause-bg-glow"></div>
+
+      <!-- Ondas Roxas Animadas no Rodapé -->
+      <div class="cause-waves-wrapper">
+        <div class="waves-track">
+          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#eaddff" fill-opacity="0.5"/>
+            <path d="M0,96L80,85.3C160,75,320,53,480,53C640,53,800,75,960,85.3C1120,96,1280,96,1360,96L1440,96L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#d1c9ff"/>
+          </svg>
+          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#eaddff" fill-opacity="0.5"/>
+            <path d="M0,96L80,85.3C160,75,320,53,480,53C640,53,800,75,960,85.3C1120,96,1280,96,1360,96L1440,96L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#d1c9ff"/>
+          </svg>
         </div>
       </div>
+
+      <!-- Header — Logo Faísca -->
+      <header class="cause-topbar">
+        <div class="cause-logo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7c6ef2" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <strong>faísca</strong>
+          <span>Ideias que transformam.</span>
+        </div>
+      </header>
+
+      <!-- Conteúdo Central -->
+      <div class="generating-robot-content">
+
+        <!-- Título dinâmico -->
+        <h2 id="generating-title" class="gen-robot-title">Sua ideia está ganhando vida...</h2>
+
+        <!-- Robô pintando — sprite animation via JS -->
+        <div class="gen-robot-wrap">
+          <img id="gen-robot-frame" class="gen-robot-img"
+               src="/static/img/robot_painting/frame_092.png"
+               alt="Robô pintando sua arte">
+        </div>
+
+        <!-- Mensagem secundária rotativa -->
+        <p id="generating-subtitle" class="gen-robot-sub">Aguarde enquanto a IA cria algo incrível para você ✨</p>
+
+        <!-- Mensagem de Erro e Retry -->
+        <div id="gen-error" class="gen-error hidden">
+          <p id="gen-error-msg">Não foi possível conectar ao gerador de imagens. Verifique se o serviço está ativo.</p>
+          <button class="btn btn-secondary" id="btn-retry">Tentar novamente</button>
+        </div>
+
+      </div>
+
     </section>
 
     <!-- STEP 7: RESULTADO -->
     <section id="step-result" class="step">
-      <div class="step-header"><h2>Sua Criação está Pronta!</h2></div>
-      <div class="result-content">
-        <div class="polaroid-preview" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-          <div class="polaroid-card">
-            <span class="polaroid-label">Colorido</span>
-            <img id="polaroid-image" src="" alt="Seu Polaroid Colorido" class="polaroid-final-img">
-          </div>
-          <div class="polaroid-card">
-            <span class="polaroid-label">Rascunho</span>
-            <img id="polaroid-sketch-image" src="" alt="Seu Polaroid Rascunho" class="polaroid-final-img">
-          </div>
+      
+      <!-- Fundo Luminoso -->
+      <div class="cause-bg-glow"></div>
+
+      <!-- Ondas Roxas Animadas no Rodapé -->
+      <div class="cause-waves-wrapper">
+        <div class="waves-track">
+          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#eaddff" fill-opacity="0.5"/>
+            <path d="M0,96L80,85.3C160,75,320,53,480,53C640,53,800,75,960,85.3C1120,96,1280,96,1360,96L1440,96L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#d1c9ff"/>
+          </svg>
+          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+            <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#eaddff" fill-opacity="0.5"/>
+            <path d="M0,96L80,85.3C160,75,320,53,480,53C640,53,800,75,960,85.3C1120,96,1280,96,1360,96L1440,96L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#d1c9ff"/>
+          </svg>
         </div>
       </div>
-      <div class="step-actions result-actions" style="justify-content:center; gap:20px;">
-        <button class="btn btn-primary" id="btn-new-creation">Criar Nova Campanha</button>
+
+      <!-- Header — Logo Faísca -->
+      <header class="cause-topbar">
+        <div class="cause-logo">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7c6ef2" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          <strong>faísca</strong>
+          <span>Ideias que transformam.</span>
+        </div>
+      </header>
+
+      <div class="apple-style-presentation">
+        <div class="apple-header">
+          <h2 id="result-title" class="apple-title">Sua Criação está pronta!</h2>
+          <p id="sketch-msg" class="apple-subtitle">Para reforçar sua imaginação, preparamos uma versão para colorir também!</p>
+        </div>
+
+        <div class="polaroid-stack" id="result-stack">
+          <!-- Sketch (Right, Larger later) -->
+          <div class="polaroid-anim-card card-sketch" id="card-sketch">
+            <span class="polaroid-label apple-label">Para Colorir</span>
+            <img id="polaroid-sketch-image" src="" alt="Seu Polaroid Rascunho" class="polaroid-final-img">
+          </div>
+          
+          <!-- Colored (Starts Center, moves Left later) -->
+          <div class="polaroid-anim-card card-color" id="card-color">
+            <span class="polaroid-label apple-label">Sua Arte</span>
+            <img id="polaroid-image" src="" alt="Seu Polaroid Colorido" class="polaroid-final-img">
+          </div>
+        </div>
+
+        <div class="result-actions-wrapper">
+          <button class="btn btn-primary btn-result-purple" id="btn-new-creation">Criar Nova Arte</button>
+        </div>
       </div>
     </section>
 
   </main>
-  <script type="module" src="/static/js/main_new.js?v=22"></script>
+  <script type="module" src="/static/js/main_new.js?v=27"></script>
 </body>
 </html>

@@ -2,6 +2,123 @@ import { showStep } from './ui.js';
 import { API } from './api.js';
 import { initChoiceEffects } from './effects.js'; // Adicione a importação
 
+// ─── Animação do Robô Pintando ────────────────────────────────────────────────
+const FRAME_BASE = '/static/img/robot_painting/frame_';
+const FRAME_DELAY = 135; // ~7.4 fps — velocidade agradável e fluida para ver a pintura
+
+// Timeline contínua com pinceladas de ida e volta:
+// 1) 092 a 113: Pinta a paisagem verde
+// 2) Pinceladas de acabamento no verde (vai e volta entre 108 e 113)
+// 3) 114 a 120: Pinta a noite estrelada
+// 4) Pinceladas de acabamento nas estrelas (vai e volta entre 115 e 120)
+const PAINTING_TIMELINE = [
+  // 1. Pinta a paisagem verde
+  92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 113,
+  // 2. Movimento de pincelada no verde (indo e voltando para dar vida)
+  112, 111, 110, 109, 108, 109, 110, 111, 112, 113,
+  112, 111, 110, 109, 108, 109, 110, 111, 112, 113,
+  // 3. Pinta a noite estrelada
+  114, 115, 116, 117, 118, 119, 120,
+  // 4. Movimento de pincelada nas estrelas (indo e voltando)
+  119, 118, 117, 116, 115, 116, 117, 118, 119, 120,
+  119, 118, 117, 116, 115, 116, 117, 118, 119, 120
+];
+
+let _robotRunning  = false;
+let _timelineIndex = 0;
+let _robotLastTime = null;
+let _robotAccum    = 0;
+const _frameCache  = new Map();
+
+// Pré-carrega todos os frames para evitar qualquer atraso de rede/decodificação
+function preloadAllFrames() {
+  for (let i = 92; i <= 120; i++) {
+    if (!_frameCache.has(i)) {
+      const img = new Image();
+      img.src = `${FRAME_BASE}${String(i).padStart(3, '0')}.png`;
+      _frameCache.set(i, img);
+    }
+  }
+}
+// Inicia o pré-carregamento imediatamente
+preloadAllFrames();
+
+function startRobotAnimation() {
+  _robotRunning  = true;
+  _timelineIndex = 0;
+  _robotLastTime = null;
+  _robotAccum    = 0;
+
+  _renderRobotFrame(PAINTING_TIMELINE[0]);
+  requestAnimationFrame(_robotTick);
+}
+
+function stopRobotAnimation() {
+  _robotRunning = false;
+}
+
+function _robotTick(timestamp) {
+  if (!_robotRunning) return;
+
+  if (_robotLastTime === null) {
+    _robotLastTime = timestamp;
+    requestAnimationFrame(_robotTick);
+    return;
+  }
+
+  const delta = timestamp - _robotLastTime;
+  _robotLastTime = timestamp;
+
+  // Limita o delta para evitar saltos bruscos caso o navegador perca foco
+  const safeDelta = Math.min(delta, 500);
+  _robotAccum += safeDelta;
+
+  let changed = false;
+  while (_robotAccum >= FRAME_DELAY) {
+    _robotAccum -= FRAME_DELAY;
+    _timelineIndex = (_timelineIndex + 1) % PAINTING_TIMELINE.length;
+    changed = true;
+  }
+
+  if (changed) {
+    _renderRobotFrame(PAINTING_TIMELINE[_timelineIndex]);
+  }
+
+  requestAnimationFrame(_robotTick);
+}
+
+function _renderRobotFrame(num) {
+  const imgEl = document.getElementById('gen-robot-frame');
+  if (!imgEl) return;
+  const cached = _frameCache.get(num);
+  imgEl.src = (cached && cached.src) ? cached.src : `${FRAME_BASE}${String(num).padStart(3, '0')}.png`;
+}
+
+// ─── Mensagens rotativas no título ───────────────────────────────────────────
+const GEN_MESSAGES = [
+  'Sua ideia está ganhando vida...',
+  'Criando a composição visual...',
+  'Gerando sua arte com IA...',
+  'Quase lá! Montando seu Polaroid...',
+];
+let _msgInterval = null;
+
+function startMessageCycle() {
+  let i = 0;
+  const el = document.getElementById('generating-title');
+  if (el) el.textContent = GEN_MESSAGES[0];
+  _msgInterval = setInterval(() => {
+    i = (i + 1) % GEN_MESSAGES.length;
+    const t = document.getElementById('generating-title');
+    if (t) t.textContent = GEN_MESSAGES[i];
+  }, 4000);
+}
+
+function stopMessageCycle() {
+  if (_msgInterval) { clearInterval(_msgInterval); _msgInterval = null; }
+}
+// ─────────────────────────────────────────────────────────────────────────────
+
 const state = {
   sessionId: null,
   cause: null,
@@ -55,6 +172,8 @@ function setupNavigation() {
   document.getElementById('btn-next-name')?.addEventListener('click', () => {
     state.participantName = document.getElementById('input-name').value;
     goTo('step-generating');
+    startRobotAnimation();
+    startMessageCycle();
     finishGeneration();
   });
 
@@ -277,33 +396,26 @@ async function runBackgroundGeneration() {
 }
 
 async function finishGeneration() {
-  const sequences = document.querySelectorAll('.gen-seq-item');
-  sequences.forEach(s => { s.classList.remove('active', 'done'); });
-  
-  const nextSeq = (index, ms) => {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        if(index > 0) sequences[index-1].classList.replace('active', 'done');
-        if(index < sequences.length) sequences[index].classList.add('active');
-        resolve();
-      }, ms);
-    });
-  };
+  // Tempo mínimo que o robô fica animando na tela (em ms)
+  const MIN_DISPLAY_MS = 5000;
+  const startedAt = Date.now();
 
   try {
-    // Shows early sequences quickly since it's likely generating in background
-    await nextSeq(0, 300); 
-    
-    // Wait for the background image generation if it's not done yet
+    // Esconde mensagem de erro anterior se houver
+    document.getElementById('gen-error')?.classList.add('hidden');
+
+    // Aguarda a geração em background (prompt + imagem) se ainda não terminou
     if (bgGenerationPromise) {
       await bgGenerationPromise;
     }
 
-    await nextSeq(1, 200);
-    await nextSeq(2, 200);
-    await nextSeq(3, 400);
-    
-    // Update the final phrase and name before creating polaroid
+    // Garante o tempo mínimo na tela para ver a arte do robô
+    const elapsed = Date.now() - startedAt;
+    if (elapsed < MIN_DISPLAY_MS) {
+      await new Promise(r => setTimeout(r, MIN_DISPLAY_MS - elapsed));
+    }
+
+    // Atualiza frase e nome, depois monta o Polaroid
     await API.updateSession(state.sessionId, {
       user_phrase: state.phrase,
       participant_name: state.participantName || 'Anônimo'
@@ -315,13 +427,56 @@ async function finishGeneration() {
     if (document.getElementById('polaroid-sketch-image')) {
       document.getElementById('polaroid-sketch-image').src = polData.polaroid_sketch_url;
     }
+    stopRobotAnimation();
+    stopMessageCycle();
     showStep('step-result');
+
+    // Orquestra a animação Apple-style de revelação do Polaroid
+    const resultStep = document.getElementById('step-result');
+
+    if (resultStep) {
+      // 1. Estado inicial camuflado (tudo escondido/para baixo)
+      resultStep.className = 'step active state-init';
+
+      // 2. Revela a Polaroid colorida com animação suave e lenta
+      setTimeout(() => {
+        resultStep.className = 'step active state-reveal';
+      }, 1200);
+
+      // 3. Divide as polaroids (Colorida menor p/ esquerda, sketch maior p/ direita)
+      setTimeout(() => {
+        resultStep.className = 'step active state-split';
+      }, 5500); // Gives a nice 4.3 seconds to admire the main art before splitting
+
+      // 4. Mostra o botão de nova arte (Roxo!)
+      setTimeout(() => {
+        resultStep.className = 'step active state-split state-done';
+      }, 7000);
+    }
   } catch(e) {
-    console.error(e);
-    document.getElementById('gen-error')?.classList.remove('hidden');
-    if (document.getElementById('btn-retry')) {
-      document.getElementById('btn-retry').onclick = () => {
-        document.getElementById('gen-error').classList.add('hidden');
+    console.error("Erro na geração:", e);
+    // NÃO para a animação do robô! Ele continua pintando enquanto avisa o erro
+    const errContainer = document.getElementById('gen-error');
+    const errMsg = document.getElementById('gen-error-msg');
+    if (errContainer) {
+      errContainer.classList.remove('hidden');
+      if (errMsg) {
+        errMsg.textContent = (e && e.message) ? e.message : 'Não foi possível conectar ao gerador de imagens. Verifique se o Stable Diffusion está ativo.';
+      }
+    }
+    const subtitle = document.getElementById('generating-subtitle');
+    if (subtitle) {
+      subtitle.textContent = 'Ops! Houve uma instabilidade na geração de imagem.';
+    }
+
+    const retryBtn = document.getElementById('btn-retry');
+    if (retryBtn) {
+      retryBtn.onclick = () => {
+        if (errContainer) errContainer.classList.add('hidden');
+        if (subtitle) {
+          subtitle.textContent = 'Aguarde enquanto a IA cria algo incrível para você ✨';
+        }
+        bgGenerationPromise = runBackgroundGeneration();
         finishGeneration();
       };
     }

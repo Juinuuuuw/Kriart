@@ -212,12 +212,10 @@ export function initChoiceEffects() {
     }
   }, true);
 
-  // Funde tudo no orbe e limpa state na volta
+  // Limpa o coletor ao entrar na geração ou ao voltar
   document.addEventListener('kriart:stepchange', (e) => {
     const stepId = e.detail && e.detail.stepId;
-    if (stepId === 'step-generating') {
-      setTimeout(() => convergeIntoOrb(), 380);
-    } else if (stepId === 'step-welcome' || stepId === 'step-cause') {
+    if (stepId === 'step-generating' || stepId === 'step-welcome' || stepId === 'step-cause') {
       resetCollector();
     }
   });
