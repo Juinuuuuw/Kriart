@@ -33,14 +33,21 @@
       flex-direction: column;
     }
 
-    /* Decorative side waves */
-    .wave-left, .wave-right {
-      position: absolute; top: 0; height: 100vh; width: 150px;
-      pointer-events: none; z-index: 0; opacity: 0.5;
+    /* Ondas no Rodapé com Animação Infinita */
+    .cause-waves-wrapper {
+      position: absolute; bottom: -5px; left: 0; width: 100vw;
+      z-index: 0; pointer-events: none; overflow: hidden; line-height: 0;
     }
-    .wave-left { left: 0; }
-    .wave-right { right: 0; transform: scaleX(-1); }
-    .wave-left svg, .wave-right svg { width: 100%; height: 100%; }
+    .waves-track {
+      display: flex; width: 200vw;
+      animation: waveMove 12s linear infinite;
+    }
+    .waves-track svg { width: 100vw; flex-shrink: 0; height: auto; min-height: 120px; }
+    
+    @keyframes waveMove {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); } 
+    }
 
     /* Header */
     .mural-header {
@@ -69,7 +76,7 @@
     /* Polaroid Element */
     .polaroid-item {
       position: absolute;
-      width: 280px; /* Fixed display width, adjust if needed */
+      width: 280px; /* Adjust size based on portrait layout */
       background: white;
       padding: 14px 14px 40px 14px;
       box-shadow: 0 20px 40px rgba(0,0,0,0.15), 0 5px 15px rgba(0,0,0,0.1);
@@ -77,7 +84,18 @@
       transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
       opacity: 0;
       transform-origin: center center;
-      /* We will set initial transform via JS for popping effect */
+    }
+    
+    /* Make polaroids scale properly on narrower screens like 1080px wide portrait monitors */
+    @media (max-width: 1080px) {
+      .polaroid-item {
+        width: 320px; /* Slightly larger on full portrait displays for better visibility */
+      }
+    }
+    @media (max-width: 600px) {
+      .polaroid-item {
+        width: 240px;
+      }
     }
 
     .polaroid-item img {
@@ -113,28 +131,18 @@
 </head>
 <body>
 
-  <!-- Side waves -->
-  <div class="wave-left" aria-hidden="true">
-    <svg viewBox="0 0 120 1200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path fill="url(#waveGradL)" opacity="0.7">
-        <animate attributeName="d" dur="8s" repeatCount="indefinite"
-          values="M0,0 Q80,150 30,350 Q-20,550 60,750 Q110,950 20,1200 L0,1200 Z;
-                  M0,0 Q40,150 80,350 Q120,550 40,750 Q0,950 70,1200 L0,1200 Z;
-                  M0,0 Q80,150 30,350 Q-20,550 60,750 Q110,950 20,1200 L0,1200 Z"/>
-      </path>
-      <defs><linearGradient id="waveGradL" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#9b8bfb"/><stop offset="100%" stop-color="#7c6ef2"/></linearGradient></defs>
-    </svg>
-  </div>
-  <div class="wave-right" aria-hidden="true">
-    <svg viewBox="0 0 120 1200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path fill="url(#waveGradR)" opacity="0.7">
-        <animate attributeName="d" dur="10s" repeatCount="indefinite"
-          values="M0,0 Q80,150 30,350 Q-20,550 60,750 Q110,950 20,1200 L0,1200 Z;
-                  M0,0 Q40,150 80,350 Q120,550 40,750 Q0,950 70,1200 L0,1200 Z;
-                  M0,0 Q80,150 30,350 Q-20,550 60,750 Q110,950 20,1200 L0,1200 Z"/>
-      </path>
-      <defs><linearGradient id="waveGradR" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7c6ef2"/><stop offset="100%" stop-color="#9b8bfb"/></linearGradient></defs>
-    </svg>
+  <!-- Ondas Roxas Animadas no Rodapé -->
+  <div class="cause-waves-wrapper">
+    <div class="waves-track">
+      <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#eaddff" fill-opacity="0.5"/>
+        <path d="M0,96L80,85.3C160,75,320,53,480,53C640,53,800,75,960,85.3C1120,96,1280,96,1360,96L1440,96L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#d1c9ff"/>
+      </svg>
+      <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#eaddff" fill-opacity="0.5"/>
+        <path d="M0,96L80,85.3C160,75,320,53,480,53C640,53,800,75,960,85.3C1120,96,1280,96,1360,96L1440,96L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#d1c9ff"/>
+      </svg>
+    </div>
   </div>
 
   <header class="mural-header">
@@ -182,10 +190,16 @@
       img.src = data.polaroid_url;
       el.appendChild(img);
 
-      // Random position
-      // Width is 280px. Height is approx 350px.
-      const maxW = board.clientWidth - 300;
-      const maxH = board.clientHeight - 400;
+      // We append it to measure its width/height, but make it invisible first
+      el.style.opacity = '0';
+      board.appendChild(el);
+      
+      // Calculate random position ensuring it stays within board bounds
+      const elWidth = el.offsetWidth || 320;
+      const elHeight = el.offsetHeight || 400; // rough estimation
+      
+      const maxW = Math.max(20, board.clientWidth - elWidth - 40);
+      const maxH = Math.max(20, board.clientHeight - elHeight - 60);
       
       const left = Math.max(20, Math.random() * maxW);
       const top = Math.max(20, Math.random() * maxH);
@@ -202,7 +216,6 @@
       const highestZ = activeElements.reduce((max, item) => Math.max(max, parseInt(item.style.zIndex || 0)), 0);
       el.style.zIndex = highestZ + 1;
 
-      board.appendChild(el);
       activeElements.push(el);
 
       // Remove oldest if limit exceeded
@@ -235,7 +248,6 @@
     // Periodically spawn a random old polaroid to keep screen dynamic
     setInterval(() => {
       if (allPolaroids.length === 0) return;
-      // Skip spawning if there was a very recent new polaroid? Nah, just spawn randomly.
       const randomData = allPolaroids[Math.floor(Math.random() * allPolaroids.length)];
       spawnPolaroid(randomData);
     }, 6000); // Every 6 seconds pop a new one
