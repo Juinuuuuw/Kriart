@@ -318,17 +318,12 @@
         printWin.document.write('</div>');
       }
       
-      printWin.document.write(`
-          <script>
-            window.onload = () => {
-              setTimeout(() => {
-                window.print();
-              }, 500);
-            };
-          </script>
-          </body>
-        </html>
-      `);
+      printWin.document.write(
+        '<scr' + 'ipt>' +
+        'window.onload=function(){setTimeout(function(){window.print();},500);}' +
+        '</scr' + 'ipt>' +
+        '</body></html>'
+      );
       printWin.document.close();
     });
 
