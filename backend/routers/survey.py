@@ -65,3 +65,18 @@ def get_survey_dashboard(db: Session = Depends(get_db)):
         "waiting_post_test": waiting,
         "total": len(surveys)
     }
+
+@router.post("/post-test")
+def submit_post_test(request: Dict[str, Any], db: Session = Depends(get_db)):
+    session_id = request.get("session_id")
+    if not session_id:
+        return {"status": "error", "message": "No session_id"}
+    
+    record = crud.get_survey(db, session_id)
+    if record and record.status == "Aguardando pós-teste":
+        import json
+        record.post_test_data = json.dumps(request)
+        record.status = "Adepta ao estudo"
+        db.commit()
+        return {"status": "success", "message": "Post-test completed"}
+    return {"status": "ignored"}

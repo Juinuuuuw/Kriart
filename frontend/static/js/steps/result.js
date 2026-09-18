@@ -85,7 +85,12 @@ export async function showResult(state) {
   const newBtn = document.getElementById('btn-new-creation');
   if (newBtn) {
     newBtn.onclick = () => {
-      window.location.reload();
+      if (state.termo_aceito === 'sim') {
+        // Need to import showStep, but wait, it's already in ui.js which is imported at the top!
+        import('../ui.js').then(ui => ui.showStep('step-post-test'));
+      } else {
+        window.location.reload();
+      }
     };
   }
 }

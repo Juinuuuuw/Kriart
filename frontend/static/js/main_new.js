@@ -176,6 +176,7 @@ function setupNavigation() {
     const termo = document.querySelector('input[name="termo_aceito"]:checked')?.value;
     if (!termo) return;
     
+    state.termo_aceito = termo;
     const formData = {
       session_id: state.session_id || Date.now().toString(),
       termo_aceito: termo
@@ -209,6 +210,32 @@ function setupNavigation() {
     }
 
     goTo('step-cause');
+  });
+
+  document.getElementById('btn-submit-post-test')?.addEventListener('click', async () => {
+    const formData = {
+      session_id: state.session_id,
+      campaign_id: state.campaignId,
+      user_message: state.userMessage,
+      user_phrase: state.userPhrase
+    };
+    
+    for (let i = 1; i <= 23; i++) {
+      const el = document.querySelector(`input[name="pq${i}"]:checked`);
+      if (el) formData[`pq${i}`] = el.value;
+    }
+
+    try {
+      await fetch('/api/survey/post-test', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+    } catch (e) {
+      console.error('Error saving post-test:', e);
+    }
+    
+    window.location.reload();
   });
 
   const BANNED_PATTERNS = [
