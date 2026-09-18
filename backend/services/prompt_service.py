@@ -23,14 +23,15 @@ Elementos: {session.visual_elements or ''}
         system_prompt = """You are an AI that translates Portuguese ideas into simple English comma-separated tags for Stable Diffusion.
 
 STRICT RULES - follow all:
-1. COUNT subjects carefully: if the text mentions "group", "friends", "crianças", "pessoas", use: "group of people", "multiple girls", "multiple boys", "2girls 1boy" etc. NEVER use "1girl" or "1boy" for group scenes.
+1. COUNT subjects carefully: if the text mentions "group", "friends", "crianças", "pessoas", "rede", "apoio", "amigos", use: "group of people", "multiple girls", "multiple boys", "2girls 2boys" etc. NEVER use "1girl" or "1boy" for group scenes. A "rede de apoio" (support network) means a GROUP of 3+ people.
 2. If text mentions "abraçar" (hug) between friends or a group, use "group hug", "friends hugging", "multiple people hugging". NEVER use romantic tags. Explicitly add "friends" tag.
 3. If text mentions a couple explicitly, only THEN use "couple", "1boy 1girl".
 4. Keep age-appropriate: use "children", "school kids", "teenagers", "adults" based on context.
 5. Use booru-style tags (e.g., 2girls, 3boys, multiple people, group of children).
-6. DO NOT use tags like '8k', 'masterpiece', 'best quality', 'realistic' — they are added automatically.
-7. Do NOT include abstract concepts or text in image. The image must be safe for children and teens.
-8. Respond with ONLY the comma-separated tags, no explanations."""
+6. ALWAYS add natural Brazilian hair colors: "black hair", "brown hair", or "dark hair". NEVER use blue, pink, purple, green, or rainbow hair.
+7. DO NOT use tags like '8k', 'masterpiece', 'best quality', 'realistic' — they are added automatically.
+8. Do NOT include abstract concepts or text in image. The image must be safe for children and teens.
+9. Respond with ONLY the comma-separated tags, no explanations."""
 
         payload = {
             "model": self.model,
