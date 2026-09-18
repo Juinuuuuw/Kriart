@@ -579,6 +579,23 @@
       </div>
     </section>
 
+    
+    <!-- Modal Select User -->
+    <div id="user-modal" class="custom-modal hidden">
+      <div class="custom-modal-backdrop" id="user-modal-backdrop"></div>
+      <div class="custom-modal-content" style="max-width: 600px;">
+        <h2 style="font-family: 'Fraunces', serif; color: var(--hero-ink); margin-bottom: 20px;">Quem é você?</h2>
+        <p style="font-size: 16px; color: var(--hero-ink-soft); margin-bottom: 30px;">Selecione o seu código de participante ou jogue sem participar do estudo:</p>
+        
+        <div id="totem-users-list" style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 40px;">
+          <!-- Loaded via JS -->
+        </div>
+        
+        <button class="hero-cta" id="btn-skip-study" style="background: var(--hero-ink-soft); font-size: 14px; padding: 12px 24px;">Jogar sem participar do estudo</button>
+        <button class="modal-close" id="btn-close-user-modal" style="margin-top: 20px; border: none; background: transparent; color: #999; cursor: pointer; display: block; width: 100%;">Cancelar</button>
+      </div>
+    </div>
+
     <!-- Modal de Alerta NSFW -->
     <div id="nsfw-modal" class="custom-modal hidden">
       <div class="custom-modal-backdrop"></div>
