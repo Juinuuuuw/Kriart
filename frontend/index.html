@@ -119,6 +119,168 @@
       </div>
     </section>
 
+        <!-- STEP PRE-TEST -->
+    <section id="step-pre-test" class="step">
+      <div class="welcome-content" style="max-width: 800px; padding: 40px 20px; text-align: left; overflow-y: auto; height: 100vh;">
+        <h2 style="font-family: 'Fraunces', serif; color: var(--hero-ink); text-align: center; margin-bottom: 20px;">Termo de Consentimento Livre e Esclarecido</h2>
+        
+        <div style="font-size: 14px; line-height: 1.6; color: var(--hero-ink-soft); margin-bottom: 30px; background: rgba(255,255,255,0.5); padding: 20px; border-radius: 12px; border: 1px solid var(--hero-border);">
+          <p>Você está sendo convidado(a) a participar de uma pesquisa que investiga como as pessoas interagem com uma inteligência artificial para criar banners em tempo real. O objetivo é compreender como os participantes percebem e avaliam esse processo de criação e o resultado gerado pela inteligência artificial.</p>
+          <br>
+          <p>Durante a atividade, você irá interagir com uma inteligência artificial, fornecendo instruções sobre o banner que deseja criar. A partir dessas instruções, a inteligência artificial irá gerar um banner em tempo real.</p>
+          <br>
+          <p>Após a atividade, você responderá a algumas perguntas sobre sua experiência de interação com a inteligência artificial e sobre o banner gerado. As perguntas abordarão aspectos como a facilidade para organizar e descrever suas ideias, a compreensão das instruções pela inteligência artificial, a correspondência entre o resultado gerado e o que você esperava e a necessidade de realizar correções ou alterações durante o processo. Também serão coletadas informações sobre sua avaliação do banner e seu nível de engajamento durante a atividade.</p>
+          <br>
+          <p>A atividade dura cerca de 10 minutos. O estudo apresenta risco mínimo, podendo causar apenas leve cansaço ou desconforto decorrente do uso da tela e da interação com a aplicação.</p>
+          <br>
+          <p>Não há benefícios diretos esperados para você, mas os resultados poderão contribuir para o desenvolvimento e aprimoramento de ferramentas de inteligência artificial voltadas à criação de conteúdos visuais de forma interativa e em tempo real.</p>
+          <br>
+          <p>Suas respostas serão anônimas e confidenciais. A participação é voluntária, e você pode desistir a qualquer momento, sem necessidade de justificativa e sem qualquer prejuízo.</p>
+          <br>
+          <p><strong>Pesquisador responsável:</strong><br>Professor Doutor Raul Benites Paradeda<br>raulparadeda@uern.br</p>
+        </div>
+
+        <div class="survey-form" id="survey-form">
+          <div class="question-block">
+            <label>Você aceita participar desta pesquisa?</label>
+            <div class="radio-group vertical" id="termo-radios">
+              <label><input type="radio" name="termo_aceito" value="sim"> Sim, concordo.</label>
+              <label><input type="radio" name="termo_aceito" value="nao"> Não, não concordo.</label>
+            </div>
+          </div>
+
+          <div id="survey-questions" style="display: none; opacity: 0; transition: opacity 0.5s;">
+            <div class="question-block">
+              <label>1. Qual é a sua idade?</label>
+              <select name="idade" class="survey-select">
+                <option value="" disabled selected>Selecione...</option>
+                <option value="0-13">0 a 13 anos</option>
+                <option value="14-29">14 a 29 anos</option>
+                <option value="30-45">30 a 45 anos</option>
+                <option value="46-61">46 a 61 anos</option>
+                <option value="62-80">62 a 80 anos</option>
+                <option value="81+">81 anos ou mais</option>
+              </select>
+            </div>
+
+            <div class="question-block">
+              <label>2. Qual é o seu nível de escolaridade?</label>
+              <select name="escolaridade" class="survey-select">
+                <option value="" disabled selected>Selecione...</option>
+                <option value="Ensino fundamental incompleto">Ensino fundamental incompleto</option>
+                <option value="Ensino fundamental completo">Ensino fundamental completo</option>
+                <option value="Ensino médio incompleto">Ensino médio incompleto</option>
+                <option value="Ensino médio completo">Ensino médio completo</option>
+                <option value="Ensino superior incompleto">Ensino superior incompleto</option>
+                <option value="Ensino superior completo">Ensino superior completo</option>
+                <option value="Pós-graduação">Pós-graduação</option>
+                <option value="Prefiro não Informar">Prefiro não Informar</option>
+                <option value="Outro">Outro</option>
+              </select>
+            </div>
+
+            <div class="question-block">
+              <label>3. Qual é o seu gênero?</label>
+              <select name="genero" class="survey-select">
+                <option value="" disabled selected>Selecione...</option>
+                <option value="Feminino">Feminino</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Pessoa não binária">Pessoa não binária</option>
+                <option value="Prefiro não Informar">Prefiro não Informar</option>
+                <option value="Outro">Outro</option>
+              </select>
+            </div>
+
+            <div class="question-block">
+              <label>4. Você já usou alguma ferramenta de inteligência artificial generativa, como ChatGPT, Gemini ou Copilot?</label>
+              <div class="radio-group vertical">
+                <label><input type="radio" name="uso_ia" value="Nunca utilizei"> Nunca utilizei.</label>
+                <label><input type="radio" name="uso_ia" value="Poucas vezes"> Já utilizei poucas vezes, em situações pontuais.</label>
+                <label><input type="radio" name="uso_ia" value="Às vezes"> Utilizo às vezes, quando tenho alguma necessidade específica.</label>
+                <label><input type="radio" name="uso_ia" value="Frequentemente"> Utilizo frequentemente, em diferentes situações.</label>
+                <label><input type="radio" name="uso_ia" value="Quase todos os dias"> Utilizo quase todos os dias, em diversas atividades.</label>
+              </div>
+            </div>
+
+            <div class="question-block">
+              <label>5. Para quais finalidades você já utilizou uma IA generativa? (Múltipla escolha)</label>
+              <div class="checkbox-group vertical">
+                <label><input type="checkbox" name="finalidades_ia" value="Estudos ou atividades acadêmicas"> Estudos ou atividades acadêmicas</label>
+                <label><input type="checkbox" name="finalidades_ia" value="Tirar dúvidas ou obter informações"> Tirar dúvidas ou obter informações</label>
+                <label><input type="checkbox" name="finalidades_ia" value="Criar ou revisar textos"> Criar ou revisar textos</label>
+                <label><input type="checkbox" name="finalidades_ia" value="Criar ou editar imagens"> Criar ou editar imagens</label>
+                <label><input type="checkbox" name="finalidades_ia" value="Nunca utilizei"> Nunca utilizei uma IA generativa</label>
+                <label><input type="checkbox" name="finalidades_ia" value="Outro"> Outro</label>
+              </div>
+            </div>
+
+            <h3 style="font-family: 'Fraunces', serif; margin-top: 40px; margin-bottom: 10px;">Percepção sobre Inteligência Artificial Generativa</h3>
+            <p style="font-size: 13px; color: var(--hero-ink-soft); margin-bottom: 20px;">Indique o quanto você concorda ou discorda de cada afirmação.</p>
+            <div style="font-size: 11px; margin-bottom: 10px; color: #777;">1 = Discordo totalmente | 5 = Concordo totalmente</div>
+
+            <div class="question-block likert">
+              <label>6. A inteligência artificial é capaz de criar imagens de acordo com o que uma pessoa solicita.</label>
+              <div class="likert-scale">
+                <label><input type="radio" name="q6" value="1"> 1</label>
+                <label><input type="radio" name="q6" value="2"> 2</label>
+                <label><input type="radio" name="q6" value="3"> 3</label>
+                <label><input type="radio" name="q6" value="4"> 4</label>
+                <label><input type="radio" name="q6" value="5"> 5</label>
+              </div>
+            </div>
+
+            <div class="question-block likert">
+              <label>7. As imagens criadas por inteligência artificial podem representar aquilo que uma pessoa imaginou.</label>
+              <div class="likert-scale">
+                <label><input type="radio" name="q7" value="1"> 1</label>
+                <label><input type="radio" name="q7" value="2"> 2</label>
+                <label><input type="radio" name="q7" value="3"> 3</label>
+                <label><input type="radio" name="q7" value="4"> 4</label>
+                <label><input type="radio" name="q7" value="5"> 5</label>
+              </div>
+            </div>
+
+            <div class="question-block likert">
+              <label>8. Considero interessante utilizar inteligência artificial para criar imagens.</label>
+              <div class="likert-scale">
+                <label><input type="radio" name="q8" value="1"> 1</label>
+                <label><input type="radio" name="q8" value="2"> 2</label>
+                <label><input type="radio" name="q8" value="3"> 3</label>
+                <label><input type="radio" name="q8" value="4"> 4</label>
+                <label><input type="radio" name="q8" value="5"> 5</label>
+              </div>
+            </div>
+
+            <div class="question-block likert">
+              <label>9. Eu me sentiria confortável em utilizar uma imagem criada por inteligência artificial.</label>
+              <div class="likert-scale">
+                <label><input type="radio" name="q9" value="1"> 1</label>
+                <label><input type="radio" name="q9" value="2"> 2</label>
+                <label><input type="radio" name="q9" value="3"> 3</label>
+                <label><input type="radio" name="q9" value="4"> 4</label>
+                <label><input type="radio" name="q9" value="5"> 5</label>
+              </div>
+            </div>
+
+            <div class="question-block likert">
+              <label>10. Imagens criadas por inteligência artificial podem ser utilizadas para comunicar ideias ou mensagens.</label>
+              <div class="likert-scale">
+                <label><input type="radio" name="q10" value="1"> 1</label>
+                <label><input type="radio" name="q10" value="2"> 2</label>
+                <label><input type="radio" name="q10" value="3"> 3</label>
+                <label><input type="radio" name="q10" value="4"> 4</label>
+                <label><input type="radio" name="q10" value="5"> 5</label>
+              </div>
+            </div>
+          </div>
+          
+          <div style="text-align: center; margin-top: 40px; margin-bottom: 60px;">
+            <button class="hero-cta" id="btn-submit-pre-test" style="display: none; opacity: 0; transition: opacity 0.5s;">Iniciar Criação</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- STEP 1: CAUSA -->
     <section id="step-cause" class="step">
       

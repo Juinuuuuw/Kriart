@@ -7,7 +7,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 
-from backend.routers import session, campaigns, generation, polaroid, print_router, mural
+from backend.routers import session, campaigns, generation, polaroid, print_router, mural, survey
 from backend.db.database import init_db
 
 from contextlib import asynccontextmanager
@@ -41,6 +41,7 @@ app.include_router(generation.router, prefix="/api/generate", tags=["Generation"
 app.include_router(polaroid.router, prefix="/api/polaroid", tags=["Polaroid"])
 app.include_router(print_router.router, prefix="/api/print", tags=["Print"])
 app.include_router(mural.router, prefix="/api/mural", tags=["Mural"])
+app.include_router(survey.router, prefix="/api/survey", tags=["Survey"])
 
 # Frontend estático e arquivos gerados (output)
 # Em produção, um Nginx faria isso melhor, mas para o totem funciona bem.

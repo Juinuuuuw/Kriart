@@ -150,7 +150,66 @@ document.addEventListener('DOMContentLoaded', () => {
 function setupNavigation() {
   const goTo = (stepId) => showStep(stepId);
 
-  document.getElementById('btn-start')?.addEventListener('click', () => goTo('step-cause'));
+  document.getElementById('btn-start')?.addEventListener('click', () => goTo('step-pre-test'));
+
+  // Pre-test logic
+  const termoRadios = document.querySelectorAll('input[name="termo_aceito"]');
+  const surveyQuestions = document.getElementById('survey-questions');
+  const btnSubmitPreTest = document.getElementById('btn-submit-pre-test');
+
+  termoRadios.forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      btnSubmitPreTest.style.display = 'inline-flex';
+      setTimeout(() => btnSubmitPreTest.style.opacity = '1', 50);
+      
+      if (e.target.value === 'sim') {
+        surveyQuestions.style.display = 'block';
+        setTimeout(() => surveyQuestions.style.opacity = '1', 50);
+      } else {
+        surveyQuestions.style.opacity = '0';
+        setTimeout(() => surveyQuestions.style.display = 'none', 500);
+      }
+    });
+  });
+
+  btnSubmitPreTest?.addEventListener('click', async () => {
+    const termo = document.querySelector('input[name="termo_aceito"]:checked')?.value;
+    if (!termo) return;
+    
+    const formData = {
+      session_id: state.session_id || Date.now().toString(),
+      termo_aceito: termo
+    };
+    
+    if (termo === 'sim') {
+      formData.idade = document.querySelector('select[name="idade"]').value;
+      formData.escolaridade = document.querySelector('select[name="escolaridade"]').value;
+      formData.genero = document.querySelector('select[name="genero"]').value;
+      formData.uso_ia = document.querySelector('input[name="uso_ia"]:checked')?.value;
+      
+      const finalidades = [];
+      document.querySelectorAll('input[name="finalidades_ia"]:checked').forEach(cb => finalidades.push(cb.value));
+      formData.finalidades_ia = finalidades;
+      
+      formData.q6 = document.querySelector('input[name="q6"]:checked')?.value;
+      formData.q7 = document.querySelector('input[name="q7"]:checked')?.value;
+      formData.q8 = document.querySelector('input[name="q8"]:checked')?.value;
+      formData.q9 = document.querySelector('input[name="q9"]:checked')?.value;
+      formData.q10 = document.querySelector('input[name="q10"]:checked')?.value;
+    }
+
+    try {
+      await fetch('/api/survey/pre-test', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+    } catch (e) {
+      console.error('Error saving pre-test:', e);
+    }
+
+    goTo('step-cause');
+  });
 
   const BANNED_PATTERNS = [
     /sangue/i, /mort[ea]s?/i, /matar/i, /assassinato/i, /\btiros?\b/i, /\barmas?\b/i, /\bfacas?\b/i, /suicídio/i,

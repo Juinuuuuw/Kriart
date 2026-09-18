@@ -1098,3 +1098,16 @@ input[type="text"]:focus, textarea:focus { outline: none; border-color: var(--ac
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--border-color);
 }
+
+/* Survey CSS */
+.survey-form { max-width: 600px; margin: 0 auto; }
+.question-block { margin-bottom: 24px; }
+.question-block label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--hero-ink); font-size: 15px; }
+.survey-select { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid var(--hero-border); font-family: 'Poppins', sans-serif; font-size: 14px; background: #fff; }
+.radio-group, .checkbox-group { display: flex; gap: 16px; flex-wrap: wrap; }
+.radio-group.vertical, .checkbox-group.vertical { flex-direction: column; gap: 8px; }
+.radio-group label, .checkbox-group label { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--hero-ink); cursor: pointer; font-weight: 400;}
+.likert { background: rgba(255,255,255,0.6); padding: 16px; border-radius: 12px; border: 1px solid var(--hero-border); }
+.likert-scale { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.likert-scale label { display: flex; flex-direction: column; align-items: center; gap: 4px; font-weight: 500; font-size:14px; }
+.likert-scale span { font-size: 12px; color: var(--hero-ink-soft); }

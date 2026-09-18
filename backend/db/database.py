@@ -26,6 +26,32 @@ class PolaroidDB(Base):
     created_at = Column(DateTime, default=datetime.utcnow)
 
 
+class SurveyResponseDB(Base):
+    """Respostas do formulário pré e pós-teste da pesquisa."""
+    __tablename__ = "survey_responses"
+
+    session_id = Column(String(40), primary_key=True)
+    status = Column(String(50), default="Aguardando pós-teste") # 'Não adepta', 'Aguardando pós-teste', 'Desistiu', 'Adepta ao estudo'
+    
+    # Pré-teste
+    termo_aceito = Column(Boolean, default=False)
+    idade = Column(String(50), nullable=True)
+    escolaridade = Column(String(100), nullable=True)
+    genero = Column(String(50), nullable=True)
+    uso_ia = Column(String(100), nullable=True)
+    finalidades_ia = Column(Text, nullable=True)
+    percepcao_q6 = Column(String(10), nullable=True)
+    percepcao_q7 = Column(String(10), nullable=True)
+    percepcao_q8 = Column(String(10), nullable=True)
+    percepcao_q9 = Column(String(10), nullable=True)
+    percepcao_q10 = Column(String(10), nullable=True)
+    
+    # Pós-teste (a definir depois)
+    post_test_data = Column(Text, nullable=True)
+    
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
 engine = create_engine(
     settings.DATABASE_URL,
     connect_args={"check_same_thread": False},

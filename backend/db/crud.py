@@ -47,3 +47,46 @@ def mark_as_printed(db: Session, polaroid_id: str):
     if record:
         record.printed = True
         db.commit()
+
+from backend.db.database import SurveyResponseDB
+
+def save_pre_test(db: Session, session_id: str, data: dict) -> SurveyResponseDB:
+    """Salva os dados do pré-teste da pesquisa."""
+    termo_aceito = data.get("termo_aceito") == "sim"
+    status = "Aguardando pós-teste" if termo_aceito else "Não adepta"
+    
+    import json
+    finalidades = data.get("finalidades_ia", [])
+    if isinstance(finalidades, list):
+        finalidades = json.dumps(finalidades)
+        
+    record = SurveyResponseDB(
+        session_id=session_id,
+        status=status,
+        termo_aceito=termo_aceito,
+        idade=data.get("idade"),
+        escolaridade=data.get("escolaridade"),
+        genero=data.get("genero"),
+        uso_ia=data.get("uso_ia"),
+        finalidades_ia=finalidades,
+        percepcao_q6=data.get("q6"),
+        percepcao_q7=data.get("q7"),
+        percepcao_q8=data.get("q8"),
+        percepcao_q9=data.get("q9"),
+        percepcao_q10=data.get("q10"),
+    )
+    db.merge(record) # create or update
+    db.commit()
+    return record
+
+def get_survey(db: Session, session_id: str) -> Optional[SurveyResponseDB]:
+    return db.query(SurveyResponseDB).filter(SurveyResponseDB.session_id == session_id).first()
+
+def update_survey_status(db: Session, session_id: str, status: str):
+    record = get_survey(db, session_id)
+    if record:
+        record.status = status
+        db.commit()
+
+def list_surveys(db: Session) -> List[SurveyResponseDB]:
+    return db.query(SurveyResponseDB).order_by(SurveyResponseDB.created_at.desc()).all()
