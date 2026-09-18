@@ -13,23 +13,14 @@ from backend.services.qrcode_service import QRCodeService
 CAMPAIGN_COLORS = {
     "setembro_amarelo": (245, 197, 24),
     "bullying": (76, 175, 80),
-    "meio_ambiente": (76, 175, 80),
+    "violencia_mulher": (194, 24, 91),
     "inclusao": (156, 39, 176),
 }
-
-CAMPAIGN_ICONS = {
-    "setembro_amarelo": "heart",   # coração amarelo
-    "bullying": "ribbon",          # laço verde
-    "meio_ambiente": "ribbon",     # laço verde
-    "inclusao": "heart",           # coração roxo
-}
-
 
 def _hex_to_rgb(hex_color: str) -> tuple:
     """Converte #RRGGBB para (R, G, B)."""
     h = hex_color.lstrip("#")
     return tuple(int(h[i:i+2], 16) for i in (0, 2, 4))
-
 
 def _load_campaign_color(campaign_id: str) -> tuple:
     """Carrega a cor da campanha do JSON, com fallback."""
@@ -40,40 +31,7 @@ def _load_campaign_color(campaign_id: str) -> tuple:
             return _hex_to_rgb(data.get("cor_tema", "#7c6ef2"))
     except Exception:
         pass
-    return CAMPAIGN_COLORS.get(campaign_id, (124, 110, 242))
-
-
-def _draw_heart(draw: ImageDraw.ImageDraw, cx: int, cy: int, size: int, color: tuple, alpha_img: Image.Image = None):
-    """Desenha um coração centrado em (cx, cy)."""
-    # Heart using two ellipses + a polygon
-    r = size // 4
-    # Left lobe
-    draw.ellipse([cx - size//2, cy - r, cx, cy + r], fill=color)
-    # Right lobe
-    draw.ellipse([cx, cy - r, cx + size//2, cy + r], fill=color)
-    # Bottom triangle
-    draw.polygon([
-        (cx - size//2, cy + r // 2),
-        (cx + size//2, cy + r // 2),
-        (cx, cy + size // 2),
-    ], fill=color)
-
-
-def _draw_ribbon(draw: ImageDraw.ImageDraw, cx: int, cy: int, size: int, color: tuple):
-    """Desenha um laço de conscientização (awareness ribbon) centrado em (cx, cy)."""
-    # Two overlapping loops + knot in the middle
-    lw = max(6, size // 8)
-    half = size // 2
-    # Left loop
-    draw.arc([cx - half, cy - half, cx, cy + half // 2], start=180, end=360, fill=color, width=lw)
-    # Right loop
-    draw.arc([cx, cy - half, cx + half, cy + half // 2], start=180, end=360, fill=color, width=lw)
-    # Tails
-    draw.line([(cx - half // 2, cy + half // 4), (cx, cy)], fill=color, width=lw)
-    draw.line([(cx + half // 2, cy + half // 4), (cx, cy)], fill=color, width=lw)
-    draw.line([(cx - half // 3, cy), (cx - half // 3, cy + half)], fill=color, width=lw)
-    draw.line([(cx + half // 3, cy), (cx + half // 3, cy + half)], fill=color, width=lw)
-
+    return CAMPAIGN_COLORS.get(campaign_id, (245, 197, 24))
 
 def _wrap_text(text: str, font, max_width: int, draw: ImageDraw.ImageDraw) -> list:
     """Quebra texto em linhas que cabem em max_width."""
@@ -93,7 +51,6 @@ def _wrap_text(text: str, font, max_width: int, draw: ImageDraw.ImageDraw) -> li
         lines.append(current)
     return lines
 
-
 class PolaroidService:
     """Compõe o Polaroid final combinando imagem, texto, identidade visual."""
 
@@ -101,26 +58,23 @@ class PolaroidService:
         self.output_dir = settings.OUTPUT_POLAROIDS_DIR
         self.qr_svc = QRCodeService()
 
-        # Dimensões do Polaroid (proporção física 3:4 aprox)
-        self.width = 600
-        self.height = 750
-        self.pad = 20  # padding lateral interno
-        self.img_top = 20
-        self.img_h = 440  # altura da área de imagem
-
-    @property
-    def image_area(self):
-        return (self.pad, self.img_top, self.width - self.pad, self.img_top + self.img_h)
+        # Dimensões baseadas no "exemplo polaroid.png"
+        self.width = 800
+        self.height = 980
+        
+        self.pad = 40
+        self.img_top = 60
+        self.img_h = 560
+        self.image_area = (self.pad, self.img_top, self.width - self.pad, self.img_top + self.img_h)
 
     async def create_polaroid(self, session: SessionState) -> dict:
         """Cria os Polaroids e retorna seus dados."""
         polaroid_id = uuid.uuid4().hex[:10].upper()
         qrcode_url = f"{settings.BASE_URL}/p/{polaroid_id}"
 
-        # Gera o QR Code (mantém lógica backend, não exibe no polaroid)
+        # Gera o QR Code (lógica mantida)
         qr_path = await self.qr_svc.generate(polaroid_id, qrcode_url)
 
-        # Gera versão rascunho (sketch) da imagem original
         orig_img_path = Path(session.generated_image_path)
         sketch_img_path = orig_img_path.with_name(orig_img_path.stem + "_sketch" + orig_img_path.suffix)
 
@@ -139,29 +93,24 @@ class PolaroidService:
         campaign_color = _load_campaign_color(session.campaign_id)
         phrase = session.user_phrase or session.user_message or ""
 
-        # Cria a imagem do Polaroid Colorido
         polaroid_color = await self._compose(
             polaroid_id=polaroid_id,
             image_path=str(orig_img_path),
             phrase=phrase,
             participant_name=session.participant_name,
-            campaign_id=session.campaign_id,
             campaign_color=campaign_color,
             suffix="_color"
         )
 
-        # Cria a imagem do Polaroid Rascunho (para colorir)
         polaroid_sketch = await self._compose(
             polaroid_id=polaroid_id,
             image_path=str(sketch_img_path),
             phrase=phrase,
             participant_name=session.participant_name,
-            campaign_id=session.campaign_id,
             campaign_color=campaign_color,
             suffix="_sketch"
         )
 
-        # Gera o Sprite Sheet para WebAR (mantém lógica, não aparece no polaroid)
         from backend.services.animation_service import generate_ar_spritesheet
         spritesheet_path = self.output_dir / f"ar_{polaroid_id}.jpg"
         try:
@@ -189,119 +138,111 @@ class PolaroidService:
         }
 
     async def _compose(self, polaroid_id: str, image_path: str, phrase: str,
-                       participant_name, campaign_id: str,
-                       campaign_color: tuple, suffix: str = "") -> Path:
-        """Compõe a imagem do Polaroid com novo design."""
+                       participant_name, campaign_color: tuple, suffix: str = "") -> Path:
+        """Compõe a imagem do Polaroid com o design idêntico ao exemplo."""
         W, H = self.width, self.height
         pad = self.pad
         ia = self.image_area
-        img_w = ia[2] - ia[0]
-        img_h = ia[3] - ia[1]
 
-        is_sketch = "_sketch" in suffix
-
-        # ── Base ─────────────────────────────────────────────────────────────
         polaroid = Image.new("RGB", (W, H), (255, 255, 255))
         draw = ImageDraw.Draw(polaroid)
 
-        # Barra de cor no topo (faixa da campanha)
-        bar_h = 14
-        draw.rectangle([(0, 0), (W, bar_h)], fill=campaign_color)
+        # Borda muito sutil do polaroid (só para dar limite na tela, mas é branco no branco)
+        draw.rectangle([(0, 0), (W - 1, H - 1)], outline=(230, 230, 230), width=1)
 
-        # Borda sutil
-        draw.rectangle([(0, 0), (W - 1, H - 1)], outline=(210, 210, 210), width=2)
-
-        # ── Imagem gerada ────────────────────────────────────────────────────
+        # ── Imagem Principal ──────────────────────────────────────────────────
         try:
             gen_img = Image.open(image_path).convert("RGB")
-            gen_img = gen_img.resize((img_w, img_h), Image.LANCZOS)
+            # Recorta ou redimensiona para caber
+            img_w = ia[2] - ia[0]
+            img_h = ia[3] - ia[1]
+            gen_img = ImageOps.fit(gen_img, (img_w, img_h), Image.LANCZOS)
             polaroid.paste(gen_img, (ia[0], ia[1]))
         except Exception as e:
             logger.error(f"Erro ao carregar imagem: {e}")
-            draw.rectangle(ia, fill=(230, 235, 255))
+            draw.rectangle(ia, fill=(240, 240, 240))
 
-        # Linha separadora sutil abaixo da imagem
-        sep_y = ia[3] + 2
-        draw.line([(pad, sep_y), (W - pad, sep_y)], fill=(220, 220, 220), width=1)
+        # ── Elementos Decorativos (Top) ───────────────────────────────────────
+        # Fita adesiva (canto superior esquerdo)
+        # Vamos desenhar um polígono inclinado na cor da campanha
+        tape_pts = [(0, 60), (160, 20), (170, 45), (10, 85)]
+        draw.polygon(tape_pts, fill=campaign_color)
+        # Mais um corte pequeno para dar efeito de fita rasgada
+        draw.polygon([(0, 60), (10, 50), (20, 58), (10, 85)], fill=(255,255,255))
+        
+        # Brilhos/Solzinho (canto superior direito)
+        # 3 linhas irradiando
+        lx, ly = W - 30, 40
+        draw.line([(lx, ly), (lx - 30, ly + 15)], fill=campaign_color, width=6)
+        draw.line([(lx - 10, ly - 30), (lx - 40, ly - 10)], fill=campaign_color, width=6)
+        draw.line([(lx - 50, ly + 30), (lx - 80, ly + 25)], fill=campaign_color, width=6)
 
-        # ── Fontes ───────────────────────────────────────────────────────────
-        fonts_dir = Path("assets/fonts")
-        def load_font(name, size):
-            for candidate in [fonts_dir / name, Path(name)]:
-                try:
-                    return ImageFont.truetype(str(candidate), size)
-                except Exception:
-                    pass
-            return ImageFont.load_default()
 
-        font_brand_bold = load_font("Poppins-Bold.ttf", 18)
-        font_brand      = load_font("Poppins-Regular.ttf", 11)
-        font_phrase     = load_font("Poppins-SemiBold.ttf", 19)
-        font_name       = load_font("Poppins-Regular.ttf", 14)
-        font_tiny       = load_font("Poppins-Regular.ttf", 10)
+        # ── Textos (Fonte Manuscrita) ─────────────────────────────────────────
+        def load_system_font(name, size):
+            try:
+                return ImageFont.truetype(name, size)
+            except:
+                return ImageFont.load_default()
 
-        # ── Ícone decorativo (coração ou laço) ─────────────────────────────
-        icon_type = CAMPAIGN_ICONS.get(campaign_id, "heart")
-        icon_cx = W - pad - 36
-        icon_cy = ia[3] + 38
-        icon_size = 46
-        icon_color = campaign_color
+        # Fonte estilo caligrafia para a frase
+        font_phrase = load_system_font("segoepr.ttf", 36)
+        font_author = load_system_font("segoepr.ttf", 26)
+        
+        # Fonte para logo UERN/LAR
+        font_logo = load_system_font("arialbd.ttf", 40)
 
-        if icon_type == "heart":
-            _draw_heart(draw, icon_cx, icon_cy, icon_size, icon_color)
-        else:
-            _draw_ribbon(draw, icon_cx, icon_cy, icon_size, icon_color)
-
-        # Segundo ícone menor no canto esquerdo espelhado
-        _draw_heart(draw, pad + 22, icon_cy, 30, icon_color)
-
-        # ── Frase do participante ─────────────────────────────────────────
-        phrase_x = W // 2
-        phrase_y_start = ia[3] + 20
-        phrase_max_w = W - 2 * pad - icon_size - 20
-
-        # Envolve em aspas
+        # Frase
         display_phrase = f'"{phrase}"' if phrase else ""
-        lines = _wrap_text(display_phrase, font_phrase, phrase_max_w, draw)
-        line_h = 24
-        for i, line in enumerate(lines[:3]):  # max 3 linhas
-            draw.text((phrase_x, phrase_y_start + i * line_h), line,
-                      font=font_phrase, fill=(40, 40, 40), anchor="mm")
+        lines = _wrap_text(display_phrase, font_phrase, W - 140, draw)
+        
+        phrase_y = ia[3] + 50
+        line_spacing = 50
+        for i, line in enumerate(lines[:3]):
+            # Desenha com uma leve inclinação ou só reto? Vamos fazer reto, como no exemplo
+            draw.text((100, phrase_y + i * line_spacing), line, font=font_phrase, fill=(40, 40, 40))
 
-        # Nome do participante
-        if participant_name:
-            name_y = phrase_y_start + len(lines[:3]) * line_h + 8
-            draw.text((phrase_x, name_y), f"— {participant_name}",
-                      font=font_name, fill=(130, 130, 130), anchor="mm")
+        # Ícone de aspas/brilho no começo da frase (igual no exemplo)
+        q_y = phrase_y + 10
+        draw.line([(80, q_y), (50, q_y + 10)], fill=campaign_color, width=6)
+        draw.line([(80, q_y + 30), (45, q_y + 40)], fill=campaign_color, width=6)
 
-        # ── Rodapé: logo UERN | LAR ──────────────────────────────────────
-        footer_top = H - 78
-        # Linha separadora do rodapé
-        draw.line([(pad, footer_top), (W - pad, footer_top)], fill=(220, 220, 220), width=1)
+        # Autor
+        author = participant_name or "Anônimo"
+        author_y = phrase_y + len(lines[:3]) * line_spacing + 15
+        draw.text((100, author_y), f"— {author}", font=font_author, fill=(100, 100, 100))
 
-        # Fundo suave no rodapé
-        draw.rectangle([(0, footer_top + 1), (W, H)], fill=(250, 250, 252))
+        # ── Rodapé ───────────────────────────────────────────────────────────
+        # Logo UERN / LAR
+        logo_y = H - 80
+        draw.text((40, logo_y), "UERN", font=font_logo, fill=(4, 30, 66)) # Azul UERN
+        
+        # Barra divisória
+        div_x = 180
+        draw.line([(div_x, logo_y), (div_x, logo_y + 45)], fill=(0, 0, 0), width=3)
+        
+        draw.text((div_x + 20, logo_y), "/ LAR", font=font_logo, fill=(50, 50, 50))
 
-        # "UERN" em bold
-        uern_x = pad + 10
-        uern_y = footer_top + 14
-        draw.text((uern_x, uern_y), "UERN", font=font_brand_bold, fill=(30, 30, 80))
+        # Onda/Forma geométrica canto inferior direito (como no exemplo)
+        # Vamos desenhar um polígono preenchido com a cor
+        wave_pts = [
+            (W, H),
+            (W - 120, H),
+            (W - 100, H - 30),
+            (W - 50, H - 90),
+            (W, H - 110)
+        ]
+        draw.polygon(wave_pts, fill=campaign_color)
+        
+        # Detalhe de contorno paralelo da onda
+        wave_line = [
+            (W - 140, H),
+            (W - 120, H - 40),
+            (W - 70, H - 100),
+            (W, H - 130)
+        ]
+        draw.line(wave_line, fill=campaign_color, width=6, joint="curve")
 
-        # Separador vertical
-        sep_x = uern_x + 52
-        draw.line([(sep_x, uern_y + 2), (sep_x, uern_y + 36)], fill=(200, 200, 220), width=1)
-
-        # "LAR" em bold e subtítulo
-        lar_x = sep_x + 10
-        draw.text((lar_x, uern_y), "LAR", font=font_brand_bold, fill=(30, 30, 80))
-        draw.text((lar_x, uern_y + 18), "Laboratório de", font=font_brand, fill=(100, 100, 130))
-        draw.text((lar_x, uern_y + 29), "Aprendizagem Robótica", font=font_brand, fill=(100, 100, 130))
-
-        # ID pequeno no canto inferior direito
-        draw.text((W - pad - 4, H - 14), f"#{polaroid_id}",
-                  font=font_tiny, fill=(190, 190, 200), anchor="ra")
-
-        # ── Salva ─────────────────────────────────────────────────────────
         output_path = self.output_dir / f"polaroid_{polaroid_id}{suffix}.png"
         polaroid.save(str(output_path), "PNG")
         logger.info(f"Polaroid criado: {output_path}")
