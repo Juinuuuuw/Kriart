@@ -22,6 +22,7 @@ def save_polaroid(db: Session, data: dict) -> PolaroidDB:
         phrase=data["phrase"],
         image_path=data["image_path"],
         polaroid_path=data["polaroid_path"],
+        polaroid_sketch_path=data.get("polaroid_sketch_path"),
         qrcode_path=data["qrcode_path"],
         qrcode_url=data["qrcode_url"],
     )

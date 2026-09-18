@@ -49,12 +49,14 @@ async def get_mural_polaroids(campaign_id: str = None, db: Session = Depends(get
     for r in records:
         polaroid_url = "/" + r.polaroid_path.replace("\\", "/")
         image_url = "/" + r.image_path.replace("\\", "/")
+        sketch_url = ("/" + r.polaroid_sketch_path.replace("\\", "/")) if r.polaroid_sketch_path else polaroid_url
         result.append({
             "id": r.id,
             "campaign_id": r.campaign_id,
             "participant_name": r.participant_name or "Participante",
             "phrase": r.phrase,
             "polaroid_url": polaroid_url,
+            "polaroid_sketch_url": sketch_url,
             "image_url": image_url,
             "created_at": r.created_at.isoformat() if r.created_at else "",
         })

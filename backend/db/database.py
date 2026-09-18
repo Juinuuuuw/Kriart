@@ -20,6 +20,7 @@ class PolaroidDB(Base):
     phrase = Column(Text, nullable=False)
     image_path = Column(Text, nullable=False)
     polaroid_path = Column(Text, nullable=False)
+    polaroid_sketch_path = Column(Text, nullable=True)
     qrcode_path = Column(Text, nullable=False)
     qrcode_url = Column(Text, nullable=False)
     printed = Column(Boolean, default=False)

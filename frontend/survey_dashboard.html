@@ -207,9 +207,16 @@
 
       <!-- Print Gallery Section -->
       <div class="list-card" style="margin-top: 32px; grid-column: 1 / -1;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; flex-wrap: wrap; gap: 12px;">
           <h2>Galeria de Impressão</h2>
-          <button class="hero-cta" id="btn-print-selected" style="padding: 12px 24px; font-size: 14px; margin-top: 0;">Imprimir Selecionados (3x3)</button>
+          <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <!-- Toggle colorido/sketch -->
+            <div style="display: flex; background: rgba(255,255,255,0.6); border: 1px solid var(--hero-border); border-radius: 999px; padding: 4px; gap: 4px;">
+              <button id="btn-mode-color" onclick="setGalleryMode('color')" style="padding: 8px 18px; border-radius: 999px; border: none; cursor: pointer; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 13px; background: var(--hero-violet-2); color: #fff; transition: all 0.2s;">🎨 Colorido</button>
+              <button id="btn-mode-sketch" onclick="setGalleryMode('sketch')" style="padding: 8px 18px; border-radius: 999px; border: none; cursor: pointer; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 13px; background: transparent; color: var(--hero-ink-soft); transition: all 0.2s;">✏️ Para Colorir</button>
+            </div>
+            <button class="hero-cta" id="btn-print-selected" style="padding: 12px 24px; font-size: 14px; margin-top: 0;">Imprimir Selecionados</button>
+          </div>
         </div>
         <div id="print-gallery" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px;">
           <!-- Polaroids load here -->
@@ -222,6 +229,35 @@
   <script>
     
     let allPolaroids = [];
+    let galleryMode = 'color'; // 'color' or 'sketch'
+
+    function setGalleryMode(mode) {
+      galleryMode = mode;
+      const btnColor = document.getElementById('btn-mode-color');
+      const btnSketch = document.getElementById('btn-mode-sketch');
+      if (mode === 'color') {
+        btnColor.style.background = 'var(--hero-violet-2)';
+        btnColor.style.color = '#fff';
+        btnSketch.style.background = 'transparent';
+        btnSketch.style.color = 'var(--hero-ink-soft)';
+      } else {
+        btnSketch.style.background = 'var(--hero-violet-2)';
+        btnSketch.style.color = '#fff';
+        btnColor.style.background = 'transparent';
+        btnColor.style.color = 'var(--hero-ink-soft)';
+      }
+      // Update all images and checkbox values to the correct version
+      allPolaroids.forEach((p, i) => {
+        const card = document.querySelector('[data-polaroid-index="' + i + '"]');
+        if (!card) return;
+        const img = card.querySelector('img');
+        const cb = card.querySelector('input[type="checkbox"]');
+        const url = mode === 'sketch' ? p.polaroid_sketch_url : p.polaroid_url;
+        img.src = url;
+        cb.value = url;
+      });
+    }
+
     async function loadGallery() {
       try {
         const res = await fetch('/api/mural/polaroids');
@@ -229,8 +265,9 @@
         
         const gallery = document.getElementById('print-gallery');
         gallery.innerHTML = '';
-        allPolaroids.forEach(p => {
+        allPolaroids.forEach((p, i) => {
           const div = document.createElement('div');
+          div.setAttribute('data-polaroid-index', i);
           div.style.position = 'relative';
           div.style.cursor = 'pointer';
           div.style.border = '3px solid transparent';
@@ -239,13 +276,13 @@
           div.style.transition = 'all 0.2s';
           
           const img = document.createElement('img');
-          img.src = p.polaroid_url;
+          img.src = galleryMode === 'sketch' ? p.polaroid_sketch_url : p.polaroid_url;
           img.style.width = '100%';
           img.style.display = 'block';
           
           const cb = document.createElement('input');
           cb.type = 'checkbox';
-          cb.value = p.polaroid_url;
+          cb.value = galleryMode === 'sketch' ? p.polaroid_sketch_url : p.polaroid_url;
           cb.className = 'print-cb';
           cb.style.position = 'absolute';
           cb.style.top = '8px';
@@ -274,6 +311,7 @@
         console.error('Error loading gallery', e);
       }
     }
+
     
     // Helper to build the print page HTML
     function buildPrintHtml(selected, mode) {
