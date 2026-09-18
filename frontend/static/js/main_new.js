@@ -173,6 +173,7 @@ function setupNavigation() {
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ session_id: u.session_id, new_session_id: state.session_id })
             });
+            document.getElementById('user-modal').classList.remove('active');
             goTo('step-cause');
           };
           list.appendChild(btn);
@@ -186,12 +187,18 @@ function setupNavigation() {
       console.error(e);
     }
     
-    goTo('step-select-user');
+    document.getElementById('user-modal').classList.add('active');
   });
   
   document.getElementById('btn-skip-study')?.addEventListener('click', () => {
     state.termo_aceito = 'nao';
-    goTo('step-cause');
+    document.getElementById('user-modal').classList.remove('active');
+    document.getElementById('user-modal').classList.remove('active');
+            goTo('step-cause');
+  });
+
+  document.getElementById('btn-close-user-modal')?.addEventListener('click', () => {
+    document.getElementById('user-modal').classList.remove('active');
   });
 
   const BANNED_PATTERNS = [
