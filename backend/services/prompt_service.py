@@ -86,8 +86,19 @@ STRICT RULES - follow all:
                 data = response.json()
                 raw_prompt = data["message"]["content"].strip()
                 
-                # Checkpoint required prefix
-                return f"(best quality, masterpiece), {raw_prompt}"
+                # Safety net: LLMs pequenos às vezes ignoram as regras. Vamos forçar via código.
+                msg_lower = (session.user_message or "").lower()
+                group_keywords = ["amig", "grupo", "rede", "apoio", "criança", "pessoas", "turma"]
+                if any(kw in msg_lower for kw in group_keywords):
+                    if "multiple" not in raw_prompt.lower() and "group" not in raw_prompt.lower():
+                        raw_prompt += ", group of people, multiple subjects, diverse group"
+                    
+                    # Remover tags isoladas que possam quebrar a geração
+                    raw_prompt = raw_prompt.replace("1girl", "").replace("1boy", "").replace("single", "")
+
+                final_prompt = f"(best quality, masterpiece), {raw_prompt}"
+                logger.info(f"\n=======================================\nPROMPT FINAL:\n{final_prompt}\n=======================================\n")
+                return final_prompt
         except Exception as e:
             logger.warning(f"Erro ao gerar prompt com LLM, usando fallback: {e}")
             return self._fallback_prompt(session)
