@@ -53,8 +53,11 @@ from backend.db.database import SurveyResponseDB
 def save_pre_test(db: Session, session_id: str, data: dict) -> SurveyResponseDB:
     """Salva os dados do pré-teste da pesquisa."""
     termo_aceito = data.get("termo_aceito") == "sim"
-    status = "Aguardando pós-teste" if termo_aceito else "Não adepta"
+    status = "Aguardando jogar" if termo_aceito else "Não adepta"
     
+    count = db.query(SurveyResponseDB).filter(SurveyResponseDB.termo_aceito == True).count()
+    short_code = f"Q{count + 1}" if termo_aceito else None
+
     import json
     finalidades = data.get("finalidades_ia", [])
     if isinstance(finalidades, list):
@@ -62,6 +65,7 @@ def save_pre_test(db: Session, session_id: str, data: dict) -> SurveyResponseDB:
         
     record = SurveyResponseDB(
         session_id=session_id,
+        short_code=short_code,
         status=status,
         termo_aceito=termo_aceito,
         idade=data.get("idade"),
@@ -90,3 +94,6 @@ def update_survey_status(db: Session, session_id: str, status: str):
 
 def list_surveys(db: Session) -> List[SurveyResponseDB]:
     return db.query(SurveyResponseDB).order_by(SurveyResponseDB.created_at.desc()).all()
+
+def list_surveys_by_status(db: Session, status: str) -> List[SurveyResponseDB]:
+    return db.query(SurveyResponseDB).filter(SurveyResponseDB.status == status).order_by(SurveyResponseDB.created_at.desc()).all()

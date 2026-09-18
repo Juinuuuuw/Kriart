@@ -150,92 +150,48 @@ document.addEventListener('DOMContentLoaded', () => {
 function setupNavigation() {
   const goTo = (stepId) => showStep(stepId);
 
-  document.getElementById('btn-start')?.addEventListener('click', () => goTo('step-pre-test'));
-
-  // Pre-test logic
-  const termoRadios = document.querySelectorAll('input[name="termo_aceito"]');
-  const surveyQuestions = document.getElementById('survey-questions');
-  const btnSubmitPreTest = document.getElementById('btn-submit-pre-test');
-
-  termoRadios.forEach(radio => {
-    radio.addEventListener('change', (e) => {
-      btnSubmitPreTest.style.display = 'inline-flex';
-      setTimeout(() => btnSubmitPreTest.style.opacity = '1', 50);
+  document.getElementById('btn-start')?.addEventListener('click', async () => {
+    // Fetch users waiting
+    try {
+      const res = await fetch('/api/survey/waiting');
+      const data = await res.json();
       
-      if (e.target.value === 'sim') {
-        surveyQuestions.style.display = 'block';
-        setTimeout(() => surveyQuestions.style.opacity = '1', 50);
-      } else {
-        surveyQuestions.style.opacity = '0';
-        setTimeout(() => surveyQuestions.style.display = 'none', 500);
+      const list = document.getElementById('totem-users-list');
+      if (list) {
+        list.innerHTML = '';
+        data.waiting_play.forEach(u => {
+          const btn = document.createElement('button');
+          btn.className = 'hero-pill';
+          btn.style.cursor = 'pointer';
+          btn.textContent = u.short_code;
+          btn.onclick = async () => {
+            state.termo_aceito = 'sim';
+            state.session_id = u.session_id; 
+            
+            await fetch('/api/survey/start-play', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ session_id: u.session_id, new_session_id: state.session_id })
+            });
+            goTo('step-cause');
+          };
+          list.appendChild(btn);
+        });
+        
+        if (data.waiting_play.length === 0) {
+          list.innerHTML = '<span style="color: var(--hero-ink-soft); font-size: 14px;">Nenhum participante aguardando.</span>';
+        }
       }
-    });
-  });
-
-  btnSubmitPreTest?.addEventListener('click', async () => {
-    const termo = document.querySelector('input[name="termo_aceito"]:checked')?.value;
-    if (!termo) return;
-    
-    state.termo_aceito = termo;
-    const formData = {
-      session_id: state.session_id || Date.now().toString(),
-      termo_aceito: termo
-    };
-    
-    if (termo === 'sim') {
-      formData.idade = document.querySelector('select[name="idade"]').value;
-      formData.escolaridade = document.querySelector('select[name="escolaridade"]').value;
-      formData.genero = document.querySelector('select[name="genero"]').value;
-      formData.uso_ia = document.querySelector('input[name="uso_ia"]:checked')?.value;
-      
-      const finalidades = [];
-      document.querySelectorAll('input[name="finalidades_ia"]:checked').forEach(cb => finalidades.push(cb.value));
-      formData.finalidades_ia = finalidades;
-      
-      formData.q6 = document.querySelector('input[name="q6"]:checked')?.value;
-      formData.q7 = document.querySelector('input[name="q7"]:checked')?.value;
-      formData.q8 = document.querySelector('input[name="q8"]:checked')?.value;
-      formData.q9 = document.querySelector('input[name="q9"]:checked')?.value;
-      formData.q10 = document.querySelector('input[name="q10"]:checked')?.value;
-    }
-
-    try {
-      await fetch('/api/survey/pre-test', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
     } catch (e) {
-      console.error('Error saving pre-test:', e);
+      console.error(e);
     }
-
+    
+    goTo('step-select-user');
+  });
+  
+  document.getElementById('btn-skip-study')?.addEventListener('click', () => {
+    state.termo_aceito = 'nao';
     goTo('step-cause');
-  });
-
-  document.getElementById('btn-submit-post-test')?.addEventListener('click', async () => {
-    const formData = {
-      session_id: state.session_id,
-      campaign_id: state.campaignId,
-      user_message: state.userMessage,
-      user_phrase: state.userPhrase
-    };
-    
-    for (let i = 1; i <= 23; i++) {
-      const el = document.querySelector(`input[name="pq${i}"]:checked`);
-      if (el) formData[`pq${i}`] = el.value;
-    }
-
-    try {
-      await fetch('/api/survey/post-test', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
-    } catch (e) {
-      console.error('Error saving post-test:', e);
-    }
-    
-    window.location.reload();
   });
 
   const BANNED_PATTERNS = [

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Survey Admin</title>
+</head>
+<body>
+    <h1>Survey Admin</h1>
+    <div id="stats"></div>
+    <h2>Aguardando Jogar</h2>
+    <ul id="waiting-play"></ul>
+    <h2>Aguardando Pós-Teste</h2>
+    <ul id="waiting-post"></ul>
+    
+    <script>
+        async function load() {
+            const res = await fetch('/api/survey/dashboard');
+            const data = await res.json();
+            
+            document.getElementById('stats').innerHTML = `
+                <p>Aguardando jogar: ${data.stats['Aguardando jogar'] || 0}</p>
+                <p>Aguardando pós-teste: ${data.stats['Aguardando pós-teste'] || 0}</p>
+                <p>Desistiu: ${data.stats['Desistiu'] || 0}</p>
+                <p>Adepta ao estudo: ${data.stats['Adepta ao estudo'] || 0}</p>
+            `;
+            
+            const wPlay = document.getElementById('waiting-play');
+            wPlay.innerHTML = '';
+            data.waiting_play.forEach(u => {
+                wPlay.innerHTML += `<li>${u.short_code} - <button onclick="abandon('${u.session_id}')">Marcar Desistiu</button></li>`;
+            });
+            
+            const wPost = document.getElementById('waiting-post');
+            wPost.innerHTML = '';
+            data.waiting_post_test.forEach(u => {
+                wPost.innerHTML += `<li>${u.short_code} - <button onclick="abandon('${u.session_id}')">Marcar Desistiu</button></li>`;
+            });
+        }
+        
+        async function abandon(sessionId) {
+            await fetch('/api/survey/abandon', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({session_id: sessionId})
+            });
+            load();
+        }
+        
+        load();
+    </script>
+</body>
+</html>

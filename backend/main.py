@@ -57,6 +57,18 @@ app.mount("/static", StaticFiles(directory=str(BASE_DIR / "frontend" / "static")
 async def serve_index():
     return FileResponse(str(BASE_DIR / "frontend" / "index.html"))
 
+@app.get("/pre-test", include_in_schema=False)
+async def serve_pre_test():
+    return FileResponse(str(BASE_DIR / "frontend" / "pre_test.html"))
+
+@app.get("/post-test", include_in_schema=False)
+async def serve_post_test():
+    return FileResponse(str(BASE_DIR / "frontend" / "post_test.html"))
+
+@app.get("/survey-admin", include_in_schema=False)
+async def serve_survey_admin():
+    return FileResponse(str(BASE_DIR / "frontend" / "survey_dashboard.html"))
+
 @app.get("/p/{polaroid_id}", include_in_schema=False)
 async def serve_polaroid_view(polaroid_id: str):
     return FileResponse(str(BASE_DIR / "frontend" / "polaroid_view.html"))

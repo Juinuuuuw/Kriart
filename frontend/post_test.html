@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faísca — Crie sua Arte Educativa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/main.css?v=26">
+  <style>
+    /* ===== Hero / Boas-vindas — Mural Vivo da UERN ===== */
+    :root{
+      --hero-bg-1:#f3f1fb;
+      --hero-bg-2:#eceafc;
+      --hero-ink:#221f3d;
+      --hero-ink-soft:#57547a;
+      --hero-violet-1:#2c2560;
+      --hero-violet-2:#7c6ef2;
+      --hero-violet-3:#9b8bfb;
+      --hero-card:#ffffff;
+      --hero-border:rgba(44,37,96,0.10);
+    }
+
+    #step-welcome.step{
+      position:relative;
+      max-width:none;
+      width:100%;
+      min-height:100vh;
+      padding:0;
+      margin:0;
+      background:
+        radial-gradient(60% 50% at 18% 12%, rgba(155,139,251,0.16), transparent 60%),
+        radial-gradient(50% 45% at 85% 20%, rgba(124,110,242,0.14), transparent 60%),
+        linear-gradient(180deg, var(--hero-bg-1), var(--hero-bg-2));
+      overflow:hidden;
+      display:none; 
+    }
+    #step-welcome.active {
+      display:block !important;
+    }
+    #step-welcome .welcome-content{
+      all:unset;
+      display:block;
+      position:relative;
+      z-index:2;
+      max-width:1440px;
+      margin:0 auto;
+      padding:40px 32px 80px;
+      font-family:'Poppins', sans-serif;
+      color:var(--hero-ink);
+      box-sizing:border-box;
+    }
+
+    .hero-topbar{ display:flex; align-items:center; justify-content:center; margin-bottom:90px; }
+    .hero-brand{ display:flex; align-items:center; gap:14px; }
+    .hero-brand-mark{ font-family:'Poppins',sans-serif; font-weight:800; font-size:22px; letter-spacing:0.5px; color:var(--hero-ink); }
+    .hero-brand-div{ width:1px; height:28px; background:var(--hero-border); }
+    .hero-brand-lar{ position: relative; display:flex; align-items:center; }
+    .hero-brand-lar strong{ font-size:20px; font-weight:800; color:var(--hero-ink); }
+    .hero-brand-lar span{ position: absolute; left: 100%; margin-left: 10px; font-size:10.5px; line-height:1.25; color:var(--hero-ink-soft); font-weight:500; width: 110px; text-align: left; }
+    
+    .hero-center{ position:relative; max-width:680px; margin:0 auto; text-align:center; padding-top:8px; }
+    .hero-eyebrow{ margin-bottom:26px; }
+    .hero-pill{ display:inline-flex; align-items:center; gap:8px; padding:10px 18px; border-radius:999px; background:rgba(255,255,255,0.7); border:1px solid var(--hero-border); box-shadow:0 4px 16px rgba(44,37,96,0.06); font-size:13px; font-weight:600; color:var(--hero-violet-2); }
+    .hero-pill svg{ width:14px; height:14px; flex-shrink:0; }
+    
+    .hero-title{ font-family:'Fraunces', serif; font-weight:600; font-size:clamp(40px, 6vw, 76px); line-height:1.04; letter-spacing:-0.5px; margin:0 0 44px; color:var(--hero-ink); }
+    .hero-title .accent{ font-style:italic; background:linear-gradient(100deg, var(--hero-violet-2), var(--hero-violet-3)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .hero-sub{ font-size:17px; line-height:1.6; color:var(--hero-ink-soft); margin:0 0 72px; font-weight:400; }
+    .hero-sub strong{ color:var(--hero-violet-2); font-weight:700; }
+
+    .hero-cta{ appearance:none; border:none; cursor:pointer; display:inline-flex; align-items:center; gap:12px; font-family:'Poppins',sans-serif; font-size:17px; font-weight:600; color:#fff; padding:19px 40px; border-radius:999px; background:linear-gradient(115deg, var(--hero-violet-1) 0%, var(--hero-violet-2) 55%, var(--hero-violet-3) 100%); box-shadow:0 16px 32px -10px rgba(72,55,196,0.55); transition:transform .2s ease, box-shadow .2s ease; }
+    .hero-cta:hover{ transform:translateY(-2px); box-shadow:0 20px 36px -8px rgba(72,55,196,0.65); }
+    .hero-cta svg{ width:18px; height:18px; }
+
+    @media (max-width: 640px){
+      #step-welcome .welcome-content{ padding:28px 20px 56px; }
+      .hero-topbar{ flex-direction:column; align-items:center; gap:16px; text-align:center; margin-bottom:36px; }
+      .hero-title{ font-size:38px; }
+      .hero-cta{ width:100%; justify-content:center; padding:17px 24px; }
+    }
+
+    /* Modal de Alerta Customizado */
+    .custom-modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9999; display: flex; align-items: center; justify-content: center; }
+    .custom-modal.hidden { display: none; }
+    .custom-modal-backdrop { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(34, 31, 61, 0.4); backdrop-filter: blur(4px); }
+    .custom-modal-content { position: relative; background: #ffffff; border-radius: 24px; padding: 40px 32px; max-width: 420px; width: 90%; text-align: center; box-shadow: 0 24px 48px rgba(44, 37, 96, 0.15); animation: modalPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    .custom-modal-icon { margin: 0 auto 20px; width: 64px; height: 64px; background: #fff0f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ff4d4f; }
+    .custom-modal-title { font-family: 'Fraunces', serif; font-size: 26px; color: var(--hero-ink); margin-bottom: 12px; font-weight: 600; letter-spacing: -0.3px; }
+    .custom-modal-text { font-family: 'Poppins', sans-serif; font-size: 15px; color: var(--hero-ink-soft); line-height: 1.6; margin-bottom: 32px; font-weight: 400; }
+    .btn-modal-close { appearance: none; border: none; background: linear-gradient(115deg, var(--hero-violet-1) 0%, var(--hero-violet-2) 55%, var(--hero-violet-3) 100%); color: #fff; font-family: 'Poppins', sans-serif; font-size: 16px; font-weight: 600; padding: 16px 32px; border-radius: 999px; cursor: pointer; width: 100%; transition: transform 0.2s ease, box-shadow 0.2s ease; box-shadow: 0 12px 24px -8px rgba(124, 110, 242, 0.4); }
+    .btn-modal-close:hover { transform: translateY(-2px); box-shadow: 0 16px 32px -8px rgba(124, 110, 242, 0.6); }
+    @keyframes modalPop { 0% { transform: scale(0.95); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+  </style>
+</head>
+<body>
+  <main id="app">
+    <section id="step-select-user" class="step active">
+      <div class="welcome-content" style="max-width: 600px; padding: 40px; text-align: center;">
+        <h2 style="font-family: 'Fraunces', serif; color: var(--hero-ink); margin-bottom: 20px;">Pós-Teste</h2>
+        <p style="font-size: 16px; color: var(--hero-ink-soft); margin-bottom: 30px;">Selecione o seu código para responder:</p>
+        <div id="users-list" style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 30px;">
+          <!-- List loaded from backend -->
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP POST-TEST -->
+    <section id="step-post-test" class="step">
+      <div class="welcome-content" style="max-width: 800px; padding: 40px 20px; text-align: left; overflow-y: auto; height: 100vh;">
+        <h2 style="font-family: 'Fraunces', serif; color: var(--hero-ink); text-align: center; margin-bottom: 20px;">Avaliação da Experiência</h2>
+        <p style="text-align: center; color: var(--hero-ink-soft); margin-bottom: 40px;">Por favor, responda a este rápido questionário final para concluir sua participação na pesquisa.</p>
+        
+        <div class="survey-form" id="post-survey-form">
+<h3 style="font-family: 'Fraunces', serif; margin-top: 40px; margin-bottom: 10px;">Engajamento na Atividade</h3>
+<div style="font-size: 11px; margin-bottom: 20px; color: #777;">1 = Discordo totalmente | 5 = Concordo totalmente</div>
+<div class="question-block likert">
+              <label>1. Eu me concentrei intensamente na experiência.</label>
+              <div class="likert-scale">
+                <label><input type="radio" name="pq1" value="1"> 1</label>
+                <label><input type="radio" name="pq1" value="2"> 2</label>
+                <label><input type="radio" name="pq1" value="3"> 3</label>
+                <label><input type="radio" name="pq1" value="4"> 4</label>
+                <label><input type="radio" name="pq1" value="5"> 5</label>
+              </div>
+            </div>
+<div class="question-block likert">
+              <label>2. O tempo que passei usando a aplicação simplesmente voou.</label>
+              <div class="likert-scale">
+                <label><input type="radio" name="pq2" value="1"> 1</label>
+                <label><input type="radio" name="pq2" value="2"> 2</label>
+                <label><input type="radio" name="pq2" value="3"> 3</label>
+                <label><input type="radio" name="pq2" value="4"> 4</label>
+                <label><input type="radio" name="pq2" value="5"> 5</label>
+              </div>
+            </div>
+<div class="question-block likert">
+              <label>3. Fiquei absorvido na experiência.</label>
+              <div class="likert-scale">
+                <label><input type="radio" name="pq3" value="1"> 1</label>
+                <label><input type="radio" name="pq3" value="2"> 2</label>
+                <label><input type="radio" name="pq3" value="3"> 3</label>
+                <label><input type="radio" name="pq3" value="4"> 4</label>
+                <label><input type="radio" name="pq3" value="5"> 5</label>
+              </div>
+            </div>
+<div class="question-block likert">
+              <label>4. Fiquei frustrado ao usar a aplicação.</label>
+              <div class="likert-scale">
+                <label><input type="radio" name="pq4" value="1"> 1</label>
+                <label><input type="radio" name="pq4" value="2"> 2</label>
+                <label><input type="radio" name="pq4" value="3"> 3</label>
+                <label><input type="radio" name="pq4" value="4"> 4</label>
+                <label><input type="radio" name="pq4" value="5"> 5</label>
+              </div>
+            </div>
+<div class="question-block likert">
+              <label>5. Achei a aplicação confusa de usar</label>
+              <div class="likert-scale">
+                <label><input type="radio" name="pq5" value="1"> 1</label>
+                <label><input type="radio" name="pq5" value="2"> 2</label>
+                <label><input type="radio" name="pq5" value="3"> 3</label>
+                <label><input type="radio" name="pq5" value="4"> 4</label>
+                <label><input type="radio" name="pq5" value="5"> 5</label>
+              </div>
+            </div>
+<div class="question-block likert">
+              <label>6. Foi muito cansativo usar a aplicação.</label>
+              <div class="likert-scale">
+                <label><input type="radio" name="pq6" value="1"> 1</label>
+                <label><input type="radio" name="pq6" value="2"> 2</label>
+                <label><input type="radio" name="pq6" value="3"> 3</label>
+                <label><input type="radio" name="pq6" value="4"> 4</label>
+                <label><input type="radio" name="pq6" value="5"> 5</label>
+              </div>
+            </div>
+<div class="question-block likert">
+              <label>7. A aplicação é atraente.</label>
+              <div class="likert-scale">
+                <label><input type="radio" name="pq7" value="1"> 1</label>
+                <label><input type="radio" name="pq7" value="2"> 2</label>
+                <label><input type="radio" name="pq7" value="3"> 3</label>
+                <label><input type="radio" name="pq7" value="4"> 4</label>
+                <label><input type="radio" name="pq7" value="5"> 5</label>
+              </div>
+            </div>
+<div class="question-block likert">
+              <label>8. A aplicação é esteticamente agradável.</label>
+              <div class="likert-scale">
+                <label><input type="radio" name="pq8" value="1"> 1</label>
+                <label><input type="radio" name="pq8" value="2"> 2</label>
+                <label><input type="radio" name="pq8" value="3"> 3</label>
+                <label><input type="radio" name="pq8" value="4"> 4</label>
+                <label><input type="radio" name="pq8" value="5"> 5</label>
+              </div>
+            </div>
+<div class="question-block likert">
+              <label>9. A aplicação chamou minha atenção visualmente</label>
+              <div class="likert-scale">
+                <label><input type="radio" name="pq9" value="1"> 1</label>
+                <label><input type="radio" name="pq9" value="2"> 2</label>
+                <label><input type="radio" name="pq9" value="3"> 3</label>
+                <label><input type="radio" name="pq9" value="4"> 4</label>
+                <label><input type="radio" name="pq9" value="5"> 5</label>
+              </div>
+            </div>
+<div class="question-block likert">
+              <label>10. Valeu a pena usar a aplicação.</label>
+              <div class="likert-scale">
+                <label><input type="radio" name="pq10" value="1"> 1</label>
+                <label><input type="radio" name="pq10" value="2"> 2</label>
+                <label><input type="radio" name="pq10" value="3"> 3</label>
+                <label><input type="radio" name="pq10" value="4"> 4</label>
+                <label><input type="radio" name="pq10" value="5"> 5</label>
+              </div>
+            </div>
+<div class="question-block likert">
+              <label>11. Minha experiência foi gratificante.</label>
+              <div class="likert-scale">
+                <label><input type="radio" name="pq11" value="1"> 1</label>
+                <label><input type="radio" name="pq11" value="2"> 2</label>
+                <label><input type="radio" name="pq11" value="3"> 3</label>
+                <label><input type="radio" name="pq11" value="4"> 4</label>
+                <label><input type="radio" name="pq11" value="5"> 5</label>
+              </div>
+            </div>
+<div class="question-block likert">
+              <label>12. Eu me senti inserido na experiência.</label>
+              <div class="likert-scale">
+                <label><input type="radio" name="pq12" value="1"> 1</label>
+                <label><input type="radio" name="pq12" value="2"> 2</label>
+                <label><input type="radio" name="pq12" value="3"> 3</label>
+                <label><input type="radio" name="pq12" value="4"> 4</label>
+                <label><input type="radio" name="pq12" value="5"> 5</label>
+              </div>
+            </div>
+<h3 style="font-family: 'Fraunces', serif; margin-top: 40px; margin-bottom: 10px;">Experiência de Interação com a IA</h3>
+<div style="font-size: 11px; margin-bottom: 20px; color: #777;">1 = Discordo totalmente | 5 = Concordo totalmente</div>
+<div class="question-block likert">
+              <label>13. Foi fácil organizar minhas ideias para descrever à IA o que eu queria transmitir.</label>
+              <div class="likert-scale">
+                <label><input type="radio" name="pq13" value="1"> 1</label>
+                <label><input type="radio" name="pq13" value="2"> 2</label>
+                <label><input type="radio" name="pq13" value="3"> 3</label>
+                <label><input type="radio" name="pq13" value="4"> 4</label>
+                <label><input type="radio" name="pq13" value="5"> 5</label>
+              </div>
+            </div>
+<div class="question-block likert">
+              <label>14. A IA compreendeu o que eu queria transmitir por meio do meu prompt.</label>
+              <div class="likert-scale">
+                <label><input type="radio" name="pq14" value="1"> 1</label>
+                <label><input type="radio" name="pq14" value="2"> 2</label>
+                <label><input type="radio" name="pq14" value="3"> 3</label>
+                <label><input type="radio" name="pq14" value="4"> 4</label>
+                <label><input type="radio" name="pq14" value="5"> 5</label>
+              </div>
+            </div>
+<div class="question-block likert">
+              <label>15. O cartaz gerado pela IA correspondeu ao que eu esperava.</label>
+              <div class="likert-scale">
+                <label><input type="radio" name="pq15" value="1"> 1</label>
+                <label><input type="radio" name="pq15" value="2"> 2</label>
+                <label><input type="radio" name="pq15" value="3"> 3</label>
+                <label><input type="radio" name="pq15" value="4"> 4</label>
+                <label><input type="radio" name="pq15" value="5"> 5</label>
+              </div>
+            </div>
+<div class="question-block likert">
+              <label>16. Foi necessário fazer várias correções ou alterações no prompt para obter um resultado satisfatório.</label>
+              <div class="likert-scale">
+                <label><input type="radio" name="pq16" value="1"> 1</label>
+                <label><input type="radio" name="pq16" value="2"> 2</label>
+                <label><input type="radio" name="pq16" value="3"> 3</label>
+                <label><input type="radio" name="pq16" value="4"> 4</label>
+                <label><input type="radio" name="pq16" value="5"> 5</label>
+              </div>
+            </div>
+<div class="question-block likert">
+              <label>17. Consegui obter o resultado que esperava com a ajuda da IA.</label>
+              <div class="likert-scale">
+                <label><input type="radio" name="pq17" value="1"> 1</label>
+                <label><input type="radio" name="pq17" value="2"> 2</label>
+                <label><input type="radio" name="pq17" value="3"> 3</label>
+                <label><input type="radio" name="pq17" value="4"> 4</label>
+                <label><input type="radio" name="pq17" value="5"> 5</label>
+              </div>
+            </div>
+<h3 style="font-family: 'Fraunces', serif; margin-top: 40px; margin-bottom: 10px;">Avaliação do Cartaz</h3>
+<div style="font-size: 11px; margin-bottom: 20px; color: #777;">1 = Discordo totalmente | 5 = Concordo totalmente</div>
+<div class="question-block likert">
+              <label>18. O cartaz apresenta uma mensagem clara sobre o tema abordado.</label>
+              <div class="likert-scale">
+                <label><input type="radio" name="pq18" value="1"> 1</label>
+                <label><input type="radio" name="pq18" value="2"> 2</label>
+                <label><input type="radio" name="pq18" value="3"> 3</label>
+                <label><input type="radio" name="pq18" value="4"> 4</label>
+                <label><input type="radio" name="pq18" value="5"> 5</label>
+              </div>
+            </div>
+<div class="question-block likert">
+              <label>19. As informações apresentadas no cartaz são relevantes para o tema.</label>
+              <div class="likert-scale">
+                <label><input type="radio" name="pq19" value="1"> 1</label>
+                <label><input type="radio" name="pq19" value="2"> 2</label>
+                <label><input type="radio" name="pq19" value="3"> 3</label>
+                <label><input type="radio" name="pq19" value="4"> 4</label>
+                <label><input type="radio" name="pq19" value="5"> 5</label>
+              </div>
+            </div>
+<div class="question-block likert">
+              <label>20. A organização visual do cartaz facilita a compreensão da mensagem.</label>
+              <div class="likert-scale">
+                <label><input type="radio" name="pq20" value="1"> 1</label>
+                <label><input type="radio" name="pq20" value="2"> 2</label>
+                <label><input type="radio" name="pq20" value="3"> 3</label>
+                <label><input type="radio" name="pq20" value="4"> 4</label>
+                <label><input type="radio" name="pq20" value="5"> 5</label>
+              </div>
+            </div>
+<div class="question-block likert">
+              <label>21. O cartaz é visualmente atrativo e chama a atenção para o tema.</label>
+              <div class="likert-scale">
+                <label><input type="radio" name="pq21" value="1"> 1</label>
+                <label><input type="radio" name="pq21" value="2"> 2</label>
+                <label><input type="radio" name="pq21" value="3"> 3</label>
+                <label><input type="radio" name="pq21" value="4"> 4</label>
+                <label><input type="radio" name="pq21" value="5"> 5</label>
+              </div>
+            </div>
+<div class="question-block likert">
+              <label>22. O cartaz apresenta potencial para contribuir com a conscientização sobre o tema.</label>
+              <div class="likert-scale">
+                <label><input type="radio" name="pq22" value="1"> 1</label>
+                <label><input type="radio" name="pq22" value="2"> 2</label>
+                <label><input type="radio" name="pq22" value="3"> 3</label>
+                <label><input type="radio" name="pq22" value="4"> 4</label>
+                <label><input type="radio" name="pq22" value="5"> 5</label>
+              </div>
+            </div>
+
+          <h3 style="font-family: 'Fraunces', serif; margin-top: 40px; margin-bottom: 10px;">Participação Futura</h3>
+          <div class="question-block">
+            <label>23. Você gostaria de participar novamente de uma atividade semelhante utilizando uma IA?</label>
+            <div class="radio-group vertical">
+              <label><input type="radio" name="pq23" value="Sim"> Sim</label>
+              <label><input type="radio" name="pq23" value="Talvez"> Talvez</label>
+              <label><input type="radio" name="pq23" value="Não"> Não</label>
+            </div>
+          </div>
+          
+          <div style="text-align: center; margin-top: 40px; margin-bottom: 60px;">
+            <button class="hero-cta" id="btn-submit-post-test">Finalizar Estudo e Reiniciar</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="step-done" class="step" style="display:none;">
+      <div class="welcome-content" style="max-width: 600px; padding: 40px; text-align: center;">
+        <h2 style="font-family: 'Fraunces', serif; color: var(--hero-ink); margin-bottom: 20px;">Obrigado! 💜</h2>
+        <p style="font-size: 16px; color: var(--hero-ink-soft); margin-bottom: 30px;">Sua avaliação foi registrada com sucesso.</p>
+      </div>
+    </section>
+  </main>
+  
+  <script>
+    let currentSessionId = null;
+
+    async function loadUsers() {
+      try {
+        const res = await fetch('/api/survey/waiting');
+        const data = await res.json();
+        const list = document.getElementById('users-list');
+        list.innerHTML = '';
+        
+        data.waiting_post.forEach(u => {
+          const btn = document.createElement('button');
+          btn.className = 'hero-pill';
+          btn.style.cursor = 'pointer';
+          btn.textContent = u.short_code;
+          btn.onclick = () => {
+            currentSessionId = u.session_id;
+            document.getElementById('step-select-user').classList.remove('active');
+            document.getElementById('step-post-test').classList.add('active');
+          };
+          list.appendChild(btn);
+        });
+        
+        if(data.waiting_post.length === 0) {
+          list.innerHTML = '<p>Nenhum participante aguardando pós-teste.</p>';
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    
+    loadUsers();
+
+    document.getElementById('btn-submit-post-test')?.addEventListener('click', async () => {
+      const formData = {
+        session_id: currentSessionId,
+      };
+      
+      for (let i = 1; i <= 23; i++) {
+        const el = document.querySelector(`input[name="pq${i}"]:checked`);
+        if (el) formData[`pq${i}`] = el.value;
+      }
+
+      try {
+        await fetch('/api/survey/post-test', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        });
+        
+        document.getElementById('step-post-test').classList.remove('active');
+        document.getElementById('step-done').classList.add('active');
+        document.getElementById('step-done').style.display = 'block';
+        
+        setTimeout(() => {
+          window.location.reload();
+        }, 5000);
+      } catch (e) {
+        console.error('Error saving post-test:', e);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -31,7 +31,8 @@ class SurveyResponseDB(Base):
     __tablename__ = "survey_responses"
 
     session_id = Column(String(40), primary_key=True)
-    status = Column(String(50), default="Aguardando pós-teste") # 'Não adepta', 'Aguardando pós-teste', 'Desistiu', 'Adepta ao estudo'
+    short_code = Column(String(20), nullable=True)
+    status = Column(String(50), default="Aguardando jogar") # 'Não adepta', 'Aguardando jogar', 'Aguardando pós-teste', 'Desistiu', 'Adepta ao estudo'
     
     # Pré-teste
     termo_aceito = Column(Boolean, default=False)
