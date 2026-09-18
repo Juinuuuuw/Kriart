@@ -21,11 +21,16 @@ Estilo visual: {session.visual_style or 'illustration'}
 Elementos: {session.visual_elements or ''}
 """
         system_prompt = """You are an AI that translates Portuguese ideas into simple English comma-separated tags for Stable Diffusion.
-Keep your prompts simple and correct. 
-Use booru-style tags (e.g., 1girl, 2girls, multiple girls, boy, group of people). Accurately reflect the number of subjects based on the text.
-DO NOT use tags like 'Realistic', '8k', 'masterpiece', or 'best quality' (these will be added automatically).
-Do NOT include abstract concepts, words, or text. The image must be safe for children.
-Respond with ONLY the comma-separated tags, no explanations."""
+
+STRICT RULES - follow all:
+1. COUNT subjects carefully: if the text mentions "group", "friends", "crianças", "pessoas", use: "group of people", "multiple girls", "multiple boys", "2girls 1boy" etc. NEVER use "1girl" or "1boy" for group scenes.
+2. If text mentions "abraçar" (hug) between friends or a group, use "group hug", "friends hugging", "multiple people hugging". NEVER use romantic tags. Explicitly add "friends" tag.
+3. If text mentions a couple explicitly, only THEN use "couple", "1boy 1girl".
+4. Keep age-appropriate: use "children", "school kids", "teenagers", "adults" based on context.
+5. Use booru-style tags (e.g., 2girls, 3boys, multiple people, group of children).
+6. DO NOT use tags like '8k', 'masterpiece', 'best quality', 'realistic' — they are added automatically.
+7. Do NOT include abstract concepts or text in image. The image must be safe for children and teens.
+8. Respond with ONLY the comma-separated tags, no explanations."""
 
         payload = {
             "model": self.model,
@@ -37,7 +42,15 @@ Respond with ONLY the comma-separated tags, no explanations."""
                 },
                 {
                     "role": "assistant", 
-                    "content": "anime style, 1girl, sad, sitting alone, other children playing in background, school playground, day"
+                    "content": "anime style, 1girl, sad face, sitting alone on bench, multiple children playing in background, school playground, day, outdoor"
+                },
+                {
+                    "role": "user", 
+                    "content": "Generate tags for:\nCampanha: Amizade\nMensagem: Um grupo de amigos se abraçando felizes\nEstilo visual: cartoon"
+                },
+                {
+                    "role": "assistant", 
+                    "content": "cartoon, group of children, friends, group hug, multiple girls, multiple boys, laughing, happy, school, day, colorful clothes"
                 },
                 {
                     "role": "user", 
@@ -45,7 +58,15 @@ Respond with ONLY the comma-separated tags, no explanations."""
                 },
                 {
                     "role": "assistant", 
-                    "content": "3d render, multiple girls, group of women, holding hands, standing together, smiling, nature background, bright lighting"
+                    "content": "3d render, multiple girls, group of women, holding hands, standing together, smiling, diverse group, nature background, bright lighting"
+                },
+                {
+                    "role": "user", 
+                    "content": "Generate tags for:\nCampanha: Meio Ambiente\nMensagem: Crianças plantando árvores juntas no parque\nEstilo visual: anime style"
+                },
+                {
+                    "role": "assistant", 
+                    "content": "anime style, multiple children, 2girls 1boy, planting trees, park, green environment, teamwork, smiling, nature, day, outdoor"
                 },
                 {"role": "user", "content": f"Generate tags for:\n{user_context}"},
             ],

@@ -12,13 +12,20 @@ class Settings(BaseSettings):
 
     # Stable Diffusion Forge
     SD_FORGE_URL: str = "http://localhost:7860"
-    SD_MODEL: str = "dreamshaper_8"
-    SD_STEPS: int = 20
-    SD_CFG_SCALE: float = 8.0
+    SD_MODEL: str = "toonyou_beta6.safetensors"
+    SD_STEPS: int = 25
+    SD_CFG_SCALE: float = 7.0
     SD_WIDTH: int = 640
     SD_HEIGHT: int = 640
-    SD_SAMPLER: str = "DPM++ SDE Karras"
-    SD_NEGATIVE_PROMPT: str = "(worst quality, low quality, letterboxed)"
+    SD_SAMPLER: str = "DPM++ 2M Karras"
+    SD_NEGATIVE_PROMPT: str = (
+        "(worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry), "
+        "(nsfw, nude, naked, sexual, explicit), "
+        "romantic, couple, lovers, intimate, kiss, kissing, adult content, "
+        "bad anatomy, bad hands, missing fingers, extra fingers, fused fingers, too many fingers, "
+        "deformed, mutated, extra limbs, disfigured, ugly, "
+        "text, watermark, logo"
+    )
 
     # App
     APP_HOST: str = "0.0.0.0"
