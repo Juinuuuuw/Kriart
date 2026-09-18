@@ -204,10 +204,136 @@
         <h2>Aguardando Pós-teste <span id="count-wait-post">0</span></h2>
         <div id="list-wait-post"></div>
       </div>
+
+      <!-- Print Gallery Section -->
+      <div class="list-card" style="margin-top: 32px; grid-column: 1 / -1;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+          <h2>Galeria de Impressão</h2>
+          <button class="hero-cta" id="btn-print-selected" style="padding: 12px 24px; font-size: 14px; margin-top: 0;">Imprimir Selecionados (3x3)</button>
+        </div>
+        <div id="print-gallery" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px;">
+          <!-- Polaroids load here -->
+        </div>
+      </div>
+
     </div>
   </div>
 
   <script>
+    
+    let allPolaroids = [];
+    async function loadGallery() {
+      try {
+        const res = await fetch('/api/mural/polaroids');
+        allPolaroids = await res.json();
+        
+        const gallery = document.getElementById('print-gallery');
+        gallery.innerHTML = '';
+        allPolaroids.forEach(p => {
+          const div = document.createElement('div');
+          div.style.position = 'relative';
+          div.style.cursor = 'pointer';
+          div.style.border = '3px solid transparent';
+          div.style.borderRadius = '8px';
+          div.style.overflow = 'hidden';
+          div.style.transition = 'all 0.2s';
+          
+          const img = document.createElement('img');
+          img.src = p.polaroid_url;
+          img.style.width = '100%';
+          img.style.display = 'block';
+          
+          const cb = document.createElement('input');
+          cb.type = 'checkbox';
+          cb.value = p.polaroid_url;
+          cb.className = 'print-cb';
+          cb.style.position = 'absolute';
+          cb.style.top = '8px';
+          cb.style.left = '8px';
+          cb.style.width = '24px';
+          cb.style.height = '24px';
+          cb.style.cursor = 'pointer';
+          cb.style.accentColor = 'var(--hero-violet-2)';
+          
+          div.appendChild(img);
+          div.appendChild(cb);
+          
+          div.onclick = (e) => {
+            if(e.target !== cb) cb.checked = !cb.checked;
+            div.style.borderColor = cb.checked ? 'var(--hero-violet-2)' : 'transparent';
+          };
+          
+          cb.onclick = (e) => {
+             e.stopPropagation();
+             div.style.borderColor = cb.checked ? 'var(--hero-violet-2)' : 'transparent';
+          };
+          
+          gallery.appendChild(div);
+        });
+      } catch (e) {
+        console.error('Error loading gallery', e);
+      }
+    }
+    
+    document.getElementById('btn-print-selected').addEventListener('click', () => {
+      const selected = Array.from(document.querySelectorAll('.print-cb:checked')).map(cb => cb.value);
+      if (selected.length === 0) {
+        alert('Selecione pelo menos um polaroid para imprimir!');
+        return;
+      }
+      
+      const printWin = window.open('', '_blank');
+      printWin.document.write(`
+        <html>
+          <head>
+            <title>Imprimir Polaroids</title>
+            <style>
+              @page { size: A4; margin: 0; }
+              body { margin: 0; padding: 10mm; background: #fff; }
+              .page {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                grid-template-rows: repeat(3, 1fr);
+                gap: 5mm;
+                width: 190mm;
+                height: 277mm;
+                page-break-after: always;
+              }
+              .page img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+              }
+            </style>
+          </head>
+          <body>
+      `);
+      
+      for (let i = 0; i < selected.length; i += 9) {
+        const chunk = selected.slice(i, i + 9);
+        printWin.document.write('<div class="page">');
+        chunk.forEach(url => {
+          printWin.document.write(`<img src="${window.location.origin}${url}" />`);
+        });
+        printWin.document.write('</div>');
+      }
+      
+      printWin.document.write(`
+          <script>
+            window.onload = () => {
+              setTimeout(() => {
+                window.print();
+              }, 500);
+            };
+          </script>
+          </body>
+        </html>
+      `);
+      printWin.document.close();
+    });
+
+    loadGallery();
+
     async function load() {
       try {
         const res = await fetch('/api/survey/dashboard');

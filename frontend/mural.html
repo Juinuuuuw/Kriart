@@ -3,127 +3,246 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mural Faísca — Contribuições</title>
+  <title>Mural Faísca</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/css/mural.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --hero-bg-1: #f3f1fb;
+      --hero-bg-2: #eceafc;
+      --hero-ink: #221f3d;
+      --hero-ink-soft: #57547a;
+      --hero-violet-1: #2c2560;
+      --hero-violet-2: #7c6ef2;
+      --hero-violet-3: #9b8bfb;
+      --hero-border: rgba(44, 37, 96, 0.10);
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(60% 50% at 18% 12%, rgba(155,139,251,0.16), transparent 60%),
+                  radial-gradient(50% 45% at 85% 20%, rgba(124,110,242,0.14), transparent 60%),
+                  linear-gradient(180deg, var(--hero-bg-1), var(--hero-bg-2));
+      min-height: 100vh;
+      color: var(--hero-ink);
+      overflow: hidden; /* Hide scrollbars for the board */
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Decorative side waves */
+    .wave-left, .wave-right {
+      position: absolute; top: 0; height: 100vh; width: 150px;
+      pointer-events: none; z-index: 0; opacity: 0.5;
+    }
+    .wave-left { left: 0; }
+    .wave-right { right: 0; transform: scaleX(-1); }
+    .wave-left svg, .wave-right svg { width: 100%; height: 100%; }
+
+    /* Header */
+    .mural-header {
+      position: relative; z-index: 10;
+      display: flex; justify-content: center; align-items: center;
+      padding: 30px;
+    }
+    
+    .hero-brand { display: flex; align-items: center; gap: 14px; background: rgba(255,255,255,0.7); padding: 16px 32px; border-radius: 999px; box-shadow: 0 8px 32px rgba(44,37,96,0.08); backdrop-filter: blur(12px); border: 1px solid var(--hero-border); }
+    .hero-brand-mark { font-family: 'Poppins', sans-serif; font-weight: 800; font-size: 26px; letter-spacing: 0.5px; color: var(--hero-ink); }
+    .hero-brand-div { width: 1px; height: 32px; background: var(--hero-border); }
+    .hero-brand-lar { position: relative; display: flex; align-items: center; }
+    .hero-brand-lar strong { font-size: 24px; font-weight: 800; color: var(--hero-ink); }
+    .hero-brand-lar span { position: absolute; left: 100%; margin-left: 12px; font-size: 11px; line-height: 1.25; color: var(--hero-ink-soft); font-weight: 500; width: 120px; text-align: left; }
+
+    /* Board */
+    .board-container {
+      flex: 1;
+      position: relative;
+      z-index: 5;
+      width: 100%;
+      height: 100%;
+      padding: 20px;
+    }
+
+    /* Polaroid Element */
+    .polaroid-item {
+      position: absolute;
+      width: 280px; /* Fixed display width, adjust if needed */
+      background: white;
+      padding: 14px 14px 40px 14px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15), 0 5px 15px rgba(0,0,0,0.1);
+      border-radius: 4px;
+      transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      opacity: 0;
+      transform-origin: center center;
+      /* We will set initial transform via JS for popping effect */
+    }
+
+    .polaroid-item img {
+      width: 100%;
+      display: block;
+      background: #eee;
+    }
+
+    .polaroid-item::after {
+      content: '';
+      position: absolute;
+      top: -15px; left: 50%;
+      transform: translateX(-50%);
+      width: 40px; height: 16px;
+      background: rgba(255, 255, 255, 0.4);
+      border: 1px solid rgba(0,0,0,0.1);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      transform: translateX(-50%) rotate(-3deg);
+    }
+
+    /* Highlight effect when a new one arrives */
+    @keyframes newPop {
+      0% { opacity: 0; transform: scale(0.3) translateY(200px) rotate(0deg); }
+      60% { transform: scale(1.1) translateY(-20px) rotate(var(--rot)); opacity: 1; }
+      100% { transform: scale(1) translateY(0) rotate(var(--rot)); opacity: 1; }
+    }
+
+    @keyframes fadeOut {
+      from { opacity: 1; }
+      to { opacity: 0; transform: scale(0.9) translateY(30px); }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- ===== HEADER ===== -->
-  <header class="mural-header">
-    <div class="header-brand">
-      <svg class="brand-icon" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="40" height="40" rx="10" fill="url(#brandGrad)"/>
-        <path d="M12 28 L20 10 L28 28" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M15 22 L25 22" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
-        <defs>
-          <linearGradient id="brandGrad" x1="0" y1="0" x2="40" y2="40">
-            <stop offset="0%" stop-color="#7c6ef2"/>
-            <stop offset="100%" stop-color="#9b8bfb"/>
-          </linearGradient>
-        </defs>
-      </svg>
-      <div class="brand-text">
-        <span class="brand-name">Faísca</span>
-        <span class="brand-sub">Mural de Contribuições</span>
-      </div>
-    </div>
-
-    <!-- Stats -->
-    <div class="header-stats">
-      <div class="stat-item">
-        <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-          <circle cx="9" cy="7" r="4"/>
-          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-          <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-        </svg>
-        <div>
-          <span class="stat-value" id="stat-participants">0</span>
-          <span class="stat-label">Participantes</span>
-        </div>
-      </div>
-      <div class="stat-divider"></div>
-      <div class="stat-item">
-        <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="3" y="3" width="7" height="7"/>
-          <rect x="14" y="3" width="7" height="7"/>
-          <rect x="14" y="14" width="7" height="7"/>
-          <rect x="3" y="14" width="7" height="7"/>
-        </svg>
-        <div>
-          <span class="stat-value" id="stat-messages">0</span>
-          <span class="stat-label">Mensagens criadas</span>
-        </div>
-      </div>
-      <div class="stat-divider"></div>
-      <div class="stat-item">
-        <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-        </svg>
-        <div>
-          <span class="stat-value">4</span>
-          <span class="stat-label">Campanhas</span>
-        </div>
-      </div>
-      <div class="stat-divider"></div>
-      <div class="stat-item">
-        <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="10"/>
-          <path d="M12 8v4l3 3"/>
-        </svg>
-        <div>
-          <span class="stat-value">6</span>
-          <span class="stat-label">Estilos artísticos</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Clock -->
-    <div class="header-clock" id="clock">00:00</div>
-  </header>
-
-  <!-- ===== CAMPAIGN TABS ===== -->
-  <nav class="campaign-nav" id="campaign-nav">
-    <!-- Preenchido via JS -->
-  </nav>
-
-  <!-- ===== MURAL BOARDS ===== -->
-  <main class="mural-main" id="mural-main">
-    <!-- Gerado via JS: uma .board por campanha -->
-  </main>
-
-  <!-- ===== NOTIFICATION TOAST ===== -->
-  <div class="new-contribution-toast hidden" id="contribution-toast">
-    <div class="toast-header">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
-        <path d="M12 8v4"/>
-        <path d="M12 16h.01"/>
-      </svg>
-      <span>Nova contribuição</span>
-    </div>
-    <div class="toast-big">+1 mensagem para o mural!</div>
-    <div class="toast-sub" id="toast-sub-text">Alguém acabou de participar.</div>
+  <!-- Side waves -->
+  <div class="wave-left" aria-hidden="true">
+    <svg viewBox="0 0 120 1200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill="url(#waveGradL)" opacity="0.7">
+        <animate attributeName="d" dur="8s" repeatCount="indefinite"
+          values="M0,0 Q80,150 30,350 Q-20,550 60,750 Q110,950 20,1200 L0,1200 Z;
+                  M0,0 Q40,150 80,350 Q120,550 40,750 Q0,950 70,1200 L0,1200 Z;
+                  M0,0 Q80,150 30,350 Q-20,550 60,750 Q110,950 20,1200 L0,1200 Z"/>
+      </path>
+      <defs><linearGradient id="waveGradL" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#9b8bfb"/><stop offset="100%" stop-color="#7c6ef2"/></linearGradient></defs>
+    </svg>
+  </div>
+  <div class="wave-right" aria-hidden="true">
+    <svg viewBox="0 0 120 1200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill="url(#waveGradR)" opacity="0.7">
+        <animate attributeName="d" dur="10s" repeatCount="indefinite"
+          values="M0,0 Q80,150 30,350 Q-20,550 60,750 Q110,950 20,1200 L0,1200 Z;
+                  M0,0 Q40,150 80,350 Q120,550 40,750 Q0,950 70,1200 L0,1200 Z;
+                  M0,0 Q80,150 30,350 Q-20,550 60,750 Q110,950 20,1200 L0,1200 Z"/>
+      </path>
+      <defs><linearGradient id="waveGradR" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#7c6ef2"/><stop offset="100%" stop-color="#9b8bfb"/></linearGradient></defs>
+    </svg>
   </div>
 
-  <!-- ===== CONFETTI CONTAINER ===== -->
-  <div id="confetti-container" aria-hidden="true"></div>
+  <header class="mural-header">
+    <div class="hero-brand">
+      <span class="hero-brand-mark">UERN</span>
+      <span class="hero-brand-div"></span>
+      <div class="hero-brand-lar">
+        <strong>LAR</strong>
+        <span>Laboratório de<br>Aprendizagem Robótica</span>
+      </div>
+    </div>
+  </header>
 
-  <!-- ===== SVG DEFS (tachinha) ===== -->
-  <svg style="display:none" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <symbol id="icon-pin" viewBox="0 0 24 24">
-        <circle cx="12" cy="8" r="5" fill="#c0392b"/>
-        <path d="M12 13 L12 22" stroke="#888" stroke-width="1.5" stroke-linecap="round"/>
-        <circle cx="12" cy="8" r="2.5" fill="#e74c3c"/>
-        <circle cx="10.5" cy="6.5" r="1" fill="rgba(255,255,255,0.6)"/>
-      </symbol>
-    </defs>
-  </svg>
+  <div class="board-container" id="board">
+    <!-- Polaroids injected here -->
+  </div>
 
-  <script type="module" src="/static/js/mural.js"></script>
+  <script>
+    let allPolaroids = [];
+    const board = document.getElementById('board');
+    const MAX_POLAROIDS = 12; // Maximum number of elements on screen to avoid clutter
+    let activeElements = [];
+
+    async function fetchInitial() {
+      try {
+        const res = await fetch('/api/mural/polaroids');
+        allPolaroids = await res.json();
+        
+        // Spawn first batch instantly (up to MAX_POLAROIDS/2)
+        if (allPolaroids.length > 0) {
+          const initialCount = Math.min(allPolaroids.length, Math.floor(MAX_POLAROIDS / 1.5));
+          const shuffled = [...allPolaroids].sort(() => 0.5 - Math.random());
+          for (let i = 0; i < initialCount; i++) {
+            setTimeout(() => spawnPolaroid(shuffled[i]), i * 800);
+          }
+        }
+      } catch(e) { console.error(e); }
+    }
+
+    function spawnPolaroid(data) {
+      const el = document.createElement('div');
+      el.className = 'polaroid-item';
+      
+      const img = document.createElement('img');
+      img.src = data.polaroid_url;
+      el.appendChild(img);
+
+      // Random position
+      // Width is 280px. Height is approx 350px.
+      const maxW = board.clientWidth - 300;
+      const maxH = board.clientHeight - 400;
+      
+      const left = Math.max(20, Math.random() * maxW);
+      const top = Math.max(20, Math.random() * maxH);
+      const rot = (Math.random() * 30 - 15).toFixed(1); // -15 to +15 deg
+      
+      el.style.left = left + 'px';
+      el.style.top = top + 'px';
+      el.style.setProperty('--rot', rot + 'deg');
+      
+      // Animate entry
+      el.style.animation = 'newPop 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
+      
+      // Depth sorting
+      const highestZ = activeElements.reduce((max, item) => Math.max(max, parseInt(item.style.zIndex || 0)), 0);
+      el.style.zIndex = highestZ + 1;
+
+      board.appendChild(el);
+      activeElements.push(el);
+
+      // Remove oldest if limit exceeded
+      if (activeElements.length > MAX_POLAROIDS) {
+        const oldest = activeElements.shift();
+        oldest.style.animation = 'fadeOut 0.5s ease forwards';
+        setTimeout(() => {
+          if (oldest.parentNode) oldest.parentNode.removeChild(oldest);
+        }, 500);
+      }
+    }
+
+    // Connect SSE for real-time new polaroids
+    function setupSSE() {
+      const evtSource = new EventSource('/api/mural/stream');
+      evtSource.onmessage = function(event) {
+        const data = JSON.parse(event.data);
+        if (data.type === 'connected') return;
+        
+        // Ensure not duplicate
+        if (!allPolaroids.find(p => p.id === data.id)) {
+          allPolaroids.push(data);
+        }
+        
+        // Spawn immediately and bring to absolute front
+        spawnPolaroid(data);
+      };
+    }
+
+    // Periodically spawn a random old polaroid to keep screen dynamic
+    setInterval(() => {
+      if (allPolaroids.length === 0) return;
+      // Skip spawning if there was a very recent new polaroid? Nah, just spawn randomly.
+      const randomData = allPolaroids[Math.floor(Math.random() * allPolaroids.length)];
+      spawnPolaroid(randomData);
+    }, 6000); // Every 6 seconds pop a new one
+
+    // Init
+    fetchInitial();
+    setupSSE();
+  </script>
 </body>
 </html>
