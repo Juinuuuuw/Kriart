@@ -275,6 +275,53 @@
       }
     }
     
+    // Helper to build the print page HTML
+    function buildPrintHtml(selected, mode) {
+      const imgsPerPage = mode === '1pp' ? 1 : 9;
+      const cols = mode === '1pp' ? 1 : 3;
+      const rows = mode === '1pp' ? 1 : 3;
+      
+      let pages = '';
+      for (let i = 0; i < selected.length; i += imgsPerPage) {
+        const chunk = selected.slice(i, i + imgsPerPage);
+        pages += '<div class="page">';
+        chunk.forEach(url => {
+          pages += '<div class="cell"><img src="' + window.location.origin + url + '" /></div>';
+        });
+        pages += '</div>';
+      }
+      
+      return '<!DOCTYPE html><html><head><title>Imprimir Polaroids</title><style>' +
+        '* { box-sizing: border-box; margin: 0; padding: 0; }' +
+        '@page { size: A4 portrait; margin: 8mm; }' +
+        'body { background: #fff; }' +
+        '.page {' +
+          'display: grid;' +
+          'grid-template-columns: repeat(' + cols + ', 1fr);' +
+          'grid-template-rows: repeat(' + rows + ', 1fr);' +
+          'gap: 4mm;' +
+          'width: 194mm;' +
+          'height: 281mm;' +
+          'page-break-after: always;' +
+          'break-after: page;' +
+        '}' +
+        '.cell {' +
+          'display: flex;' +
+          'align-items: center;' +
+          'justify-content: center;' +
+          'overflow: hidden;' +
+        '}' +
+        '.cell img {' +
+          'max-width: 100%;' +
+          'max-height: 100%;' +
+          'width: 100%;' +
+          'height: 100%;' +
+          'object-fit: contain;' + /* NEVER crop — show the full polaroid */
+          'display: block;' +
+        '}' +
+        '</style></head><body>' + pages + '</body></html>';
+    }
+
     document.getElementById('btn-print-selected').addEventListener('click', () => {
       const selected = Array.from(document.querySelectorAll('.print-cb:checked')).map(cb => cb.value);
       if (selected.length === 0) {
@@ -282,50 +329,16 @@
         return;
       }
       
+      const mode = confirm(
+        'Imprimir ' + selected.length + ' polaroid(s).\n\nOK → 3×3 por página\nCancelar → 1 por página (melhor para colorir)'
+      ) ? '3x3' : '1pp';
+      
       const printWin = window.open('', '_blank');
-      printWin.document.write(`
-        <html>
-          <head>
-            <title>Imprimir Polaroids</title>
-            <style>
-              @page { size: A4; margin: 0; }
-              body { margin: 0; padding: 10mm; background: #fff; }
-              .page {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                grid-template-rows: repeat(3, 1fr);
-                gap: 5mm;
-                width: 190mm;
-                height: 277mm;
-                page-break-after: always;
-              }
-              .page img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-              }
-            </style>
-          </head>
-          <body>
-      `);
-      
-      for (let i = 0; i < selected.length; i += 9) {
-        const chunk = selected.slice(i, i + 9);
-        printWin.document.write('<div class="page">');
-        chunk.forEach(url => {
-          printWin.document.write(`<img src="${window.location.origin}${url}" />`);
-        });
-        printWin.document.write('</div>');
-      }
-      
-      printWin.document.write(
-        '<scr' + 'ipt>' +
-        'window.onload=function(){setTimeout(function(){window.print();},500);}' +
-        '</scr' + 'ipt>' +
-        '</body></html>'
-      );
+      printWin.document.write(buildPrintHtml(selected, mode));
       printWin.document.close();
+      printWin.onload = () => setTimeout(() => printWin.print(), 300);
     });
+
 
     loadGallery();
 
