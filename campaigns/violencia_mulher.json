@@ -1,0 +1,37 @@
+{
+  "id": "violencia_mulher",
+  "nome": "Combate à Violência contra a Mulher",
+  "objetivo": "Conscientizar sobre a violência de gênero e promover uma cultura de respeito e igualdade",
+  "descricao": "Crie uma mensagem de respeito, força e apoio às mulheres.",
+  "faixa_etaria": "10-18",
+  "estilos": [
+    "poster_conscientizacao",
+    "ilustracao_empoderamento",
+    "arte_engajamento"
+  ],
+  "elementos": [
+    "força",
+    "respeito",
+    "igualdade",
+    "proteção",
+    "voz",
+    "empoderamento",
+    "apoio"
+  ],
+  "cor_tema": "#C2185B",
+  "icone": "violencia_mulher",
+  "perguntas_guia": [
+    "Que mensagem você quer enviar para apoiar as mulheres?",
+    "O que significa respeito para você?",
+    "Como você pode contribuir para um mundo mais seguro e igualitário?"
+  ],
+  "sd_style_keywords": [
+    "women empowerment",
+    "gender equality",
+    "strength and resilience",
+    "solidarity",
+    "purple ribbon awareness",
+    "hope and courage",
+    "social justice"
+  ]
+}

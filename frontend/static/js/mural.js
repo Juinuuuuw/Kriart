@@ -34,12 +34,13 @@ const CAMPAIGNS = [
     </svg>`,
   },
   {
-    id: 'meio_ambiente',
-    nome: 'Meio Ambiente',
-    cor: '#2E7D32',
+    id: 'violencia_mulher',
+    nome: 'Combate à Violência contra a Mulher',
+    cor: '#C2185B',
     svgIcon: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M12 22V12"/>
-      <path d="M5 12a7 7 0 0 0 7-7 7 7 0 0 0 7 7H5z"/>
+      <circle cx="12" cy="10" r="6"/>
+      <path d="M12 16v6"/>
+      <path d="M9 19h6"/>
     </svg>`,
   },
   {

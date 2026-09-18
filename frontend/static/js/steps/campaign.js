@@ -56,7 +56,7 @@ export async function initCampaignStep(state) {
       const inputMessage = document.getElementById('input-message');
       if (inputMessage) {
         const placeholders = {
-          'meio_ambiente': 'Ex: Crianças plantando árvores e cuidando de animais em uma floresta...',
+          'violencia_mulher': 'Ex: Mulheres fortes e unidas se apoiando, transmitindo coragem e força...',
           'bullying': 'Ex: Um grupo de alunos sorrindo e de mãos dadas no pátio da escola...',
           'inclusao': 'Ex: Várias crianças diferentes brincando juntas e felizes sob um arco-íris...',
           'setembro_amarelo': 'Ex: Duas pessoas dando um abraço caloroso sob uma luz amarela e suave...'
