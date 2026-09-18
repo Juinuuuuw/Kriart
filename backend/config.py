@@ -13,11 +13,11 @@ class Settings(BaseSettings):
     # Stable Diffusion Forge
     SD_FORGE_URL: str = "http://localhost:7860"
     SD_MODEL: str = "toonyou_beta6.safetensors"
-    SD_STEPS: int = 25
+    SD_STEPS: int = 20
     SD_CFG_SCALE: float = 7.0
     SD_WIDTH: int = 640
     SD_HEIGHT: int = 640
-    SD_SAMPLER: str = "DPM++ 2M Karras"
+    SD_SAMPLER: str = "Euler a"
     SD_NEGATIVE_PROMPT: str = (
         "(worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry), "
         "(nsfw, nude, naked, sexual, explicit), "
