@@ -34,9 +34,10 @@ class StableDiffusionService:
             "hr_second_pass_steps": 10,
             "denoising_strength": 0.35,
             "alwayson_scripts": {
-                "ADetailer": {
+                "adetailer": {
                     "args": [
                         True,
+                        False,
                         {
                             "ad_model": "face_yolov8n.pt",
                             "ad_mask_merge_invert": "Merge",
@@ -45,6 +46,9 @@ class StableDiffusionService:
                         }
                     ]
                 }
+            },
+            "override_settings": {
+                "sd_model_checkpoint": settings.SD_MODEL
             }
         }
 

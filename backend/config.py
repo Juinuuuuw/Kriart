@@ -7,8 +7,8 @@ from pathlib import Path
 class Settings(BaseSettings):
     # Ollama
     OLLAMA_BASE_URL: str = "http://localhost:11434"
-    OLLAMA_CHAT_MODEL: str = "phi3:mini"
-    OLLAMA_PROMPT_MODEL: str = "phi3:mini"
+    OLLAMA_CHAT_MODEL: str = "phi4-mini:latest"
+    OLLAMA_PROMPT_MODEL: str = "phi4-mini:latest"
 
     # Stable Diffusion Forge
     SD_FORGE_URL: str = "http://localhost:7860"
@@ -19,17 +19,15 @@ class Settings(BaseSettings):
     SD_HEIGHT: int = 640
     SD_SAMPLER: str = "Euler a"
     SD_NEGATIVE_PROMPT: str = (
-        "(worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry), "
-        "(nsfw, nude, naked, sexual, explicit), "
-        "romantic, couple, lovers, intimate, kiss, kissing, adult content, "
-        "bad anatomy, bad hands, missing fingers, extra fingers, fused fingers, too many fingers, "
-        "deformed, mutated, extra limbs, disfigured, ugly, "
-        "text, watermark, logo"
+        "nsfw, nude, naked, (worst quality, low quality:1.4), deformed, bad anatomy, bad proportions, ugly, duplicate, morbid, "
+        "mutilated, extra fingers, mutated hands, poorly drawn hands, poorly drawn face, mutation, blurry, bad art, extra limbs, "
+        "gross proportions, malformed limbs, missing arms, missing legs, extra arms, extra legs, mutated hands, fused fingers, "
+        "too many fingers, long neck, watermark, signature, text"
     )
 
     # App
     APP_HOST: str = "0.0.0.0"
-    APP_PORT: int = 8000
+    APP_PORT: int = 5000
     DEBUG: bool = True
     SECRET_KEY: str = "change-me-in-production"
 
@@ -43,7 +41,7 @@ class Settings(BaseSettings):
 
     # Polaroid
     POLAROID_PRINT_BATCH_SIZE: int = 6
-    BASE_URL: str = "http://localhost:8000"
+    BASE_URL: str = "http://localhost:5000"
 
     # Impressao
     PRINT_ENABLED: bool = False

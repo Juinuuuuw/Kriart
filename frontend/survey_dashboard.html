@@ -215,6 +215,10 @@
               <button id="btn-mode-color" onclick="setGalleryMode('color')" style="padding: 8px 18px; border-radius: 999px; border: none; cursor: pointer; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 13px; background: var(--hero-violet-2); color: #fff; transition: all 0.2s;">🎨 Colorido</button>
               <button id="btn-mode-sketch" onclick="setGalleryMode('sketch')" style="padding: 8px 18px; border-radius: 999px; border: none; cursor: pointer; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 13px; background: transparent; color: var(--hero-ink-soft); transition: all 0.2s;">✏️ Para Colorir</button>
             </div>
+            <select id="print-layout" style="padding: 10px 14px; border-radius: 999px; border: 1px solid var(--hero-border); font-family: 'Poppins', sans-serif; font-size: 13px; outline: none; background: #fff; cursor: pointer;">
+              <option value="1pp">1x1 (Página Grande)</option>
+              <option value="3x3">3x3 (Mosaico)</option>
+            </select>
             <button class="hero-cta" id="btn-print-selected" style="padding: 12px 24px; font-size: 14px; margin-top: 0;">Imprimir Selecionados</button>
           </div>
         </div>
@@ -367,9 +371,7 @@
         return;
       }
       
-      const mode = confirm(
-        'Imprimir ' + selected.length + ' polaroid(s).\n\nOK → 3×3 por página\nCancelar → 1 por página (melhor para colorir)'
-      ) ? '3x3' : '1pp';
+      const mode = document.getElementById('print-layout').value;
       
       const printWin = window.open('', '_blank');
       printWin.document.write(buildPrintHtml(selected, mode));

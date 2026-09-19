@@ -96,7 +96,7 @@ STRICT RULES - follow all:
                     # Remover tags isoladas que possam quebrar a geração
                     raw_prompt = raw_prompt.replace("1girl", "").replace("1boy", "").replace("single", "")
 
-                final_prompt = f"(best quality, masterpiece), {raw_prompt}"
+                final_prompt = f"(best quality, masterpiece, highly detailed, beautiful:1.2), {raw_prompt}"
                 logger.info(f"\n=======================================\nPROMPT FINAL:\n{final_prompt}\n=======================================\n")
                 return final_prompt
         except Exception as e:

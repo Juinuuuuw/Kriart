@@ -91,7 +91,7 @@ class PolaroidService:
             sketch_img_path = orig_img_path
 
         campaign_color = _load_campaign_color(session.campaign_id)
-        phrase = session.user_phrase or session.user_message or ""
+        phrase = session.user_phrase or ""
 
         polaroid_color = await self._compose(
             polaroid_id=polaroid_id,

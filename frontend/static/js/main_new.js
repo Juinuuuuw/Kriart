@@ -320,16 +320,16 @@ function setupInteractions() {
       { text: "Uma pessoa com uma expressão de alívio sentada em um parque ensolarado", icon: makeSvg('<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>') },
       { text: "Um jovem regando uma pequena planta que cresce feliz na janela", icon: makeSvg('<path d="M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7 2.9 7 2.9s-2.29 6.16-2.29 6.16c-1.14.93-1.71 2.03-1.71 3.19C3 14.47 4.8 16.3 7 16.3Z"/><path d="M20.93 14.8c-.85-1.57-2.61-3.66-3.93-5-.85 1.57-2.61 3.66-3.93 5-1.32 1.34-1.32 3.52 0 4.86a3.55 3.55 0 0 0 4.86 0c1.32-1.34 1.32-3.52 0-4.86Z"/>') },
       { text: "Uma mulher caminhando por um campo florido após uma tempestade", icon: makeSvg('<path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.947 12.65a4 4 0 0 0-5.925-4.128"/><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"/>') },
-      { text: "Um pássaro branco voando livremente em direção a um céu azul e limpo", icon: makeSvg('<path d="M12.67 19a2 2 0 0 0 1.416-.588l6.154-6.172a6 6 0 0 0-8.49-8.49L5.586 9.914A2 2 0 0 0 5 11.328V18a1 1 0 0 0 1 1z"/><path d="M16 8 2 22"/><path d="M17.5 15H9"/>') },
+      { text: "Uma menina observando um pássaro branco voando livremente no céu azul", icon: makeSvg('<path d="M12.67 19a2 2 0 0 0 1.416-.588l6.154-6.172a6 6 0 0 0-8.49-8.49L5.586 9.914A2 2 0 0 0 5 11.328V18a1 1 0 0 0 1 1z"/><path d="M16 8 2 22"/><path d="M17.5 15H9"/>') },
       { text: "Uma pessoa sentada em silêncio observando um belo e calmo pôr do sol", icon: makeSvg('<path d="M12 10V2"/><path d="m4.93 10.93 1.41 1.41"/><path d="M2 18h2"/><path d="M20 18h2"/><path d="m19.07 10.93-1.41 1.41"/><path d="M22 22H2"/><path d="m8 6 4-4 4 4"/><path d="M16 18a4 4 0 0 0-8 0"/>') },
-      { text: "Um grande girassol brilhante e forte crescendo em meio a um campo cinza", icon: makeSvg('<path d="M12 5a3 3 0 1 1-3 3m3-3a3 3 0 1 0 3 3m-3-3v1M9 8a3 3 0 1 0 3 3m-3-3h1m5-3a3 3 0 1 1-3 3m3-3h-1m-5 3a3 3 0 1 0 3 3m-3-3v1m5-3a3 3 0 1 1-3 3m3-3v1m-3 3v8"/>') },
+      { text: "Uma menina caminhando alegremente em meio a um campo de girassóis", icon: makeSvg('<path d="M12 5a3 3 0 1 1-3 3m3-3a3 3 0 1 0 3 3m-3-3v1M9 8a3 3 0 1 0 3 3m-3-3h1m5-3a3 3 0 1 1-3 3m3-3h-1m-5 3a3 3 0 1 0 3 3m-3-3v1m5-3a3 3 0 1 1-3 3m3-3v1m-3 3v8"/>') },
       { text: "Um jovem relaxando em uma cadeira confortável com um sorriso sereno", icon: makeSvg('<path d="M19 9V6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v3"/><path d="M3 11v5a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5a2 2 0 0 0-4 0v2H7v-2a2 2 0 0 0-4 0Z"/><path d="M5 18v2"/><path d="M19 18v2"/>') }
     ],
     "Inclusão Social": [
       { text: "Uma criança feliz em uma cadeira de rodas empinando uma pipa colorida", icon: makeSvg('<circle cx="16" cy="4" r="1"/><path d="m18 19 1-7-6 1"/><path d="m5 8 3-3 5.5 3-2.36 3.5"/><path d="M4.24 14.5a5 5 0 0 0 6.88 6"/><path d="M13.76 17.5a5 5 0 0 0-6.88-6"/>') },
       { text: "Dois amigos construindo juntos um castelo de blocos muito alto", icon: makeSvg('<path d="M22 20v-9H2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2Z"/><path d="M18 11V4H6v7"/><path d="M15 22v-4a3 3 0 0 0-6 0v4"/><path d="M22 11V9"/><path d="M2 11V9"/><path d="M6 4V2"/><path d="M18 4V2"/><path d="M10 4V2"/><path d="M14 4V2"/>') },
       { text: "Um menino sorridente pintando um quadro cheio de cores vibrantes", icon: makeSvg('<circle cx="13.5" cy="6.5" r=".5"/><circle cx="17.5" cy="10.5" r=".5"/><circle cx="8.5" cy="7.5" r=".5"/><circle cx="6.5" cy="12.5" r=".5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>') },
-      { text: "Uma peça de quebra-cabeça dourada se encaixando perfeitamente", icon: makeSvg('<path d="M19.439 7.85c-.049.322.059.648.289.878l1.568 1.568c.47.47.706 1.087.706 1.704s-.235 1.233-.706 1.704l-1.611 1.611a.98.98 0 0 0-.289.877c.18 1.182-.239 2.385-1.121 3.267s-2.085 1.301-3.267 1.121a.98.98 0 0 0-.877.289l-1.611 1.611c-.47.47-1.087.706-1.704.706s-1.233-.235-1.704-.706l-1.568-1.568a.98.98 0 0 0-.878-.289c-1.182.18-2.385-.239-3.267-1.121s-1.301-2.085-1.121-3.267a.98.98 0 0 0-.289-.877L.706 13.704A2.41 2.41 0 0 1 0 12c0-.617.235-1.233.706-1.704l1.568-1.568a.98.98 0 0 0 .289-.878C2.383 6.668 2.802 5.465 3.684 4.583s2.085-1.301 3.267-1.121a.98.98 0 0 0 .877-.289L9.439 1.562A2.41 2.41 0 0 1 11.143.856c.617 0 1.233.235 1.704.706l1.611 1.611c.23.23.554.34.877.289 1.182-.18 2.385.239 3.267 1.121s1.301 2.085 1.121 3.267z"/>') },
+      { text: "Um menino e uma menina montando juntos um grande quebra-cabeça", icon: makeSvg('<path d="M19.439 7.85c-.049.322.059.648.289.878l1.568 1.568c.47.47.706 1.087.706 1.704s-.235 1.233-.706 1.704l-1.611 1.611a.98.98 0 0 0-.289.877c.18 1.182-.239 2.385-1.121 3.267s-2.085 1.301-3.267 1.121a.98.98 0 0 0-.877.289l-1.611 1.611c-.47.47-1.087.706-1.704.706s-1.233-.235-1.704-.706l-1.568-1.568a.98.98 0 0 0-.878-.289c-1.182.18-2.385-.239-3.267-1.121s-1.301-2.085-1.121-3.267a.98.98 0 0 0-.289-.877L.706 13.704A2.41 2.41 0 0 1 0 12c0-.617.235-1.233.706-1.704l1.568-1.568a.98.98 0 0 0 .289-.878C2.383 6.668 2.802 5.465 3.684 4.583s2.085-1.301 3.267-1.121a.98.98 0 0 0 .877-.289L9.439 1.562A2.41 2.41 0 0 1 11.143.856c.617 0 1.233.235 1.704.706l1.611 1.611c.23.23.554.34.877.289 1.182-.18 2.385.239 3.267 1.121s1.301 2.085 1.121 3.267z"/>') },
       { text: "Um estudante subindo uma rampa escolar colorida com muita alegria", icon: makeSvg('<path d="M13 5H19V11"/><path d="M19 5L5 19"/>') },
       { text: "Uma jovem plantando uma pequena árvore em um parque ensolarado", icon: makeSvg('<path d="M17.8 19.2c1.5-1.5 2.2-3.5 2.2-5.7 0-4.4-3.6-8-8-8s-8 3.6-8 8c0 2.2.7 4.2 2.2 5.7"/><path d="M12 22v-9"/>') },
       { text: "Uma menina sorrindo enquanto brinca em um balanço acessível", icon: makeSvg('<path d="M22 11v1a10 10 0 1 1-9-10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" x2="9.01" y1="9" y2="9"/><line x1="15" x2="15.01" y1="9" y2="9"/><path d="M16 5h6"/><path d="M19 2v6"/>') },
@@ -338,9 +338,9 @@ function setupInteractions() {
     "Violência contra a Mulher": [
       { text: "Uma mulher caminhando com a cabeça erguida, sentindo-se segura e livre", icon: makeSvg('<path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M3 5h4"/>') },
       { text: "Duas amigas de mãos dadas caminhando juntas com força e confiança", icon: makeSvg('<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>') },
-      { text: "Uma borboleta dourada saindo de uma gaiola aberta em direção ao sol", icon: makeSvg('<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/>') },
+      { text: "Uma mulher sorridente observando uma borboleta dourada voando livre", icon: makeSvg('<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/>') },
       { text: "Uma mulher sorridente sendo abraçada com carinho por uma grande amiga", icon: makeSvg('<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>') },
-      { text: "Uma balança dourada brilhante e perfeitamente equilibrada na floresta", icon: makeSvg('<path d="M16 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"/><path d="M2 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h18"/>') },
+      { text: "Mulheres unidas segurando uma balança dourada perfeitamente equilibrada", icon: makeSvg('<path d="M16 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"/><path d="M2 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h18"/>') },
       { text: "Uma mulher forte e confiante admirando uma flor que acabou de brotar", icon: makeSvg('<path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/>') },
       { text: "Uma mulher destemida cruzando uma ponte iluminada pelo sol da manhã", icon: makeSvg('<polygon points="3 11 22 2 13 21 11 13 3 11"/>') },
       { text: "Uma garota abrindo os braços para o céu estrelado em um campo sereno", icon: makeSvg('<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/><path d="M19 3v4"/><path d="M21 5h-4"/>') }
@@ -473,7 +473,7 @@ async function runBackgroundGeneration() {
 
 async function finishGeneration() {
   // Tempo mínimo que o robô fica animando na tela (em ms)
-  const MIN_DISPLAY_MS = 5000;
+  const MIN_DISPLAY_MS = 1500;
   const startedAt = Date.now();
 
   try {
@@ -514,20 +514,20 @@ async function finishGeneration() {
       // 1. Estado inicial camuflado (tudo escondido/para baixo)
       resultStep.className = 'step active state-init';
 
-      // 2. Revela a Polaroid colorida com animação suave e lenta
+      // 2. Revela a Polaroid colorida com animação rápida
       setTimeout(() => {
         resultStep.className = 'step active state-reveal';
-      }, 1200);
+      }, 300);
 
       // 3. Divide as polaroids (Colorida menor p/ esquerda, sketch maior p/ direita)
       setTimeout(() => {
         resultStep.className = 'step active state-split';
-      }, 5500); // Gives a nice 4.3 seconds to admire the main art before splitting
+      }, 2500); 
 
       // 4. Mostra o botão de nova arte (Roxo!)
       setTimeout(() => {
         resultStep.className = 'step active state-split state-done';
-      }, 7000);
+      }, 3500);
     }
   } catch(e) {
     console.error("Erro na geração:", e);
