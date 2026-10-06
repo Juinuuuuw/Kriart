@@ -1,598 +1,106 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Faísca — Crie sua Arte Educativa</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/static/css/main.css?v=26">
-  <style>
-    /* ===== Hero / Boas-vindas — Mural Vivo da UERN ===== */
-    :root{
-      --hero-bg-1:#f3f1fb;
-      --hero-bg-2:#eceafc;
-      --hero-ink:#221f3d;
-      --hero-ink-soft:#57547a;
-      --hero-violet-1:#2c2560;
-      --hero-violet-2:#7c6ef2;
-      --hero-violet-3:#9b8bfb;
-      --hero-card:#ffffff;
-      --hero-border:rgba(44,37,96,0.10);
-    }
-
-    #step-welcome.step{
-      position:relative;
-      max-width:none;
-      width:100%;
-      min-height:100vh;
-      padding:0;
-      margin:0;
-      background:
-        radial-gradient(60% 50% at 18% 12%, rgba(155,139,251,0.16), transparent 60%),
-        radial-gradient(50% 45% at 85% 20%, rgba(124,110,242,0.14), transparent 60%),
-        linear-gradient(180deg, var(--hero-bg-1), var(--hero-bg-2));
-      overflow:hidden;
-      display:none; 
-    }
-    #step-welcome.active {
-      display:block !important;
-    }
-    #step-welcome .welcome-content{
-      all:unset;
-      display:block;
-      position:relative;
-      z-index:2;
-      max-width:1440px;
-      margin:0 auto;
-      padding:40px 32px 80px;
-      font-family:'Poppins', sans-serif;
-      color:var(--hero-ink);
-      box-sizing:border-box;
-    }
-
-    .hero-topbar{ display:flex; align-items:center; justify-content:center; margin-bottom:90px; }
-    .hero-brand{ display:flex; align-items:center; gap:14px; }
-    .hero-brand-mark{ font-family:'Poppins',sans-serif; font-weight:800; font-size:22px; letter-spacing:0.5px; color:var(--hero-ink); }
-    .hero-brand-div{ width:1px; height:28px; background:var(--hero-border); }
-    .hero-brand-lar{ position: relative; display:flex; align-items:center; }
-    .hero-brand-lar strong{ font-size:20px; font-weight:800; color:var(--hero-ink); }
-    .hero-brand-lar span{ margin-left: 10px; font-size:10.5px; line-height:1.25; color:var(--hero-ink-soft); font-weight:500; width: 110px; text-align: left; }
-    
-    .hero-center{ position:relative; max-width:680px; margin:0 auto; text-align:center; padding-top:8px; }
-    .hero-eyebrow{ margin-bottom:26px; }
-    .hero-pill{ display:inline-flex; align-items:center; gap:8px; padding:10px 18px; border-radius:999px; background:rgba(255,255,255,0.7); border:1px solid var(--hero-border); box-shadow:0 4px 16px rgba(44,37,96,0.06); font-size:13px; font-weight:600; color:var(--hero-violet-2); }
-    .hero-pill svg{ width:14px; height:14px; flex-shrink:0; }
-    
-    .hero-title{ font-family:'Fraunces', serif; font-weight:600; font-size:clamp(40px, 6vw, 76px); line-height:1.04; letter-spacing:-0.5px; margin:0 0 44px; color:var(--hero-ink); }
-    .hero-title .accent{ font-style:italic; background:linear-gradient(100deg, var(--hero-violet-2), var(--hero-violet-3)); -webkit-background-clip:text; background-clip:text; color:transparent; }
-    .hero-sub{ font-size:17px; line-height:1.6; color:var(--hero-ink-soft); margin:0 0 72px; font-weight:400; }
-    .hero-sub strong{ color:var(--hero-violet-2); font-weight:700; }
-
-    .hero-cta{ appearance:none; border:none; cursor:pointer; display:inline-flex; align-items:center; gap:12px; font-family:'Poppins',sans-serif; font-size:17px; font-weight:600; color:#fff; padding:19px 40px; border-radius:999px; background:linear-gradient(115deg, var(--hero-violet-1) 0%, var(--hero-violet-2) 55%, var(--hero-violet-3) 100%); box-shadow:0 16px 32px -10px rgba(72,55,196,0.55); transition:transform .2s ease, box-shadow .2s ease; }
-    .hero-cta:hover{ transform:translateY(-2px); box-shadow:0 20px 36px -8px rgba(72,55,196,0.65); }
-    .hero-cta svg{ width:18px; height:18px; }
-
-    @media (max-width: 640px){
-      #step-welcome .welcome-content{ padding:28px 20px 56px; }
-      .hero-topbar{ flex-direction:column; align-items:center; gap:16px; text-align:center; margin-bottom:36px; }
-      .hero-title{ font-size:38px; }
-      .hero-cta{ width:100%; justify-content:center; padding:17px 24px; }
-    }
-
-    /* Modal de Alerta Customizado */
-    .custom-modal { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 9999; display: flex; align-items: center; justify-content: center; }
-    .custom-modal.hidden { display: none; }
-    .custom-modal-backdrop { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(34, 31, 61, 0.4); backdrop-filter: blur(4px); }
-    .custom-modal-content { position: relative; background: #ffffff; border-radius: 24px; padding: 40px 32px; max-width: 420px; width: 90%; text-align: center; box-shadow: 0 24px 48px rgba(44, 37, 96, 0.15); animation: modalPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
-    .custom-modal-icon { margin: 0 auto 20px; width: 64px; height: 64px; background: #fff0f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #ff4d4f; }
-    .custom-modal-title { font-family: 'Fraunces', serif; font-size: 26px; color: var(--hero-ink); margin-bottom: 12px; font-weight: 600; letter-spacing: -0.3px; }
-    .custom-modal-text { font-family: 'Poppins', sans-serif; font-size: 15px; color: var(--hero-ink-soft); line-height: 1.6; margin-bottom: 32px; font-weight: 400; }
-    .btn-modal-close { appearance: none; border: none; background: linear-gradient(115deg, var(--hero-violet-1) 0%, var(--hero-violet-2) 55%, var(--hero-violet-3) 100%); color: #fff; font-family: 'Poppins', sans-serif; font-size: 16px; font-weight: 600; padding: 16px 32px; border-radius: 999px; cursor: pointer; width: 100%; transition: transform 0.2s ease, box-shadow 0.2s ease; box-shadow: 0 12px 24px -8px rgba(124, 110, 242, 0.4); }
-    .btn-modal-close:hover { transform: translateY(-2px); box-shadow: 0 16px 32px -8px rgba(124, 110, 242, 0.6); }
-    @keyframes modalPop { 0% { transform: scale(0.95); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-  </style>
-</head>
-<body>
-
-  <main id="app">
-
-    <!-- STEP 0: Boas-vindas -->
-    <section id="step-welcome" class="step active">
-      <div class="welcome-content">
-        <div class="hero-topbar">
-          <div class="hero-brand">
-            <span class="hero-brand-mark">UERN</span><span class="hero-brand-div"></span>
-            <div class="hero-brand-lar"><strong>LAR</strong><span>Laboratório de Aprendizagem Robótica</span></div>
-          </div>
-        </div>
-        <div class="hero-center">
-          <div class="hero-eyebrow">
-            <span class="hero-pill"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 6.2L20 10l-6.2 1.8L12 18l-1.8-6.2L4 10l6.2-1.8z"/></svg>PROJETO FAÍSCA</span>
-          </div>
-          <h1 class="hero-title">Ideias que<br>ganham <span class="accent">vida</span></h1>
-          <p class="hero-sub">Crie sua mensagem com o poder da Inteligência Artificial, receba seu Polaroid exclusivo e faça parte do <strong>Mural Vivo da UERN.</strong></p>
-          <button class="hero-cta" id="btn-start">Iniciar criação</button>
+<html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#eee6fc"><title>Faísca — Ideias que transformam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/css/robot-story.css?v=3"><link rel="stylesheet" href="/static/css/experience.css?v=2"></head><body>
+<header class="app-header"><span class="app-brand">✦ faísca</span><span class="app-credit">UERN <span aria-hidden="true">·</span> LAR</span></header>
+<main id="app"><section id="step-welcome" class="step active" aria-labelledby="welcome-title">
+  <div class="scene">
+    <aside class="scene-character"><div class="robot-portrait"><img class="mascot-img" src="/static/img/robot/RobotWaving.png" alt="Robot acenando para você"></div><span class="welcome-line">Uma ideia sua. Uma aventura nossa.</span></aside>
+    <div class="scene-panel"><span class="scene-kicker">BEM-VINDO AO FAÍSCA</span><h1 id="welcome-title">Pequenas ideias.<br> Grandes mudanças.</h1><p class="scene-description">Escolha uma causa, solte a imaginação e crie uma arte com o Robot. No final, ela vira um Polaroid só seu.</p><button class="button-primary" id="btn-start">Vamos criar juntos <span aria-hidden="true">→</span></button><p class="scene-footnote">Uma experiência criativa da UERN + LAR.</p></div>
+  </div>
+</section>
+<section id="step-cause" class="step" aria-labelledby="step-cause-title">
+      <div class="scene">
+        <aside class="scene-character cause-mascot "><div class="robot-portrait"><img class="mascot-img" src="/static/img/robot/RobotWaving.png" alt="Robot, seu parceiro de criação"></div><div class="mascot-bubble"></div></aside>
+        <div class="scene-panel">
+          <span class="scene-kicker">MISSÃO 01 · UMA CAUSA</span>
+          <h2 id="step-cause-title">O que vamos<br> transformar hoje?</h2>
+          <p class="scene-description">Escolha a causa que toca você.</p>
+          <div class="choice-grid cause-grid" aria-label="Escolha uma causa"><button type="button" class="cause-card-ui choice-card" data-val="Bullying"><span class="choice-icon lilac"><img src="/static/img/causes_icons/BullyingIcon.png" alt=""></span><span class="choice-title">Combate ao bullying</span><span class="choice-detail">Respeito começa com a gente.</span><span class="choice-arrow" aria-hidden="true">↗</span></button><button type="button" class="cause-card-ui choice-card" data-val="Saúde Mental"><span class="choice-icon gold"><img src="/static/img/causes_icons/SetemberIcon.png" alt=""></span><span class="choice-title">Saúde mental</span><span class="choice-detail">Cuidar também é escutar.</span><span class="choice-arrow" aria-hidden="true">↗</span></button><button type="button" class="cause-card-ui choice-card" data-val="Inclusão Social"><span class="choice-icon blue"><img src="/static/img/causes_icons/InclusaoIcon.png" alt=""></span><span class="choice-title">Inclusão social</span><span class="choice-detail">Todo mundo tem seu lugar.</span><span class="choice-arrow" aria-hidden="true">↗</span></button><button type="button" class="cause-card-ui choice-card" data-val="Violência contra a Mulher"><span class="choice-icon pink"><img src="/static/img/causes_icons/MulherIcon.png" alt=""></span><span class="choice-title">Respeito às mulheres</span><span class="choice-detail">Por uma vida sem violência.</span><span class="choice-arrow" aria-hidden="true">↗</span></button></div>
         </div>
       </div>
     </section>
+<section id="step-idea" class="step" aria-labelledby="step-idea-title">
+      <div class="scene">
+        <aside class="scene-character cause-mascot "><div class="robot-portrait"><img class="mascot-img" src="/static/img/robot/RobotSideQuestion.png" alt="Robot, seu parceiro de criação"></div><div class="mascot-bubble"></div></aside>
+        <div class="scene-panel">
+          <span class="scene-kicker">MISSÃO 02 · SUA HISTÓRIA</span>
+          <h2 id="step-idea-title">Toda mudança começa<br> com uma ideia.</h2>
 
-        
-
-        
-
-    <!-- STEP 1: CAUSA -->
-    <section id="step-cause" class="step">
-      
-      <!-- Fundo Luminoso e Ondas Animadas -->
-      <div class="cause-bg-glow"></div>
-      <div class="cause-waves-wrapper">
-        <div class="waves-track">
-          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-            <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#eaddff" fill-opacity="0.5"/>
-            <path d="M0,96L80,85.3C160,75,320,53,480,53C640,53,800,75,960,85.3C1120,96,1280,96,1360,96L1440,96L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#d1c9ff"/>
-          </svg>
-          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-            <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#eaddff" fill-opacity="0.5"/>
-            <path d="M0,96L80,85.3C160,75,320,53,480,53C640,53,800,75,960,85.3C1120,96,1280,96,1360,96L1440,96L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#d1c9ff"/>
-          </svg>
-        </div>
-      </div>
-
-      <!-- Doodles Decorativos -->
-      <svg class="doodle-dash" viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M10,90 Q 50,10 190,40" stroke="#b4a9f9" stroke-width="2" stroke-dasharray="6 6" stroke-linecap="round"/>
-      </svg>
-      <svg class="doodle-dash-2" viewBox="0 0 100 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M10,40 Q 50,10 90,20" stroke="#b4a9f9" stroke-width="2" stroke-dasharray="6 6" stroke-linecap="round"/>
-      </svg>
-
-      <!-- Header da Tela -->
-      <header class="cause-topbar">
-        <div class="cause-logo">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7c6ef2" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <strong>faísca</strong>
-          <span>Ideias que transformam.</span>
-        </div>
-      </header>
-    
-      <!-- Título -->
-      <div class="cause-header-text">
-        <h2>Qual <span class="highlight-causa">causa<svg class="underline-svg" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0,5 Q50,10 100,5" stroke="#7c6ef2" stroke-width="4" fill="none" stroke-linecap="round"/></svg></span> você<br>quer apoiar hoje?</h2>
-        <p>Escolha uma causa e vamos criar algo incrível juntos! 💜</p>
-      </div>
-    
-      <!-- Carrossel 3D Infinito -->
-      <div class="cause-carousel-area">
-        
-        <!-- Mascote e Balão -->
-        <div class="cause-mascot">
-          <div class="mascot-bubble">Cada causa<br>tem um poder<br>especial! 💜</div>
-          <img src="/static/img/robot/RobotSideLooking.png" alt="Robô Observando" class="mascot-img">
-        </div>
-    
-        <button class="carousel-nav-btn left">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-        </button>
-    
-        <!-- O container 3D -->
-        <div class="cause-cards-container" id="cause-3d-container">
-          
-          <div class="cause-card-ui" data-val="Bullying">
-            <div class="cause-icon-bg bg-purple">
-              <img src="/static/img/causes_icons/BullyingIcon.png" alt="Bullying">
-            </div>
-            <h3>Combate ao Bullying</h3>
-            <p>Promove respeito, empatia e um ambiente mais acolhedor para todos.</p>
-            <div class="cause-tags">Respeito · Empatia · União</div>
-          </div>
-    
-          <div class="cause-card-ui" data-val="Saúde Mental">
-            <div class="cause-icon-bg bg-yellow">
-              <img src="/static/img/causes_icons/SetemberIcon.png" alt="Setembro Amarelo">
-            </div>
-            <h3 class="text-yellow">Setembro Amarelo</h3>
-            <p>Fale sobre saúde mental, escuta e valorização da vida.</p>
-            <div class="cause-tags yellow-tags">Cuidado · Escuta · Empatia</div>
-          </div>
-    
-          <div class="cause-card-ui" data-val="Inclusão Social">
-            <div class="cause-icon-bg bg-blue">
-              <img src="/static/img/causes_icons/InclusaoIcon.png" alt="Inclusão Social">
-            </div>
-            <h3 class="text-blue">Inclusão Social</h3>
-            <p>Valorize diferenças e construa um mundo mais inclusivo para todos.</p>
-            <div class="cause-tags blue-tags">Diversidade · Respeito · Igualdade</div>
-          </div>
-    
-          <div class="cause-card-ui" data-val="Violência contra a Mulher">
-            <div class="cause-icon-bg bg-pink">
-              <img src="/static/img/causes_icons/MulherIcon.png" alt="Violência contra a Mulher">
-            </div>
-            <h3 class="text-pink">Violência contra a Mulher</h3>
-            <p>Diga não à violência. Apoie, informe-se e transforme realidades.</p>
-            <div class="cause-tags pink-tags">Respeito · Apoio · Coragem</div>
-          </div>
-    
-        </div>
-    
-        <button class="carousel-nav-btn right">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </button>
-    
-      </div>
-    
-      <!-- Paginação -->
-      <div class="carousel-dots">
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-      </div>
-    </section>
-
-    <!-- STEP 2: IDEIA -->
-    <section id="step-idea" class="step">
-
-      <!-- Fundo Luminoso e Ondas Animadas -->
-      <div class="cause-bg-glow"></div>
-      <div class="cause-waves-wrapper">
-        <div class="waves-track">
-          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-            <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#eaddff" fill-opacity="0.5"/>
-            <path d="M0,96L80,85.3C160,75,320,53,480,53C640,53,800,75,960,85.3C1120,96,1280,96,1360,96L1440,96L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#d1c9ff"/>
-          </svg>
-          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-            <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#eaddff" fill-opacity="0.5"/>
-            <path d="M0,96L80,85.3C160,75,320,53,480,53C640,53,800,75,960,85.3C1120,96,1280,96,1360,96L1440,96L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#d1c9ff"/>
-          </svg>
-        </div>
-      </div>
-
-      <!-- Doodles Decorativos -->
-      <svg class="doodle-dash" viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M10,90 Q 50,10 190,40" stroke="#b4a9f9" stroke-width="2" stroke-dasharray="6 6" stroke-linecap="round"/>
-      </svg>
-      <svg class="doodle-dash-2" viewBox="0 0 100 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M10,40 Q 50,10 90,20" stroke="#b4a9f9" stroke-width="2" stroke-dasharray="6 6" stroke-linecap="round"/>
-      </svg>
-
-      <!-- Header da Tela -->
-      <header class="cause-topbar">
-        <div class="cause-logo">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7c6ef2" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <strong>faísca</strong>
-          <span>Ideias que transformam.</span>
-        </div>
-      </header>
-
-      <!-- Título -->
-      <div class="cause-header-text">
-        <h2>O que você<br>quer <span class="highlight-causa">contar?<svg class="underline-svg" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0,5 Q50,10 100,5" stroke="#7c6ef2" stroke-width="4" fill="none" stroke-linecap="round"/></svg></span></h2>
-        <p>Escolha uma ideia ou invente a sua! ✨</p>
-      </div>
-
-      <!-- Layout com Mascote -->
-      <div class="idea-layout-area">
-
-        <!-- Mascote -->
-        <div class="cause-mascot idea-mascot">
-          <div class="mascot-bubble">Deixe sua<br>imaginação<br>voar! 💜</div>
-          <img src="/static/img/robot/RobotSideQuestion.png" alt="Robô Pensando" class="mascot-img">
-        </div>
-
-        <!-- Conteúdo -->
-        <div class="idea-grid-wrapper">
-
-          <!-- 2x2 Grid de cards de ideia -->
-          <div class="idea-cards-grid" id="idea-cards-grid">
-            <!-- Cards gerados dinamicamente pelo JS -->
-          </div>
-
-          <!-- Separador -->
-          <div class="idea-divider"><span>ou</span></div>
-
-          <!-- Botão "Ou imagine" que vira textarea -->
-          <div class="idea-custom-area" id="idea-custom-area" style="max-height: none; opacity: 1;">
-            <textarea id="input-idea" placeholder="Descreva a sua ideia com as suas próprias palavras..."></textarea>
-            <button class="idea-custom-continue" id="btn-next-idea" disabled>Continuar <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
-          </div>
-
+          <div id="idea-cards-grid" class="choice-grid idea-cards-grid" aria-label="Ideias para sua arte"></div>
+  <div class="idea-custom-area" id="idea-custom-area"><label for="input-idea">Ou invente a sua história</label><textarea id="input-idea" placeholder="O que você imagina nessa cena?" rows="2" maxlength="1000"></textarea><div class="form-actions"><button class="button-primary" id="btn-next-idea" disabled>Usar minha ideia →</button></div></div>
         </div>
       </div>
     </section>
-
-    <!-- STEP 2b: FRASE -->
-    <section id="step-phrase" class="step">
-
-      <!-- Fundo Luminoso e Ondas Animadas -->
-      <div class="cause-bg-glow"></div>
-      <div class="cause-waves-wrapper">
-        <div class="waves-track">
-          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-            <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#eaddff" fill-opacity="0.5"/>
-            <path d="M0,96L80,85.3C160,75,320,53,480,53C640,53,800,75,960,85.3C1120,96,1280,96,1360,96L1440,96L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#d1c9ff"/>
-          </svg>
-          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-            <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#eaddff" fill-opacity="0.5"/>
-            <path d="M0,96L80,85.3C160,75,320,53,480,53C640,53,800,75,960,85.3C1120,96,1280,96,1360,96L1440,96L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#d1c9ff"/>
-          </svg>
-        </div>
-      </div>
-
-      <!-- Doodles -->
-      <svg class="doodle-dash" viewBox="0 0 200 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M10,90 Q 50,10 190,40" stroke="#b4a9f9" stroke-width="2" stroke-dasharray="6 6" stroke-linecap="round"/>
-      </svg>
-      <svg class="doodle-dash-2" viewBox="0 0 100 50" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M10,40 Q 50,10 90,20" stroke="#b4a9f9" stroke-width="2" stroke-dasharray="6 6" stroke-linecap="round"/>
-      </svg>
-
-      <!-- Header -->
-      <header class="cause-topbar">
-        <div class="cause-logo">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7c6ef2" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <strong>faísca</strong>
-          <span>Ideias que transformam.</span>
-        </div>
-      </header>
-
-      <!-- Título -->
-      <div class="cause-header-text">
-        <h2>E a <span class="highlight-causa">frase<svg class="underline-svg" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0,5 Q50,10 100,5" stroke="#7c6ef2" stroke-width="4" fill="none" stroke-linecap="round"/></svg></span><br>do seu cartaz?</h2>
-        <p>opcional · uma palavra pode mudar tudo 💬</p>
-      </div>
-
-      <!-- Layout com Mascote -->
-      <div class="idea-layout-area">
-
-        <!-- Mascote -->
-        <div class="cause-mascot idea-mascot">
-          <div class="mascot-bubble">Uma boa<br>frase muda<br>tudo! 💜</div>
-          <img src="/static/img/robot/RobotFrontHappy.png" alt="Robô Feliz" class="mascot-img">
-        </div>
-
-        <!-- Painel da frase -->
-        <div class="phrase-panel">
-          <input type="text" id="input-phrase" placeholder='Ex: "Unidos somos mais fortes!"' maxlength="60">
-          <div class="phrase-actions">
-            <button class="btn-phrase-skip" id="btn-skip-phrase">Pular</button>
-            <button class="btn-phrase-continue" id="btn-next-phrase">Continuar <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-
-
-    <!-- STEP 4: STYLE -->
-    <section id="step-style" class="step">
-
-      <!-- Fundo Luminoso e Ondas -->
-      <div class="cause-bg-glow"></div>
-      <div class="cause-waves-wrapper">
-        <div class="waves-track">
-          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-            <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#eaddff" fill-opacity="0.5"/>
-            <path d="M0,96L80,85.3C160,75,320,53,480,53C640,53,800,75,960,85.3C1120,96,1280,96,1360,96L1440,96L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#d1c9ff"/>
-          </svg>
-          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-            <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#eaddff" fill-opacity="0.5"/>
-            <path d="M0,96L80,85.3C160,75,320,53,480,53C640,53,800,75,960,85.3C1120,96,1280,96,1360,96L1440,96L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#d1c9ff"/>
-          </svg>
-        </div>
-      </div>
-
-      <!-- Header -->
-      <header class="cause-topbar">
-        <div class="cause-logo">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7c6ef2" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <strong>faísca</strong>
-          <span>Ideias que transformam.</span>
-        </div>
-      </header>
-
-      <div class="cause-header-text">
-        <h2>Como essa história deveria <span class="highlight-causa">parecer?<svg class="underline-svg" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0,5 Q50,10 100,5" stroke="#7c6ef2" stroke-width="4" fill="none" stroke-linecap="round"/></svg></span></h2>
-        <p>Qual desses mundos você quer criar?</p>
-      </div>
-
-      <!-- Layout com Mascote -->
-      <div class="idea-layout-area">
-        <!-- Mascote -->
-        <div class="cause-mascot idea-mascot">
-          <div class="mascot-bubble">Escolha o seu<br>estilo visual! 💜</div>
-          <img src="/static/img/robot/RobotFrontHappy.png" alt="Robô Feliz" class="mascot-img">
-        </div>
-
-        <div class="idea-grid-wrapper">
-          <div class="visual-thumbnails" id="style-thumbnails">
-            <div class="style-thumb" data-val="3d render cute characters, vibrant colors, soft lighting">
-              <div class="thumb-label">3D fofinho</div>
-            </div>
-            <div class="style-thumb" data-val="colorful cartoon animation style, 2d flat, bold outlines">
-              <div class="thumb-label">Desenho animado</div>
-            </div>
-            <div class="style-thumb" data-val="childrens book illustration, watercolor, whimsical">
-              <div class="thumb-label">Livro infantil</div>
-            </div>
-            <div class="style-thumb" data-val="paper cutout art style, layered papercraft, colorful">
-              <div class="thumb-label">Recorte de papel</div>
-            </div>
-          </div>
+<section id="step-style" class="step" aria-labelledby="step-style-title">
+      <div class="scene">
+        <aside class="scene-character cause-mascot "><div class="robot-portrait"><img class="mascot-img" src="/static/img/robot/RobotInspired.png" alt="Robot, seu parceiro de criação"></div><div class="mascot-bubble"></div></aside>
+        <div class="scene-panel">
+          <span class="scene-kicker">MISSÃO 03 · SEU UNIVERSO</span>
+          <h2 id="step-style-title">Qual vai ser o estilo<br> da sua história?</h2>
+          <p class="scene-description">Escolha como a sua história vai aparecer.</p>
+          <div class="choice-grid visual-thumbnails" id="style-thumbnails"><button type="button" class="style-thumb choice-card" data-val="3d render cute characters, vibrant colors, soft lighting"><span class="style-mark style-mark-0" aria-hidden="true">3D</span><span class="thumb-label choice-title">3D fofinho</span><span class="choice-detail">Volume, luz e muita fofura</span></button><button type="button" class="style-thumb choice-card" data-val="colorful cartoon animation style, 2d flat, bold outlines"><span class="style-mark style-mark-1" aria-hidden="true">✳</span><span class="thumb-label choice-title">Desenho animado</span><span class="choice-detail">Traços vivos e cheios de cor</span></button><button type="button" class="style-thumb choice-card" data-val="childrens book illustration, watercolor, whimsical"><span class="style-mark style-mark-2" aria-hidden="true">▤</span><span class="thumb-label choice-title">Livro infantil</span><span class="choice-detail">Um mundo de imaginação</span></button><button type="button" class="style-thumb choice-card" data-val="paper cutout art style, layered papercraft, colorful"><span class="style-mark style-mark-3" aria-hidden="true">◈</span><span class="thumb-label choice-title">Recorte de papel</span><span class="choice-detail">Camadas que contam histórias</span></button></div>
         </div>
       </div>
     </section>
+<section id="step-phrase" class="step" aria-labelledby="step-phrase-title">
+      <div class="scene">
+        <aside class="scene-character cause-mascot "><div class="robot-portrait"><img class="mascot-img" src="/static/img/robot/RobotHeart.png" alt="Robot, seu parceiro de criação"></div><div class="mascot-bubble"></div></aside>
+        <div class="scene-panel">
+          <span class="scene-kicker">UM TOQUE SEU</span>
+          <h2 id="step-phrase-title">Uma frase pode<br> dizer tanta coisa.</h2>
 
-    <!-- STEP 5: NOME (Final) -->
-    <section id="step-name" class="step">
-
-      <!-- Fundo Luminoso e Ondas -->
-      <div class="cause-bg-glow"></div>
-      <div class="cause-waves-wrapper">
-        <div class="waves-track">
-          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-            <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#eaddff" fill-opacity="0.5"/>
-            <path d="M0,96L80,85.3C160,75,320,53,480,53C640,53,800,75,960,85.3C1120,96,1280,96,1360,96L1440,96L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#d1c9ff"/>
-          </svg>
-          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-            <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#eaddff" fill-opacity="0.5"/>
-            <path d="M0,96L80,85.3C160,75,320,53,480,53C640,53,800,75,960,85.3C1120,96,1280,96,1360,96L1440,96L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#d1c9ff"/>
-          </svg>
-        </div>
-      </div>
-
-      <!-- Header -->
-      <header class="cause-topbar">
-        <div class="cause-logo">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7c6ef2" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <strong>faísca</strong>
-          <span>Ideias que transformam.</span>
-        </div>
-      </header>
-
-      <div class="step-header">
-        <h2>Qual o seu <span class="highlight-causa">nome?<svg class="underline-svg" viewBox="0 0 100 10" preserveAspectRatio="none"><path d="M0,5 Q50,10 100,5" stroke="#7c6ef2" stroke-width="4" fill="none" stroke-linecap="round"/></svg></span></h2>
-        <p>Para quem daremos os créditos dessa arte incrível?</p>
-      </div>
-      
-      <div class="emotion-name-group" style="max-width: 400px; margin: 0 auto;">
-        <input type="text" id="input-name" class="emotion-name-input" placeholder="Ex: João Silva, Turma 5ºA..." maxlength="60">
-      </div>
-      <div class="step-actions" style="position:relative;z-index:2;margin-top:24px; text-align: center;">
-        <button class="btn btn-generate" id="btn-next-name">Ver Resultado
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </button>
-      </div>
-    </section>
-
-    <!-- STEP 6: GENERATING -->
-    <section id="step-generating" class="step">
-
-      <!-- Fundo Luminoso -->
-      <div class="cause-bg-glow"></div>
-
-      <!-- Ondas Roxas Animadas no Rodapé -->
-      <div class="cause-waves-wrapper">
-        <div class="waves-track">
-          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-            <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#eaddff" fill-opacity="0.5"/>
-            <path d="M0,96L80,85.3C160,75,320,53,480,53C640,53,800,75,960,85.3C1120,96,1280,96,1360,96L1440,96L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#d1c9ff"/>
-          </svg>
-          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-            <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#eaddff" fill-opacity="0.5"/>
-            <path d="M0,96L80,85.3C160,75,320,53,480,53C640,53,800,75,960,85.3C1120,96,1280,96,1360,96L1440,96L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#d1c9ff"/>
-          </svg>
-        </div>
-      </div>
-
-      <!-- Header — Logo Faísca -->
-      <header class="cause-topbar">
-        <div class="cause-logo">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7c6ef2" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <strong>faísca</strong>
-          <span>Ideias que transformam.</span>
-        </div>
-      </header>
-
-      <!-- Conteúdo Central -->
-      <div class="generating-robot-content">
-
-        <!-- Título dinâmico -->
-        <h2 id="generating-title" class="gen-robot-title">Sua ideia está ganhando vida...</h2>
-
-        <!-- Robô pintando — sprite animation via JS -->
-        <div class="gen-robot-wrap">
-          <img id="gen-robot-frame" class="gen-robot-img"
-               src="/static/img/robot_painting/frame_092.png"
-               alt="Robô pintando sua arte">
-        </div>
-
-        <!-- Mensagem secundária rotativa -->
-        <p id="generating-subtitle" class="gen-robot-sub">Aguarde enquanto a IA cria algo incrível para você ✨</p>
-
-        <!-- Mensagem de Erro e Retry -->
-        <div id="gen-error" class="gen-error hidden">
-          <p id="gen-error-msg">Não foi possível conectar ao gerador de imagens. Verifique se o serviço está ativo.</p>
-          <button class="btn btn-secondary" id="btn-retry">Tentar novamente</button>
-        </div>
-
-      </div>
-
-    </section>
-
-    <!-- STEP 7: RESULTADO -->
-    <section id="step-result" class="step">
-      
-      <!-- Fundo Luminoso -->
-      <div class="cause-bg-glow"></div>
-
-      <!-- Ondas Roxas Animadas no Rodapé -->
-      <div class="cause-waves-wrapper">
-        <div class="waves-track">
-          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-            <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#eaddff" fill-opacity="0.5"/>
-            <path d="M0,96L80,85.3C160,75,320,53,480,53C640,53,800,75,960,85.3C1120,96,1280,96,1360,96L1440,96L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#d1c9ff"/>
-          </svg>
-          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-            <path d="M0,64L80,69.3C160,75,320,85,480,80C640,75,800,53,960,48C1120,43,1280,53,1360,58.7L1440,64L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#eaddff" fill-opacity="0.5"/>
-            <path d="M0,96L80,85.3C160,75,320,53,480,53C640,53,800,75,960,85.3C1120,96,1280,96,1360,96L1440,96L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z" fill="#d1c9ff"/>
-          </svg>
-        </div>
-      </div>
-
-      <!-- Header — Logo Faísca -->
-      <header class="cause-topbar">
-        <div class="cause-logo">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#7c6ef2" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <strong>faísca</strong>
-          <span>Ideias que transformam.</span>
-        </div>
-      </header>
-
-      <div class="apple-style-presentation">
-        <div class="apple-header">
-          <h2 id="result-title" class="apple-title">Sua Criação está pronta!</h2>
-          <p id="sketch-msg" class="apple-subtitle">Para reforçar sua imaginação, preparamos uma versão para colorir também!</p>
-        </div>
-
-        <div class="polaroid-stack" id="result-stack">
-          <!-- Sketch (Right, Larger later) -->
-          <div class="polaroid-anim-card card-sketch" id="card-sketch">
-            <span class="polaroid-label apple-label">Para Colorir</span>
-            <img id="polaroid-sketch-image" src="" alt="Seu Polaroid Rascunho" class="polaroid-final-img">
-          </div>
-          
-          <!-- Colored (Starts Center, moves Left later) -->
-          <div class="polaroid-anim-card card-color" id="card-color">
-            <span class="polaroid-label apple-label">Sua Arte</span>
-            <img id="polaroid-image" src="" alt="Seu Polaroid Colorido" class="polaroid-final-img">
-          </div>
-        </div>
-
-        <div class="result-actions-wrapper">
-          <button class="btn btn-primary btn-result-purple" id="btn-new-creation">Criar Nova Arte</button>
+          <div class="form-panel"><label for="input-phrase">Sua mensagem</label><input type="text" id="input-phrase" placeholder="Ex.: Juntos, todo mundo tem lugar." maxlength="60"><p class="field-hint">Até 60 caracteres. Essa parte é opcional.</p><div class="form-actions"><button class="button-secondary" id="btn-skip-phrase">Pular por enquanto</button><button class="button-primary" id="btn-next-phrase">Continuar →</button></div></div>
         </div>
       </div>
     </section>
+<section id="step-name" class="step" aria-labelledby="step-name-title">
+      <div class="scene">
+        <aside class="scene-character cause-mascot "><div class="robot-portrait"><img class="mascot-img" src="/static/img/robot/RobotWaving.png" alt="Robot, seu parceiro de criação"></div><div class="mascot-bubble"></div></aside>
+        <div class="scene-panel">
+          <span class="scene-kicker">A ASSINATURA DO ARTISTA</span>
+          <h2 id="step-name-title">Essa criação<br> tem a sua marca.</h2>
 
-    
-    <!-- Modal Select User -->
+          <div class="form-panel"><label for="input-name">Nome ou turma</label><input type="text" id="input-name" placeholder="Como você quer assinar?" maxlength="60"><p class="field-hint">Você também pode continuar sem preencher.</p><div class="form-actions"><button class="button-primary" id="btn-next-name">Ver minha criação →</button></div></div>
+        </div>
+      </div>
+    </section>
+<section id="step-generating" class="step" aria-labelledby="step-generating-title">
+      <div class="scene">
+        <aside class="scene-character cause-mascot "><div class="robot-portrait"><img id="gen-robot-frame" class="gen-robot-img" src="/static/img/robot/RobotSideThinking.png" alt="Robot preparando sua arte"></div><div class="robot-stage-dialogue"></div></aside>
+        <div class="scene-panel">
+          <span class="scene-kicker">MISSÃO 04 · A MAGIA ACONTECE</span>
+          <h2 id="step-generating-title">Agora é comigo,<br> parceiro!</h2>
+
+          <h3 id="generating-title" aria-live="polite">Organizando sua ideia...</h3><ol class="robot-stage-list" aria-label="Etapas da criação"><li data-robot-stage class="is-current" aria-current="step">Ideia</li><li data-robot-stage>Arte</li><li data-robot-stage>Polaroid</li></ol><p id="generating-subtitle" class="gen-robot-sub">Sua criação está a caminho.</p>
+  <div id="robot-game" class="robot-game"><h3>Acenda ideias comigo!</h3><p>Toque nas faíscas enquanto a arte fica pronta.</p><div class="spark-buttons" role="group" aria-label="Faíscas da transformação"><button type="button" data-spark="Empatia" aria-label="Coletar faísca de empatia">✦</button><button type="button" data-spark="Respeito" aria-label="Coletar faísca de respeito">✦</button><button type="button" data-spark="Cuidado" aria-label="Coletar faísca de cuidado">✦</button><button type="button" data-spark="União" aria-label="Coletar faísca de união">✦</button><button type="button" data-spark="Inclusão" aria-label="Coletar faísca de inclusão">✦</button></div><p id="spark-feedback" role="status">0 de 5 faíscas · Brincar é opcional.</p></div><div id="gen-error" class="gen-error hidden" role="alert"><p id="gen-error-msg"></p><button class="button-secondary" id="btn-retry">Tentar novamente</button></div>
+        </div>
+      </div>
+    </section>
+<section id="step-result" class="step" aria-labelledby="step-result-title">
+      <div class="scene">
+        <aside class="scene-character cause-mascot result-robot"><div class="robot-portrait"><img class="mascot-img" src="/static/img/robot/RobotVictory.png" alt="Robot, seu parceiro de criação"></div><div class="mascot-bubble"></div></aside>
+        <div class="scene-panel">
+          <span class="scene-kicker">MISSÃO CUMPRIDA</span>
+          <h2 id="step-result-title">Olha o que<br> criamos juntos!</h2>
+
+          <p class="scene-description" id="sketch-msg">Uma versão para compartilhar e outra para colorir.</p><div class="polaroid-stack" id="result-stack"><figure class="polaroid-anim-card" id="card-color"><img id="polaroid-image" alt="Sua arte colorida"><figcaption>Sua arte</figcaption></figure><figure class="polaroid-anim-card" id="card-sketch"><img id="polaroid-sketch-image" alt="Sua arte para colorir"><figcaption>Para colorir</figcaption></figure></div><div class="form-actions"><button class="button-primary" id="btn-new-creation">Criar outra história →</button></div>
+        </div>
+      </div>
+    </section></main><footer class="app-tools"><button type="button" class="robot-voice robot-voice-global" data-robot-voice aria-pressed="false" hidden>Ouvir Robot</button><button type="button" id="robot-motion-toggle" class="robot-motion-toggle" aria-pressed="false">Pausar Robot</button></footer><nav id="robot-quest" class="robot-quest" aria-label="Sua missão criativa" hidden><span class="robot-quest-title"></span><ol></ol></nav>    <!-- Modal Select User -->
     <div id="user-modal" class="custom-modal hidden">
       <div class="custom-modal-backdrop" id="user-modal-backdrop"></div>
-      <div class="custom-modal-content" style="max-width: 600px;">
+      <div class="custom-modal-content">
         <h2 class="custom-modal-title">Quem é você?</h2>
         <p class="custom-modal-text">Selecione o seu código de participante ou jogue sem participar do estudo:</p>
-        
-        <div id="totem-users-list" style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-bottom: 40px;">
+
+        <div id="totem-users-list">
           <!-- Loaded via JS -->
         </div>
-        
-        <button class="btn-modal-close" id="btn-skip-study" style="margin-bottom: 12px;">Jogar sem participar do estudo</button>
-        <button class="modal-close" id="btn-close-user-modal" style="border: none; background: transparent; color: #999; cursor: pointer; display: block; width: 100%; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 500;">Cancelar</button>
+
+        <button class="btn-modal-close" id="btn-skip-study">Jogar sem participar do estudo</button>
+        <button class="modal-close" id="btn-close-user-modal">Cancelar</button>
       </div>
     </div>
 
@@ -609,9 +117,30 @@
       </div>
     </div>
 
-      
 
-    </main>
-  <script type="module" src="/static/js/main_new.js?v=2"></script>
-</body>
-</html>
+
+  <dialog id="robot-intro" class="robot-intro" aria-labelledby="robot-intro-title">
+    <div class="robot-intro-top">
+      <span class="robot-intro-brand">✦ faísca</span>
+      <button type="button" id="robot-intro-skip" class="robot-intro-skip">Pular entrada ↗</button>
+    </div>
+    <div class="robot-intro-scene">
+      <div class="robot-landing" aria-hidden="true">
+        <span class="robot-impact"></span>
+        <span class="robot-impact-word">puf!</span>
+        <div class="robot-intro-actor">
+          <img id="robot-intro-img" class="robot-intro-img" src="/static/img/robot/RobotFalling.png" alt="">
+        </div>
+      </div>
+      <div class="robot-intro-copy">
+        <span id="robot-intro-kicker" class="robot-intro-kicker">UM POUSO QUASE PERFEITO</span>
+        <h2 id="robot-intro-title">Ei, parceiro.<br> Temos uma missão!</h2>
+        <div class="robot-dialogue"></div>
+        <div class="robot-intro-actions">
+          <button type="button" id="robot-intro-choose" class="robot-intro-choose">Bora escolher! →</button>
+          <button type="button" class="robot-voice" data-robot-voice aria-pressed="false" hidden>Ouvir Robot</button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+<script type="module" src="/static/js/main_new.js?v=8"></script></body></html>

@@ -1,0 +1,86 @@
+/* Robot keeps its original artwork and reacts through poses and motion. */
+.mascot-img { aspect-ratio: 438 / 569; object-fit: contain; transform-origin: 50% 88%; }
+.step.active .mascot-img { animation: robot-breathe 3.6s ease-in-out infinite; }
+.step.active .mascot-img.robot-cheering,
+.step.active .gen-robot-img.robot-cheering { animation: robot-cheer .65s ease-in-out 2; }
+@keyframes robot-breathe {
+  0%, 100% { transform: translateY(0) rotate(-1deg); }
+  50% { transform: translateY(-9px) rotate(1deg); }
+}
+@keyframes robot-cheer {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  35% { transform: translateY(-16px) rotate(-5deg); }
+  70% { transform: translateY(-5px) rotate(4deg); }
+}
+.robot-stage-list {
+  display: flex; gap: 12px; justify-content: center; list-style: none;
+  margin: 22px 0 0; padding: 0; font-size: 12px; color: #66617a;
+}
+.robot-stage-list li { display: flex; align-items: center; gap: 6px; }
+.robot-stage-list li::before {
+  content: ''; width: 8px; height: 8px; border-radius: 50%; background: #cbc7da;
+}
+.robot-stage-list .is-current { color: #5945b0; font-weight: 600; }
+.robot-stage-list .is-current::before { background: #7c6ef2; box-shadow: 0 0 0 4px #7c6ef21c; }
+.robot-stage-list .is-done::before { background: #359277; }
+.robot-game {
+  width: min(420px, 100%); margin-top: 24px; padding: 16px 18px;
+  border: 1px solid #dcd5f2; border-radius: 22px; background: #ffffffb8;
+}
+.robot-game[hidden] { display: none; }
+.robot-game h3 { font-size: 14px; color: #463779; font-weight: 600; }
+.robot-game > p { font-size: 12px; color: #645d7d; margin-top: 4px; }
+.spark-buttons { display: flex; justify-content: center; gap: 12px; margin: 14px 0; }
+.spark-buttons button {
+  width: 48px; height: 48px; flex-shrink: 0; border: 1px solid #e5d0a0;
+  border-radius: 16px; background: #fff5d6; color: #9a6812; font-size: 25px;
+  cursor: pointer; transition: transform .2s, background .2s;
+}
+.spark-buttons button:hover { transform: translateY(-4px) rotate(8deg); }
+.spark-buttons button:focus-visible, .robot-motion-toggle:focus-visible { outline: 3px solid #6b54c2; outline-offset: 4px; }
+.spark-buttons button.is-collected { background: #eee8ff; color: #7354c2; border-color: #c5b6ef; transform: scale(.9); cursor: default; }
+.spark-buttons button.is-collected::after { content: '✓'; font-size: 12px; vertical-align: top; }
+.robot-game.is-complete { border-color: #a897dd; background: #f6f1ff; }
+#spark-feedback { min-height: 38px; }
+.robot-motion-toggle {
+  position: fixed; bottom: 12px; right: 16px; z-index: 25; padding: 8px 14px;
+  border: 1px solid #ded7ef; border-radius: 99px; background: #fffffff0;
+  color: #645581; font: 11px 'Poppins', sans-serif; cursor: pointer;
+}
+.robot-motion-toggle:disabled { cursor: default; }
+.result-robot { display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 14px; }
+.result-robot .mascot-img { width: 65px; height: 85px; }
+.result-robot span { color: #655198; font-size: 13px; }
+/* Keep Robot visible on smaller screens, without covering choices. */
+@media (max-width: 1400px) {
+  .idea-layout-area { flex-direction: column; }
+  .cause-carousel-area { flex-wrap: wrap; }
+  .cause-mascot, .idea-mascot {
+    display: flex; position: relative; left: auto; top: auto; transform: none;
+    flex-direction: row-reverse; justify-content: center; width: 100%; gap: 12px;
+  }
+  .cause-mascot .mascot-img, .idea-mascot .mascot-img { width: 82px; height: 106px; }
+  .mascot-bubble { margin: 0; max-width: 220px; font-size: 12px; padding: 10px 14px; }
+  .mascot-bubble br { display: none; }
+  .mascot-bubble::after { bottom: 16px; right: auto; left: -7px; transform: rotate(135deg); }
+  #step-cause, #step-idea, #step-style, #step-phrase { padding: 100px 0 65px !important; }
+}
+@media (max-width: 600px) {
+  .generating-robot-content { padding: 90px 18px 65px; }
+  .gen-robot-wrap { width: min(330px, 85vw); height: 240px; }
+  .robot-stage-list { gap: 9px; font-size: 10px; flex-wrap: wrap; }
+  .spark-buttons { gap: 6px; }
+  .robot-game { padding-inline: 14px; }
+  .spark-buttons button { width: 44px; height: 44px; }
+  .gen-robot-sub { font-size: 14px; }
+}
+.robot-motion-off .step.active .mascot-img,
+.robot-motion-off .step.active .gen-robot-img { animation: none; }
+.robot-motion-off .spark-buttons button { transition: none; }
+.robot-motion-off .waves-track { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) {
+  .step, .step.step-leaving { animation-duration: .01ms; }
+  .spark-buttons button:hover { transform: none; }
+  #step-result .apple-title, #step-result .apple-subtitle,
+  #step-result .polaroid-anim-card { transition: none; }
+}

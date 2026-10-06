@@ -1,0 +1,55 @@
+/* A character entrance, followed by a four-part creative quest. */
+.robot-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.robot-intro-open { overflow: hidden; }
+.robot-intro {
+  width: 100vw; max-width: none; height: 100dvh; max-height: none; border: 0; padding: 0;
+  color: #282044; background: radial-gradient(ellipse at 35% 62%, #fdfbff 0, #f0e9ff 45%, #e0d4f7 100%);
+  overflow: auto;
+}
+.robot-intro::backdrop { background: #29213eaa; }
+.robot-intro-top { position: absolute; top: 28px; left: 36px; right: 36px; display: flex; align-items: center; justify-content: space-between; gap: 12px; z-index: 3; }
+.robot-intro-brand { font: 700 24px 'Poppins', sans-serif; color: #6f4bc0; }
+.robot-intro-skip { border: 1px solid #b7a3d2; background: #ffffffa6; border-radius: 99px; padding: 11px 18px; color: #594371; font: 500 13px 'Poppins', sans-serif; cursor: pointer; }
+.robot-intro-scene { min-height: 100%; width: min(1050px, 100%); margin: auto; display: grid; grid-template-columns: 1fr 1.1fr; gap: 45px; align-items: center; padding: 100px 44px 70px; }
+.robot-landing { position: relative; height: 430px; display: flex; align-items: flex-end; justify-content: center; isolation: isolate; }
+.robot-landing::before { content: ''; position: absolute; width: 320px; height: 320px; border: 1px solid #baa5de66; border-radius: 50%; bottom: 24px; z-index: -1; box-shadow: 0 0 0 28px #ffffff44, 0 0 0 58px #ffffff25; }
+.robot-intro-actor { width: 320px; height: 420px; max-width: 100%; transform-origin: 50% 94%; }
+.robot-intro-img { display: block; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 18px 14px #78609222); }
+.robot-intro[data-phase="loading"] .robot-intro-actor { visibility: hidden; }
+.robot-intro:is([data-phase="falling"], [data-phase="bracing"]) .robot-intro-actor { animation: robot-drop 1.05s both; }
+.robot-intro[data-phase="landed"] .robot-intro-actor { animation: robot-squash .55s both; }
+.robot-intro[data-phase="rising"] .robot-intro-actor { animation: robot-recover .8s both; }
+.robot-intro[data-phase="inviting"] .robot-intro-actor { animation: robot-hello 1.4s ease-in-out both; }
+.robot-impact { position: absolute; width: 230px; height: 32px; bottom: 18px; border: 3px solid #b798e5; border-radius: 50%; opacity: 0; pointer-events: none; }
+.robot-intro[data-phase="landed"] .robot-impact { animation: robot-impact .65s ease-out both; }
+.robot-impact-word { position: absolute; bottom: 40px; left: 0; color: #885aa8; font: italic 700 30px 'Fraunces', serif; opacity: 0; transform: rotate(-12deg); }
+.robot-intro[data-phase="landed"] .robot-impact-word { animation: robot-poof .9s both; }
+@keyframes robot-drop {
+  0% { transform: translateY(-110vh) rotate(-28deg); }
+  60% { transform: translateY(-150px) rotate(9deg); }
+  85% { transform: translateY(-40px) rotate(-3deg); }
+  100% { transform: translateY(0) rotate(0); }
+}
+@keyframes robot-squash {
+  0% { transform: scale(1.08, .9); }
+  40% { transform: translateY(-14px) scale(.98, 1.02); }
+  100% { transform: none; }
+}
+@keyframes robot-recover { 0% { transform: rotate(-7deg) scale(1.05, .94); } 45% { transform: rotate(5deg); } 100% { transform: none; } }
+@keyframes robot-hello { 0%, 100% { transform: rotate(0); } 25%, 65% { transform: rotate(-5deg) translateY(-9px); } 45%, 85% { transform: rotate(3deg); } }
+@keyframes robot-impact { from { opacity: .8; transform: scale(.5); } to { opacity: 0; transform: scale(1.9); } }
+@keyframes robot-poof { 0% { opacity: 0; } 20%, 65% { opacity: 1; } 100% { opacity: 0; translate: 0 -18px; } }
+.robot-intro-copy { position: relative; z-index: 2; }
+.robot-intro-kicker { display: block; font: 600 11px 'Poppins', sans-serif; letter-spacing: .12em; color: #7753a6; margin-bottom: 18px; }
+.robot-intro-copy h2 { font: 600 clamp(30px, 4vw, 48px)/1.15 'Fraunces', serif; margin-bottom: 24px; }
+.robot-intro .robot-dialogue { min-height: 162px; background: #fff; padding: 24px; border: 1px solid #d3c1eb; border-radius: 6px 26px 26px 26px; box-shadow: 0 14px 35px #5434780c; }
+.robot-speaker { display: block; font: 700 10px 'Poppins', sans-serif; letter-spacing: .09em; color: #8965b6; margin-bottom: 8px; }
+.robot-dialogue-text { display: block; }
+.robot-intro .robot-dialogue-text { font: 500 18px/1.65 'Poppins', sans-serif; }
+.robot-intro-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 24px; }
+.robot-intro-choose { border: 0; border-radius: 99px; background: #7050bf; box-shadow: 0 8px 0 #4b3288; color: #fff; padding: 16px 26px; font: 600 15px 'Poppins', sans-serif; cursor: pointer; }
+.robot-intro-choose:active { transform: translateY(5px); box-shadow: 0 3px 0 #4b3288; }
+.robot-voice { border: 1px solid #cdbbe5; background: #fffffff0; color: #6b508a; border-radius: 99px; padding: 10px 16px; font: 500 12px 'Poppins', sans-serif; cursor: pointer; }
+.robot-voice-global { position: fixed; left: 16px; bottom: 12px; z-index: 25; font-size: 11px; padding: 8px 14px; }
+.robot-voice[hidden] { display: none; }
+.robot-intro button:focus-visible, .robot-voice:focus-visible { outline: 3px solid #6745b0; outline-offset: 5px; }

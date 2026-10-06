@@ -20,10 +20,11 @@ const GEN_STATUS = {
 export function showStep(stepId) {
   const target = document.getElementById(stepId);
   const current = document.querySelector('.step.active');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   if (current && current !== target) {
     current.classList.remove('active');
-    current.classList.add('step-leaving');
+    if (!reduceMotion) current.classList.add('step-leaving');
     // Tempo cravado com a animação CSS (400ms)
     setTimeout(() => {
       current.classList.remove('step-leaving');
@@ -45,7 +46,9 @@ export function showStep(stepId) {
     target.style.animation = null;
     
     setTimeout(() => {
-      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+      const stage = target.querySelector('.scene');
+      if (stage) stage.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      else window.scrollTo({ top: 0, left: 0, behavior: reduceMotion ? 'instant' : 'smooth' });
     }, 10);
   }
   
